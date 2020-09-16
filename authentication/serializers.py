@@ -2,7 +2,6 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from rest_framework.authtoken.models import Token
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -54,9 +53,8 @@ class ChangePasswordSerializer(serializers.Serializer):
     new_password = serializers.CharField(required=True)
 
 
-class TokenSerializer(serializers.ModelSerializer):
-    auth_token = serializers.CharField(source='key')
-
-    class Meta:
-        model = Token
-        fields = ("auth_token", "created")
+class TokenSerializer(serializers.Serializer):
+    """
+    This serializer serializes the token data
+    """
+    token = serializers.CharField(max_length=255)
