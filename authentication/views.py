@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail
 from django.http import HttpResponse
 
 from rest_framework import generics, permissions
@@ -13,6 +14,7 @@ from rest_framework_simplejwt.token_blacklist.models import OutstandingToken
 
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from car_gps.settings import EMAIL_HOST_USER
 from .serializers import TokenSerializer, UserRegistrationSerializer, ChangePasswordSerializer, UserLoginSerializer
 
 # Get the JWT settings
@@ -86,7 +88,7 @@ class ChangePasswordView(generics.UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         self.object = self.get_object()
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data["user"])
 
         if serializer.is_valid():
             # Check current password
@@ -134,3 +136,16 @@ class LogoutAndBlacklistRefreshTokenForUserView(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+def sendmail(request, *args, **kwargs):
+
+    send_mail(
+        'Subject',
+        'Email message',
+        EMAIL_HOST_USER,
+        ['phongtran0715@gmail.com'],
+        fail_silently=False,
+    )
+
+    return HttpResponse('Mail successfully sent')

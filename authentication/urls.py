@@ -1,10 +1,11 @@
 from django.urls import path, include
 
 from .views import ChangePasswordView, UserRegistrationAPIView, UserLoginAPIView, HelloView, \
-    LogoutAndBlacklistRefreshTokenForUserView
+    LogoutAndBlacklistRefreshTokenForUserView, sendmail
 
 urlpatterns = [
     path('hello/', HelloView.as_view(), name="hello"),
+    path('sendmail', sendmail, name='sendmail'),
     path('auth/login/', UserLoginAPIView.as_view(), name="auth-login"),
     path('auth/register/', UserRegistrationAPIView.as_view(), name="auth-register"),
     path('auth/change_password/', ChangePasswordView.as_view(), name="auth-reset-password"),
