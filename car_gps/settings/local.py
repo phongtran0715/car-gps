@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 import datetime
 from pathlib import Path
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -83,7 +84,7 @@ DATABASES = {
         'NAME': 'car_gps_db',
         'USER': 'root',
         'PASSWORD': '123456aA@',
-        'HOST': '127.0.01',
+        'HOST': '127.0.0.1',
         'PORT': '3306'
     }
 }
@@ -158,12 +159,6 @@ JWT_AUTH = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'dhasanadil90s@gmail.com'
-EMAIL_HOST_PASSWORD = 'LBPJaNw4mR5x8QCK'
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

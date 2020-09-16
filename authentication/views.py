@@ -14,7 +14,7 @@ from rest_framework_simplejwt.token_blacklist.models import OutstandingToken
 
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from car_gps.settings import EMAIL_HOST_USER
+from car_gps.settings.base import EMAIL_HOST_USER
 from .serializers import TokenSerializer, UserRegistrationSerializer, ChangePasswordSerializer, UserLoginSerializer
 
 # Get the JWT settings

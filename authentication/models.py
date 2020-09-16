@@ -10,7 +10,7 @@ from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from rest_framework.permissions import BasePermission
 
-from car_gps.settings import EMAIL_HOST_USER
+from car_gps.settings.base import EMAIL_HOST_USER
 
 
 class BlackListedToken(models.Model):

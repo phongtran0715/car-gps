@@ -1,0 +1,5 @@
+# Running django for local development
+$ ./manage.py runserver 0:8000 --settings=project.settings.local
+
+# Running django shell on the production site
+$ ./manage.py shell --settings=project.settings.production
