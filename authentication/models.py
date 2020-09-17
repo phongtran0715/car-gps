@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
-from django.core.mail import send_mail, EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.db import models
-import signal
 
 # Create your models here.
 from django.dispatch import receiver
@@ -9,8 +8,6 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from rest_framework.permissions import BasePermission
-
-from car_gps.settings.base import EMAIL_HOST_USER
 
 
 class BlackListedToken(models.Model):
@@ -48,6 +45,8 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     :param kwargs:
     :return:
     """
+
+    print("reset password token : ".format(reset_password_token.key))
 
     context = {
         'current_user': reset_password_token.user,
