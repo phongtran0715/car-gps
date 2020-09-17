@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from django.contrib.auth.models import User
@@ -23,6 +23,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
 
 class UserLoginSerializer(serializers.Serializer):
+
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
 
@@ -53,6 +54,16 @@ class ChangePasswordSerializer(serializers.Serializer):
     """
     current_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
+    refresh = serializers.CharField()
+
+    def validate_current_password(self, value):
+        if not self.context['request'].user.check_password(value):
+            raise serializers.ValidationError('Current password does not match')
+        return value
+
+    def validate_new_password(self, value):
+        password_validation.validate_password(value)
+        return value
 
 
 class RefreshTokenSerializer(serializers.Serializer):
@@ -64,7 +75,6 @@ class RefreshTokenSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         self.token = attrs['refresh']
-        print("phongtran | token = {}".format(self.token))
         return attrs
 
     def save(self, **kwargs):

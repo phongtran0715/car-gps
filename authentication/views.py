@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.views import status
+from rest_framework_simplejwt.exceptions import TokenError
 
 from rest_framework_simplejwt.token_blacklist.models import OutstandingToken
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -88,6 +89,13 @@ class ChangePasswordView(generics.UpdateAPIView):
             # set_password also hashes the password that the user will get
             self.object.set_password(serializer.data.get("new_password"))
             self.object.save()
+
+            # revoke current refresh token
+            try:
+                RefreshToken(serializer.data.get("refresh")).blacklist()
+            except TokenError:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
             response = {
                 'status': 'success',
                 'code': status.HTTP_200_OK,
