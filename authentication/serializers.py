@@ -55,19 +55,6 @@ class ChangePasswordSerializer(serializers.Serializer):
     new_password = serializers.CharField(required=True)
 
 
-class TokenSerializer(serializers.Serializer):
-    """
-    This serializer serializes the token data
-    """
-    token = serializers.CharField(max_length=255)
-
-    def get_token(cls, user):
-        token = super().get_token(user)
-        token['name'] = user.name
-
-        return token
-
-
 class RefreshTokenSerializer(serializers.Serializer):
     refresh = serializers.CharField()
 

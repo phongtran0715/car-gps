@@ -100,33 +100,6 @@ class ChangePasswordView(generics.UpdateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class LogoutAndBlacklistRefreshTokenForUserView(APIView):
-    permission_classes = (permissions.AllowAny,)
-    authentication_classes = ()
-
-    def delete(self, request, *args, **kwargs):
-        # find all tokens by user and blacklists them, forcing them to log out.
-        try:
-            tokens = OutstandingToken.objects.filter(user=request.user)
-            for token in tokens:
-                print("phongtran : token".format(token))
-                token = RefreshToken(token.token)
-                token.blacklist()
-        except:
-            refresh_token = request.data["refresh_token"]
-            token = RefreshToken(refresh_token)
-            token.blacklist()
-        return Response(status=status.HTTP_205_RESET_CONTENT)  # 204 means no content, 205 means no content and refresh
-
-    def post(self, request, *args, **kwargs):
-        # Post is for logging out in current browser
-            refresh_token = request.data.get("refresh_token")
-            print("phongtran : {}".format(refresh_token))
-            token = RefreshToken(refresh_token)
-            token.blacklist()
-            return Response(status=status.HTTP_205_RESET_CONTENT)
-
-
 class LogoutView(GenericAPIView):
     serializer_class = RefreshTokenSerializer
     permission_classes = (permissions.IsAuthenticated, )

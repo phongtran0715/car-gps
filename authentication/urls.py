@@ -1,8 +1,7 @@
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-from .views import ChangePasswordView, UserRegistrationAPIView, UserLoginAPIView, HelloView, \
-    LogoutAndBlacklistRefreshTokenForUserView, LogoutView
+from .views import ChangePasswordView, UserRegistrationAPIView, UserLoginAPIView, HelloView, LogoutView
 
 urlpatterns = [
     path('hello/', HelloView.as_view(), name="hello"),
