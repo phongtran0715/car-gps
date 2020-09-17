@@ -1,25 +1,18 @@
+from django.contrib.auth import login
 from django.contrib.auth.models import User
-from django.contrib.auth import login, logout
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.mail import send_mail
 from django.http import HttpResponse
-
 from rest_framework import generics, permissions
+from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import status
-from rest_framework_jwt.settings import api_settings
 from rest_framework.views import APIView
-from rest_framework_simplejwt.token_blacklist.models import OutstandingToken
+from rest_framework.views import status
 
+from rest_framework_simplejwt.token_blacklist.models import OutstandingToken
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from car_gps.settings.base import EMAIL_HOST_USER
-from .serializers import TokenSerializer, UserRegistrationSerializer, ChangePasswordSerializer, UserLoginSerializer
-
-# Get the JWT settings
-jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+from .serializers import UserRegistrationSerializer, ChangePasswordSerializer, UserLoginSerializer, \
+    RefreshTokenSerializer
 
 
 class HelloView(APIView):
@@ -59,19 +52,17 @@ class UserLoginAPIView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data.get("user"))
         serializer.is_valid(raise_exception=True)
         user = serializer.user
-        print("user : ", user)
         if user is not None:
             # login saves the user’s ID in the session,
             # using Django’s session framework.
             login(request, user)
-            serializer = TokenSerializer(data={
-                # using drf jwt utility functions to generate a token
-                "token": jwt_encode_handler(
-                    jwt_payload_handler(user)
-                )})
-            serializer.is_valid()
-            return Response(serializer.data)
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+            refresh = RefreshToken.for_user(user)
+            res = {
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+            }
+            return Response(res, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ChangePasswordView(generics.UpdateAPIView):
@@ -115,10 +106,10 @@ class LogoutAndBlacklistRefreshTokenForUserView(APIView):
 
     def delete(self, request, *args, **kwargs):
         # find all tokens by user and blacklists them, forcing them to log out.
-        print(request)
         try:
             tokens = OutstandingToken.objects.filter(user=request.user)
             for token in tokens:
+                print("phongtran : token".format(token))
                 token = RefreshToken(token.token)
                 token.blacklist()
         except:
@@ -129,23 +120,19 @@ class LogoutAndBlacklistRefreshTokenForUserView(APIView):
 
     def post(self, request, *args, **kwargs):
         # Post is for logging out in current browser
-        try:
-            refresh_token = request.data["refresh_token"]
+            refresh_token = request.data.get("refresh_token")
+            print("phongtran : {}".format(refresh_token))
             token = RefreshToken(refresh_token)
             token.blacklist()
             return Response(status=status.HTTP_205_RESET_CONTENT)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-def sendmail(request, *args, **kwargs):
+class LogoutView(GenericAPIView):
+    serializer_class = RefreshTokenSerializer
+    permission_classes = (permissions.IsAuthenticated, )
 
-    send_mail(
-        'Subject',
-        'Email message',
-        EMAIL_HOST_USER,
-        ['phongtran0715@gmail.com'],
-        fail_silently=False,
-    )
-
-    return HttpResponse('Mail successfully sent')
+    def post(self, request, *args, **kwargs):
+        sz = self.get_serializer(data=request.data)
+        sz.is_valid(raise_exception=True)
+        sz.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)

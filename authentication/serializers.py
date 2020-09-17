@@ -2,6 +2,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -58,3 +60,28 @@ class TokenSerializer(serializers.Serializer):
     This serializer serializes the token data
     """
     token = serializers.CharField(max_length=255)
+
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['name'] = user.name
+
+        return token
+
+
+class RefreshTokenSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+    default_error_messages = {
+        'bad_token': 'Token is invalid or expired'
+    }
+
+    def validate(self, attrs):
+        self.token = attrs['refresh']
+        print("phongtran | token = {}".format(self.token))
+        return attrs
+
+    def save(self, **kwargs):
+        try:
+            RefreshToken(self.token).blacklist()
+        except TokenError:
+            self.fail('bad_token')
