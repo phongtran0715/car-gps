@@ -8,19 +8,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.views import status
 from rest_framework_simplejwt.exceptions import TokenError
-
-from rest_framework_simplejwt.token_blacklist.models import OutstandingToken
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .serializers import UserRegistrationSerializer, ChangePasswordSerializer, UserLoginSerializer, \
     RefreshTokenSerializer
-
-
-class HelloView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request, *args, **kwargs):
-        return HttpResponse("Hello!")
 
 
 class UserRegistrationAPIView(generics.CreateAPIView):
@@ -31,7 +22,7 @@ class UserRegistrationAPIView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data.get("user"))
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         data = serializer.data
@@ -50,7 +41,7 @@ class UserLoginAPIView(generics.CreateAPIView):
     serializer_class = UserLoginSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data.get("user"))
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.user
         if user is not None:
@@ -80,7 +71,7 @@ class ChangePasswordView(generics.UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         self.object = self.get_object()
-        serializer = self.get_serializer(data=request.data["user"])
+        serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
             # Check current password
