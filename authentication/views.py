@@ -1,11 +1,9 @@
 from django.contrib.auth import login
 from django.contrib.auth.models import User
-from django.http import HttpResponse
 from rest_framework import generics, permissions
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.views import status
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken

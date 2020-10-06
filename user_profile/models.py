@@ -15,7 +15,7 @@ class UserProfile(models.Model):
     email = models.CharField(max_length=255, null=True)
     phone = models.CharField(max_length=20, null=True)
     imei = models.CharField(max_length=50, null=True)
-    plat_number = models.CharField(max_length=50, null=True)
+    plate_number = models.CharField(max_length=50, null=True)
     avatar = models.CharField(max_length=1024, blank=True)
 
     class Meta:
