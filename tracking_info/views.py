@@ -20,7 +20,14 @@ def get_live_tracking_view(request, **kwargs):
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
-        info = CarTrackingInfo.objects.filter(user_id=account.id).latest('id')
+        try:
+            info = CarTrackingInfo.objects.filter(user_id=account.id).latest('id')
+        except CarTrackingInfo.DoesNotExist:
+            data = {
+                "message": "Not found tracking data"
+            }
+            return Response(data, status=status.HTTP_404_NOT_FOUND)
+
         data = {
             "latitude": info.latitude,
             "longitude": info.longitude,
@@ -51,12 +58,19 @@ def get_history_tracking_view(request, **kwargs):
 
         data = {}
         result = []
-        tracking_record = account.car_info.filter(timestamp__gte=start_time, timestamp__lte=end_time)
-        paginator = Paginator(tracking_record, 2)
+        try:
+            tracking_record = account.car_info.filter(timestamp__gte=start_time, timestamp__lte=end_time)
+        except CarTrackingInfo.DoesNotExist:
+            data = {
+                "message": "Not found tracking data"
+            }
+            return Response(data, status=status.HTTP_404_NOT_FOUND)
+
+        paginator = Paginator(tracking_record, 10)
         try:
             data['total'] = paginator.count
             data['page'] = page
-            data['page_size'] = 2
+            data['page_size'] = 10
 
             page_data = paginator.page(page)
             for item in page_data:
