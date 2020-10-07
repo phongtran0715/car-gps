@@ -1,4 +1,6 @@
 # Create your views here.
+import datetime
+
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
@@ -41,10 +43,16 @@ def get_history_tracking_view(request, **kwargs):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        page = request.GET.get('page', 1)
+        page = request.data.get('page', 1)
+        start_time = request.data.get('start_time')
+        end_time = request.data.get('end_time')
+        start_time = datetime.datetime.strptime(start_time, "%Y-%m-%d").date()
+        end_time = datetime.datetime.strptime(end_time, "%Y-%m-%d").date()
+
         data = {}
         result = []
-        paginator = Paginator(account.car_info.all(), 2)
+        tracking_record = account.car_info.filter(timestamp__gte=start_time, timestamp__lte=end_time)
+        paginator = Paginator(tracking_record, 2)
         try:
             data['total'] = paginator.count
             data['page'] = page
