@@ -21,12 +21,17 @@ class UserRegistrationAPIView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        data = serializer.data
-
-        headers = self.get_success_headers(serializer.data)
-        return Response(data, status=status.HTTP_201_CREATED, headers=headers)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            data = {
+                "message": "The user was created successfully"
+            }
+            return Response(data, status=status.HTTP_201_CREATED)
+        data = {
+            "message": "Validation errors in your request",
+            "errors": serializer.errors
+        }
+        return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserLoginAPIView(generics.CreateAPIView):
@@ -40,19 +45,23 @@ class UserLoginAPIView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.user
-        if user is not None:
-            # login saves the user’s ID in the session,
-            # using Django’s session framework.
-            login(request, user)
-            refresh = RefreshToken.for_user(user)
-            res = {
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
-            }
-            return Response(res, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if serializer.is_valid():
+            user = serializer.user
+            if user is not None:
+                login(request, user)
+                refresh = RefreshToken.for_user(user)
+                data = {
+                    "id": user.id,
+                    "username": user.username,
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                }
+                return Response(data, status=status.HTTP_201_CREATED)
+        data = {
+            "message": "Validation errors in your request",
+            "errors": serializer.errors
+        }
+        return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ChangePasswordView(generics.UpdateAPIView):
@@ -84,25 +93,32 @@ class ChangePasswordView(generics.UpdateAPIView):
                 RefreshToken(serializer.data.get("refresh")).blacklist()
             except TokenError:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-            response = {
-                'status': 'success',
-                'code': status.HTTP_200_OK,
-                'message': 'Password updated successfully',
-                'data': []
+            data = {
+                "message": "Password updated successfully"
             }
 
-            return Response(response)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data, status=status.HTTP_200_OK)
+        data = {
+            "message": "Validation errors in your request",
+            "errors": serializer.errors
+        }
+        return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LogoutView(GenericAPIView):
     serializer_class = RefreshTokenSerializer
-    permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
-        sz = self.get_serializer(data=request.data)
-        sz.is_valid(raise_exception=True)
-        sz.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            data = {
+                "message": "Success"
+            }
+            return Response(data, status=status.HTTP_200_OK)
+        data = {
+            "message": "Validation errors in your request",
+            "errors": serializer.errors
+        }
+        return Response(data, status=status.HTTP_400_BAD_REQUEST)
