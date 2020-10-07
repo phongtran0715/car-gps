@@ -1,4 +1,5 @@
 # Create your views here.
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -16,10 +17,9 @@ def get_live_tracking_view(request, **kwargs):
         account = request.user
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    data = {}
     if request.method == 'GET':
         info = CarTrackingInfo.objects.filter(user_id=account.id).latest('id')
-        data['response'] = {
+        data = {
             "latitude": info.latitude,
             "longitude": info.longitude,
             "gas": info.gas,
@@ -39,9 +39,27 @@ def get_history_tracking_view(request, **kwargs):
         account = request.user
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    data = {}
+
     if request.method == 'GET':
-        data['response'] = "PENDING"
+        page = request.GET.get('page', 1)
+        data = {}
+        result = []
+        paginator = Paginator(account.car_info.all(), 2)
+        try:
+            data['total'] = paginator.count
+            data['page'] = page
+            data['page_size'] = 2
+
+            page_data = paginator.page(page)
+            for item in page_data:
+                serializer = CarTrackingSerializer(item)
+                result.append(serializer.data)
+            data['data'] = result
+        except PageNotAnInteger:
+            data['data'] = paginator.page(1)
+        except EmptyPage:
+            data['data'] = paginator.page(paginator.num_pages)
+
         return Response(data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -58,10 +76,11 @@ def insert_tracking_info_view(request, **kwargs):
     data = {}
     if request.method == 'POST':
         if serializer.is_valid():
-            car_info = serializer.data
-            account.car_info.create(latitude=car_info['latitude'], longitude=car_info['longitude'], gas=car_info['gas'],
-                                    gps_status=car_info['gps_status'], speed=car_info['speed'],
-                                    odometer=car_info['odometer'], timestamp=car_info['timestamp'])
-            data['response'] = "tracking information update success"
+            account.car_info.create(latitude=serializer.data['latitude'], longitude=serializer.data['longitude'],
+                                    gas=serializer.data['gas'], gps_status=serializer.data['gps_status'],
+                                    speed=serializer.data['speed'], odometer=serializer.data['odometer'],
+                                    timestamp=serializer.data['timestamp'])
+            account.save()
+            data['message'] = "Successful"
             return Response(data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

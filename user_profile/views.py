@@ -20,7 +20,13 @@ def profile_view(request, **kwargs):
     if request.method == 'GET':
         profile = UserProfile.objects.get(id=account.id)
         serializer = UserProfileSerializer(profile)
-        return Response(serializer.data)
+        data = serializer.data
+        data['avatar'] = {
+            "original_image_url": "https://lorempixel.com/640/480/people/?63783",
+            "thumb_image_url": "http://lorempixel.com/150/150/?63783"
+        }
+        return Response(data, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
@@ -46,15 +52,22 @@ def update_profile_view(request, **kwargs):
             profile.avatar = serializer.data['avatar']
 
             profile.save()
-            data['response'] = "User update success"
+            data['message'] = "Successful"
             return Response(data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
 @permission_classes((IsAuthenticated,))
-def change_avatar(request, **kwargs):
+def change_avatar_view(request, **kwargs):
     try:
-        account = request.user
+        request.user
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+    data = {'avatar': {
+        "original_image_url": "https://lorempixel.com/640/480/people/?63783",
+        "thumb_image_url": "http://lorempixel.com/150/150/?63783"
+    }}
+    return Response(data, status=status.HTTP_200_OK)
