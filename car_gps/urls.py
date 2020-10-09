@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.contrib.auth import views as auth_views
+from authentication.views import home_screen_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home_screen_view, name="home"),
     re_path('api/(?P<version>(v1|v2))/', include('authentication.urls')),
     re_path('api/(?P<version>(v1|v2))/', include('tracking_info.urls')),
     re_path('api/(?P<version>(v1|v2))/', include('user_profile.urls')),

@@ -1,5 +1,6 @@
 from django.contrib.auth import login
 from django.contrib.auth.models import User
+from django.shortcuts import render
 from rest_framework import generics, permissions
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -123,3 +124,10 @@ class LogoutView(GenericAPIView):
         }
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
+
+def home_screen_view(request):
+    context = {}
+    accounts = User.objects.all()
+    context['accounts'] = accounts
+
+    return render(request, "authentication/home.html", context)
