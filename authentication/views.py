@@ -8,9 +8,12 @@ from rest_framework.response import Response
 from rest_framework.views import status
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
-
-from .serializers import UserRegistrationSerializer, ChangePasswordSerializer, UserLoginSerializer, \
-    RefreshTokenSerializer
+from authentication.forms import (
+        AccountAuthenticationForm,
+        RegistrationForm)
+from .serializers import (
+        UserRegistrationSerializer,ChangePasswordSerializer,
+        UserLoginSerializer, RefreshTokenSerializer)
 
 
 class UserRegistrationAPIView(generics.CreateAPIView):
@@ -125,9 +128,60 @@ class LogoutView(GenericAPIView):
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
 
+# web UI
 def home_screen_view(request):
     context = {}
     accounts = User.objects.all()
     context['accounts'] = accounts
 
     return render(request, "authentication/home.html", context)
+
+
+def registration_view(request):
+    context = {}
+    if request.POST:
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            email = form.cleaned_data.get('email')
+            raw_password = form.cleaned_data.get('password1')
+            account = authenticate(email=email, password=raw_password)
+            login(request, account)
+            return redirect('home')
+        else:
+            context['registration_form'] = form
+
+    else:
+        form = RegistrationForm()
+        context['registration_form'] = form
+    return render(request, 'authentication/register.html', context)
+
+
+def login_view(request):
+    context = {}
+
+    user = request.user
+    if user.is_authenticated:
+        return redirect("home")
+
+    if request.POST:
+        form = AccountAuthenticationForm(request.POST)
+        if form.is_valid():
+            email = request.POST['email']
+            password = request.POST['password']
+            user = authenticate(email= email, password=password)
+
+            if user:
+                login(request, user)
+                return redirect("home")
+    else:
+        form = AccountAuthenticationForm()
+
+    context['login_form'] = form
+
+    return render(request, "authentication/login.html", context)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')
