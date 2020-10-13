@@ -7,6 +7,9 @@ from authentication.views import (
         login_view,
         logout_view
     )
+from user_profile.views import upload_image_view
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -15,6 +18,8 @@ urlpatterns = [
     path('register/', registration_view, name="register"),
     path('logout/', logout_view, name="logout"),
     path('login/', login_view, name="login"),
+    path('upload/', upload_image_view, name="uploaed-image"),
+
     re_path('api/(?P<version>(v1|v2))/', include('authentication.urls')),
     re_path('api/(?P<version>(v1|v2))/', include('tracking_info.urls')),
     re_path('api/(?P<version>(v1|v2))/', include('user_profile.urls')),
@@ -40,3 +45,6 @@ urlpatterns = [
          auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'),
          name='password_reset_complete'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

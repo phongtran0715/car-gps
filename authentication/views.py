@@ -1,4 +1,4 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from rest_framework import generics, permissions
@@ -14,6 +14,8 @@ from authentication.forms import (
 from .serializers import (
         UserRegistrationSerializer,ChangePasswordSerializer,
         UserLoginSerializer, RefreshTokenSerializer)
+from django.shortcuts import redirect
+from user_profile.models import UserProfile
 
 
 class UserRegistrationAPIView(generics.CreateAPIView):
@@ -133,6 +135,7 @@ def home_screen_view(request):
     context = {}
     accounts = User.objects.all()
     context['accounts'] = accounts
+    context['home_image'] = request.get_host() + "media/home.jpg"
 
     return render(request, "authentication/home.html", context)
 
@@ -143,10 +146,13 @@ def registration_view(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            email = form.cleaned_data.get('email')
+            username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            account = authenticate(email=email, password=raw_password)
-            login(request, account)
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+
+            # create user profile
+            UserProfile.objects.create(id=user.id)
             return redirect('home')
         else:
             context['registration_form'] = form
@@ -167,9 +173,9 @@ def login_view(request):
     if request.POST:
         form = AccountAuthenticationForm(request.POST)
         if form.is_valid():
-            email = request.POST['email']
+            username = request.POST['username']
             password = request.POST['password']
-            user = authenticate(email= email, password=password)
+            user = authenticate(username= username, password=password)
 
             if user:
                 login(request, user)

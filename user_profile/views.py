@@ -7,6 +7,8 @@ from rest_framework_simplejwt.state import User
 
 from user_profile.models import UserProfile
 from user_profile.serializers import UserProfileSerializer
+from django.core.files.storage import FileSystemStorage
+from django.shortcuts import render
 
 
 @api_view(['GET'])
@@ -71,3 +73,16 @@ def change_avatar_view(request, **kwargs):
         "thumb_image_url": "http://lorempixel.com/150/150/?63783"
     }}
     return Response(data, status=status.HTTP_200_OK)
+
+
+def upload_image_view(request):
+    if request.method == 'POST' and request.FILES['image_file']:
+        myfile = request.FILES['image_file']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        return render(request, 'user_profile/upload_image.html',
+            {
+                'uploaded_file_url' : uploaded_file_url
+            })
+    return render(request, 'user_profile/upload_image.html')

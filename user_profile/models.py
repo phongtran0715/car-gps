@@ -16,14 +16,14 @@ class UserProfile(models.Model):
     phone = models.CharField(max_length=20, null=True)
     imei = models.CharField(max_length=50, null=True)
     plate_number = models.CharField(max_length=50, null=True)
-    avatar = models.CharField(max_length=1024, blank=True)
+    avatar = models.ImageField(max_length=1024, blank=True)
 
     class Meta:
         db_table = "user_profile"
         ordering = ('id',)
 
     def __str__(self):
-        return self.user.username
+        return self.car_name
 
     @receiver(post_save, sender=User)
     def create_or_update_user_profile(sender, instance, created, **kwargs):
