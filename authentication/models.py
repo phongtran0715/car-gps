@@ -20,8 +20,6 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     :return:
     """
 
-    print("reset password token : ".format(reset_password_token.key))
-
     context = {
         'current_user': reset_password_token.user,
         'username': reset_password_token.user.username,

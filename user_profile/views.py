@@ -27,6 +27,8 @@ def profile_view(request, **kwargs):
             "original_image_url": "https://lorempixel.com/640/480/people/?63783",
             "thumb_image_url": "http://lorempixel.com/150/150/?63783"
         }
+        data['user_id'] = account.id
+        data['user_name'] = account.username
         return Response(data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
