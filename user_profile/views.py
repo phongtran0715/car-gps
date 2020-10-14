@@ -9,6 +9,16 @@ from user_profile.models import UserProfile
 from user_profile.serializers import UserProfileSerializer
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render
+import os
+import uuid 
+
+
+def generate_filename(filename):
+    ext = filename.split('.')[-1]
+    # set filename as random string
+    new_name = '{}.{}'.format(uuid.uuid1(), ext)
+    # return the whole path to the file
+    return new_name
 
 
 @api_view(['GET'])
@@ -23,12 +33,18 @@ def profile_view(request, **kwargs):
         profile = UserProfile.objects.get(id=account.id)
         serializer = UserProfileSerializer(profile)
         data = serializer.data
-        data['avatar'] = {
-            "original_image_url": "https://lorempixel.com/640/480/people/?63783",
-            "thumb_image_url": "http://lorempixel.com/150/150/?63783"
-        }
         data['user_id'] = account.id
         data['user_name'] = account.username
+
+        if request.is_secure():
+            protocol = 'https'
+        else:
+            protocol = 'http'
+        data['avatar'] = {
+            "original_image_url": protocol + '://' + request.get_host() + data['avatar'],
+            "thumb_image_url": protocol + '://' + request.get_host() + data['avatar']
+        }
+
         return Response(data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -53,7 +69,6 @@ def update_profile_view(request, **kwargs):
             profile.phone = serializer.data['phone']
             profile.imei = serializer.data['imei']
             profile.plate_number = serializer.data['plate_number']
-            profile.avatar = serializer.data['avatar']
 
             profile.save()
             data['message'] = "Successful"
@@ -66,13 +81,38 @@ def update_profile_view(request, **kwargs):
 @permission_classes((IsAuthenticated,))
 def change_avatar_view(request, **kwargs):
     try:
-        request.user
+        account = request.user
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+    if request.method == 'PUT':
+        profile = account.profile
+        avatar = request .FILES['avatar']
+        fs = FileSystemStorage(location='media/avatar')
+        avatar_file = fs.save(generate_filename(avatar.name), avatar)
+        print("==========> " + avatar_file)
+
+        # delete old avatar
+        try:
+            old_avatar = os.path.join(fs.location, str(profile.avatar))
+            print("========> " + old_avatar)
+            if os.path.isfile(old_avatar):
+                os.remove(old_avatar) 
+        except OSError as error: 
+            print(error) 
+            print("File path can not be removed") 
+
+        
+        profile.avatar = avatar_file
+        profile.save()
+
+    if request.is_secure():
+        protocol = 'https'
+    else:
+        protocol = 'http'
     data = {'avatar': {
-        "original_image_url": "https://lorempixel.com/640/480/people/?63783",
-        "thumb_image_url": "http://lorempixel.com/150/150/?63783"
+        "original_image_url": protocol + '://' + request.get_host() + '/media/avatar/' + avatar_file,
+        "thumb_image_url": protocol + '://' + request.get_host() + '/media/avatar/' + avatar_file
     }}
     return Response(data, status=status.HTTP_200_OK)
 
