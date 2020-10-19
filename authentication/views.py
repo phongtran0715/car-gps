@@ -15,7 +15,15 @@ from .serializers import (
         UserRegistrationSerializer,ChangePasswordSerializer,
         UserLoginSerializer, RefreshTokenSerializer)
 from django.shortcuts import redirect
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
+
 from user_profile.models import UserProfile
+from .tokens import account_activation_token
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
 
 
 class UserRegistrationAPIView(generics.CreateAPIView):
@@ -29,10 +37,30 @@ class UserRegistrationAPIView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             self.perform_create(serializer)
+            user = authenticate(username=request.data['username'], password=request.data['password'])
+            user.save()
+
+            # send confirmation email
+            current_site = get_current_site(request)
+            mail_subject = 'Activate your blog account.'
+            message = render_to_string('authentication/acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid':urlsafe_base64_encode(force_bytes(user.id)),
+                'token':account_activation_token.make_token(user),
+            })
+            print('message : {}'.format(message))
+            to_email = request.data['email']
+            email = EmailMessage(
+                        mail_subject, message, to=[to_email]
+            )
+            email.send()
+
             data = {
                 "message": "The user was created successfully"
             }
             return Response(data, status=status.HTTP_201_CREATED)
+            
         data = {
             "message": "Validation errors in your request",
             "errors": serializer.errors
@@ -59,6 +87,7 @@ class UserLoginAPIView(generics.CreateAPIView):
                 data = {
                     "id": user.id,
                     "username": user.username,
+                    "is_active": user.profile.is_active,
                     "refresh": str(refresh),
                     "access": str(refresh.access_token),
                 }
@@ -128,6 +157,21 @@ class LogoutView(GenericAPIView):
             "errors": serializer.errors
         }
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
+
+
+def activate_view(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.profile.is_active = True
+        user.save()
+        login(request, user)
+        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+    else:
+        return HttpResponse('Activation link is invalid!')
 
 
 # web UI

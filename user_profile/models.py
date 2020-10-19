@@ -18,6 +18,7 @@ class UserProfile(models.Model):
     phone = models.CharField(max_length=20, null=True)
     imei = models.CharField(max_length=50, null=True)
     plate_number = models.CharField(max_length=50, null=True)
+    is_active = models.BooleanField(default=False)
     avatar = models.ImageField(max_length=1024, blank=True)
 
     class Meta:
@@ -31,4 +32,5 @@ class UserProfile(models.Model):
     def create_or_update_user_profile(sender, instance, created, **kwargs):
         if created:
             UserProfile.objects.create(id=instance)
+        instance.profile.avatar = '/avatar/default/default.png'
         instance.profile.save()

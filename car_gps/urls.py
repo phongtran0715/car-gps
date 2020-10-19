@@ -5,7 +5,8 @@ from authentication.views import (
         home_screen_view,
         registration_view,
         login_view,
-        logout_view
+        logout_view,
+        activate_view
     )
 from user_profile.views import upload_image_view
 from django.conf import settings
@@ -19,6 +20,9 @@ urlpatterns = [
     re_path('api/(?P<version>(v1|v2))/', include('authentication.urls')),
     re_path('api/(?P<version>(v1|v2))/', include('tracking_info.urls')),
     re_path('api/(?P<version>(v1|v2))/', include('user_profile.urls')),
+
+    path('activate/<uidb64>/<token>/',
+        activate_view, name='activate'),
 
     url(r'^api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 
