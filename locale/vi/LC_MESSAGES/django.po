@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-20 10:06+0000\n"
+"POT-Creation-Date: 2020-10-20 10:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,6 +36,12 @@ msgstr ""
 #: authentication/views.py:175
 msgid "Activation link is invalid!"
 msgstr "Đường dẫn kích hoạt không hợp lệ"
+
+#: home/templates/404.html:65
+msgid ""
+"Maybe this page moved? Got deleted? Is hiding out in quarantine? Never "
+"existed in the first place?"
+msgstr "Trang web bạn yêu cầu không tồn tại !"
 
 #: home/templates/acc_active_email.html:3
 msgid "Hi"
