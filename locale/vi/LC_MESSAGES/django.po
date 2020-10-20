@@ -97,32 +97,32 @@ msgstr "Gửi email đặt lại mật khẩu"
 
 #: templates/snippets/header.html:23
 msgid "Hello"
-msgstr ""
+msgstr "Xin chào"
 
 #: templates/snippets/header.html:28 templates/snippets/header.html:32
 msgid "Home"
-msgstr ""
+msgstr "Trang chủ"
 
 #: templates/snippets/header.html:30
 msgid "Logout"
-msgstr ""
+msgstr "Thoát"
 
 #: templates/snippets/header.html:33
 msgid "Login"
-msgstr ""
+msgstr "Đăng nhập"
 
 #: templates/snippets/header.html:34
 msgid "Register"
-msgstr ""
+msgstr "Đăng ký"
 
 #: user_profile/templates/user_profile/upload_image.html:10
 msgid "Upload Image"
-msgstr ""
+msgstr "Tải ảnh"
 
 #: user_profile/templates/user_profile/upload_image.html:14
 msgid "File uploaded at:"
-msgstr ""
+msgstr "Ảnh đã tải lên tại:"
 
 #: user_profile/templates/user_profile/upload_image.html:17
 msgid "Return to home"
-msgstr ""
+msgstr "Quay về trang chủ"

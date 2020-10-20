@@ -179,8 +179,12 @@ def activate_view(request, uidb64, token):
 def home_screen_view(request):
     context = {}
     accounts = User.objects.all()
+    if request.is_secure():
+        protocol = 'https'
+    else:
+        protocol = 'http'
     context['accounts'] = accounts
-    context['home_image'] = request.get_host() + "media/home.jpg"
+    context['home_image'] = protocol + '://' + request.get_host() + "/media/home2.jpg"
 
     return render(request, "home.html", context)
 
