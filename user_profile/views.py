@@ -113,16 +113,3 @@ def change_avatar_view(request, **kwargs):
         "thumb_image_url": protocol + '://' + request.get_host() + '/media/avatar/' + avatar_file
     }}
     return Response(data, status=status.HTTP_200_OK)
-
-
-def upload_image_view(request):
-    if request.method == 'POST' and request.FILES['image_file']:
-        myfile = request.FILES['image_file']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
-        return render(request, 'user_profile/upload_image.html',
-            {
-                'uploaded_file_url' : uploaded_file_url
-            })
-    return render(request, 'user_profile/upload_image.html')

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'authentication',
     'tracking_info',
     'user_profile',
+    'home',
 ]
 
 MIDDLEWARE = [
