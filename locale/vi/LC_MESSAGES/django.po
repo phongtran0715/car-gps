@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-20 10:52+0700\n"
+"POT-Creation-Date: 2020-10-20 10:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#: authentication/templates/acc_active_email.html:3
-msgid "Hi"
-msgstr "Xin chào"
-
-#: authentication/templates/acc_active_email.html:4
-msgid "Please click on the link to confirm your registration,"
-msgstr "Vui lòng bấm vào link bên dưới để xác nhận việc đăng kí"
-
-#: authentication/templates/home.html:9
-msgid "VIVA Realtime GPS Tracking Application"
-msgstr "VIVA ứng dụng quản lý vị trí xe online"
 
 #: authentication/views.py:61
 msgid "The user was created successfully"
@@ -41,11 +29,46 @@ msgstr "Validation errors in your request"
 
 #: authentication/views.py:173
 msgid "Thank you for your email confirmation. Now you can login your account."
-msgstr "Cảm ơn bạn đã xác minh email. Bây giờ bạn có thể đăng nhaập bằng user đã đăng kí"
+msgstr ""
+"Cảm ơn bạn đã xác minh email. Bây giờ bạn có thể đăng nhaập bằng user đã "
+"đăng kí"
 
 #: authentication/views.py:175
 msgid "Activation link is invalid!"
 msgstr "Đường dẫn kích hoạt không hợp lệ"
+
+#: home/templates/acc_active_email.html:3
+msgid "Hi"
+msgstr "Xin chào"
+
+#: home/templates/acc_active_email.html:4
+msgid "Please click on the link to confirm your registration,"
+msgstr "Vui lòng bấm vào link bên dưới để xác nhận việc đăng kí"
+
+#: home/templates/home.html:9
+msgid "VIVA Realtime GPS Tracking Application"
+msgstr "VIVA ứng dụng quản lý vị trí xe online"
+
+#: home/templates/login.html:43 templates/snippets/header.html:33
+msgid "Login"
+msgstr "Đăng nhập"
+
+#: home/templates/login.html:63
+msgid "Log in"
+msgstr "Đăng nhập"
+
+#: home/templates/login.html:68
+#: templates/registration/password_reset_form.html:39
+msgid "Reset password"
+msgstr "Đặt lại mật khẩu"
+
+#: home/templates/register.html:51
+msgid "Register an account"
+msgstr "Đăng ký tài khoản"
+
+#: home/templates/register.html:75 templates/snippets/header.html:34
+msgid "Register"
+msgstr "Đăng ký"
 
 #: templates/email/user_reset_password.html:8
 #: templates/registration/password_reset_email.html:3
@@ -87,10 +110,6 @@ msgstr "Rết mật khẩu thành công."
 msgid "Return to home page"
 msgstr "Quay về trang chủ"
 
-#: templates/registration/password_reset_form.html:39
-msgid "Reset password"
-msgstr "Đặt lại mật khẩu"
-
 #: templates/registration/password_reset_form.html:41
 msgid "Send reset email"
 msgstr "Gửi email đặt lại mật khẩu"
@@ -107,14 +126,6 @@ msgstr "Trang chủ"
 msgid "Logout"
 msgstr "Thoát"
 
-#: templates/snippets/header.html:33
-msgid "Login"
-msgstr "Đăng nhập"
-
-#: templates/snippets/header.html:34
-msgid "Register"
-msgstr "Đăng ký"
-
 #: user_profile/templates/user_profile/upload_image.html:10
 msgid "Upload Image"
 msgstr "Tải ảnh"
@@ -126,3 +137,22 @@ msgstr "Ảnh đã tải lên tại:"
 #: user_profile/templates/user_profile/upload_image.html:17
 msgid "Return to home"
 msgstr "Quay về trang chủ"
+
+#~ msgid "User name"
+#~ msgstr "Tên đăng nhập"
+
+#, fuzzy
+#~| msgid "Reset password"
+#~ msgid "Password"
+#~ msgstr "Đặt lại mật khẩu"
+
+#~ msgid "Username"
+#~ msgstr "Tên đăng nhập"
+
+#, fuzzy
+#~| msgid "Change password"
+#~ msgid "Confirm password"
+#~ msgstr "Đổi mật khẩu"
+
+#~ msgid "Email address"
+#~ msgstr "Địa chỉ email"
