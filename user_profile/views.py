@@ -100,8 +100,6 @@ def change_avatar_view(request, **kwargs):
                 os.remove(old_avatar) 
         except OSError as error: 
             print(error) 
-            print("File path can not be removed") 
-
         
         profile.avatar = avatar_file
         profile.save()

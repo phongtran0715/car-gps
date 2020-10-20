@@ -24,6 +24,7 @@ from user_profile.models import UserProfile
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
+from django.utils.translation import gettext as _
 
 
 class UserRegistrationAPIView(generics.CreateAPIView):
@@ -57,12 +58,12 @@ class UserRegistrationAPIView(generics.CreateAPIView):
             email.send()
 
             data = {
-                "message": "The user was created successfully"
+                "message": _("The user was created successfully")
             }
             return Response(data, status=status.HTTP_201_CREATED)
             
         data = {
-            "message": "Validation errors in your request",
+            "message": _("Validation errors in your request"),
             "errors": serializer.errors
         }
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
@@ -93,7 +94,7 @@ class UserLoginAPIView(generics.CreateAPIView):
                 }
                 return Response(data, status=status.HTTP_201_CREATED)
         data = {
-            "message": "Validation errors in your request",
+            "message": _("Validation errors in your request"),
             "errors": serializer.errors
         }
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
@@ -134,7 +135,7 @@ class ChangePasswordView(generics.UpdateAPIView):
 
             return Response(data, status=status.HTTP_200_OK)
         data = {
-            "message": "Validation errors in your request",
+            "message": _("Validation errors in your request"),
             "errors": serializer.errors
         }
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
@@ -153,7 +154,7 @@ class LogoutView(GenericAPIView):
             }
             return Response(data, status=status.HTTP_200_OK)
         data = {
-            "message": "Validation errors in your request",
+            "message": _("Validation errors in your request"),
             "errors": serializer.errors
         }
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
@@ -169,9 +170,9 @@ def activate_view(request, uidb64, token):
         user.profile.is_active = True
         user.save()
         login(request, user)
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return HttpResponse(_('Thank you for your email confirmation. Now you can login your account.'))
     else:
-        return HttpResponse('Activation link is invalid!')
+        return HttpResponse(_('Activation link is invalid!'))
 
 
 # web UI
@@ -181,7 +182,7 @@ def home_screen_view(request):
     context['accounts'] = accounts
     context['home_image'] = request.get_host() + "media/home.jpg"
 
-    return render(request, "authentication/home.html", context)
+    return render(request, "home.html", context)
 
 
 def registration_view(request):
@@ -204,7 +205,7 @@ def registration_view(request):
     else:
         form = RegistrationForm()
         context['registration_form'] = form
-    return render(request, 'authentication/register.html', context)
+    return render(request, 'register.html', context)
 
 
 def login_view(request):
@@ -229,7 +230,7 @@ def login_view(request):
 
     context['login_form'] = form
 
-    return render(request, "authentication/login.html", context)
+    return render(request, "login.html", context)
 
 
 def logout_view(request):

@@ -1,0 +1,128 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-20 10:52+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: authentication/templates/acc_active_email.html:3
+msgid "Hi"
+msgstr "Xin chào"
+
+#: authentication/templates/acc_active_email.html:4
+msgid "Please click on the link to confirm your registration,"
+msgstr "Vui lòng bấm vào link bên dưới để xác nhận việc đăng kí"
+
+#: authentication/templates/home.html:9
+msgid "VIVA Realtime GPS Tracking Application"
+msgstr "VIVA ứng dụng quản lý vị trí xe online"
+
+#: authentication/views.py:61
+msgid "The user was created successfully"
+msgstr "Tạo người dùng thành công"
+
+#: authentication/views.py:66 authentication/views.py:97
+#: authentication/views.py:138 authentication/views.py:157
+msgid "Validation errors in your request"
+msgstr "Validation errors in your request"
+
+#: authentication/views.py:173
+msgid "Thank you for your email confirmation. Now you can login your account."
+msgstr "Cảm ơn bạn đã xác minh email. Bây giờ bạn có thể đăng nhaập bằng user đã đăng kí"
+
+#: authentication/views.py:175
+msgid "Activation link is invalid!"
+msgstr "Đường dẫn kích hoạt không hợp lệ"
+
+#: templates/email/user_reset_password.html:8
+#: templates/registration/password_reset_email.html:3
+msgid "To initiate the password reset process for your Account"
+msgstr "Để bắt đầu quá trình cài đặt lại mật khẩu của bạn"
+
+#: templates/email/user_reset_password.html:9
+#: templates/registration/password_reset_email.html:4
+msgid "click the link below:"
+msgstr " vui lòng bấm liên kết bên dưới"
+
+#: templates/email/user_reset_password.html:16
+#: templates/registration/password_reset_email.html:11
+msgid "Sincerely"
+msgstr "Trân trọng"
+
+#: templates/email/user_reset_password.html:17
+#: templates/registration/password_reset_email.html:12
+msgid "VIVA GPS Team"
+msgstr "Nhóm phát triển VIVA GPS"
+
+#: templates/registration/password_change.html:37
+msgid "Change password"
+msgstr "Đổi mật khẩu"
+
+#: templates/registration/password_change.html:48
+msgid "Update"
+msgstr "Cập nhập"
+
+#: templates/registration/password_change_done.html:8
+msgid "Your password has been Updated."
+msgstr "Mật khẩu của bạn đã được cập nhập"
+
+#: templates/registration/password_reset_complete.html:9
+msgid "Your password has been reset. You may go ahead and"
+msgstr "Rết mật khẩu thành công."
+
+#: templates/registration/password_reset_done.html:17
+msgid "Return to home page"
+msgstr "Quay về trang chủ"
+
+#: templates/registration/password_reset_form.html:39
+msgid "Reset password"
+msgstr "Đặt lại mật khẩu"
+
+#: templates/registration/password_reset_form.html:41
+msgid "Send reset email"
+msgstr "Gửi email đặt lại mật khẩu"
+
+#: templates/snippets/header.html:23
+msgid "Hello"
+msgstr ""
+
+#: templates/snippets/header.html:28 templates/snippets/header.html:32
+msgid "Home"
+msgstr ""
+
+#: templates/snippets/header.html:30
+msgid "Logout"
+msgstr ""
+
+#: templates/snippets/header.html:33
+msgid "Login"
+msgstr ""
+
+#: templates/snippets/header.html:34
+msgid "Register"
+msgstr ""
+
+#: user_profile/templates/user_profile/upload_image.html:10
+msgid "Upload Image"
+msgstr ""
+
+#: user_profile/templates/user_profile/upload_image.html:14
+msgid "File uploaded at:"
+msgstr ""
+
+#: user_profile/templates/user_profile/upload_image.html:17
+msgid "Return to home"
+msgstr ""
