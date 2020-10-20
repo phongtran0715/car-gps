@@ -55,7 +55,7 @@ class UserRegistrationAPIView(generics.CreateAPIView):
             email = EmailMessage(
                         mail_subject, message, to=[to_email]
             )
-            email.send()
+            #email.send()
 
             data = {
                 "message": _("The user was created successfully")
