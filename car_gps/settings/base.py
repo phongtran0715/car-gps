@@ -14,6 +14,15 @@ import datetime
 from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from rest_framework import settings
+import environ
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# reading .env file
+environ.Env.read_env()
+
 
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -22,10 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'cjs!qp6i4cw7mj&*+bfel4wfi@u^&$uqk!)gk4_fx$lvy$u^u&'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
@@ -85,14 +91,7 @@ WSGI_APPLICATION = 'car_gps.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'car_gps_db',
-        'USER': 'root',
-        'PASSWORD': '123456aA@',
-        'HOST': '127.0.0.1',
-        'PORT': '3306'
-    }
+    'default': env.db(),
 }
 
 # Password validation
@@ -157,12 +156,8 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': datetime.timedelta(days=1),
 }
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'dhasanadil90s@gmail.com'
-EMAIL_HOST_PASSWORD = 'LBPJaNw4mR5x8QCK'
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+EMAIL_CONFIG = env.email_url('EMAIL_URL')
+vars().update(EMAIL_CONFIG)
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
