@@ -35,6 +35,7 @@ def profile_view(request, **kwargs):
         data = serializer.data
         data['user_id'] = account.id
         data['user_name'] = account.username
+        data['email'] = account.email
 
         if request.is_secure():
             protocol = 'https'

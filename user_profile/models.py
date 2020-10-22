@@ -14,7 +14,6 @@ class UserProfile(models.Model):
     car_name = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100, null=True)
     last_name = models.CharField(max_length=100, null=True)
-    email = models.CharField(max_length=255, null=True)
     phone = models.CharField(max_length=20, null=True)
     imei = models.CharField(max_length=50, null=True)
     plate_number = models.CharField(max_length=50, null=True)
