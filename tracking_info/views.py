@@ -66,11 +66,11 @@ def get_history_tracking_view(request, **kwargs):
             }
             return Response(data, status=status.HTTP_404_NOT_FOUND)
 
-        paginator = Paginator(tracking_record, 10)
+        paginator = Paginator(tracking_record, 30)
         try:
             data['total'] = paginator.count
             data['page'] = page
-            data['page_size'] = 10
+            data['page_size'] = 30
 
             page_data = paginator.page(page)
             for item in page_data:
