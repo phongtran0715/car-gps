@@ -41,7 +41,7 @@ def get_live_tracking_view(request, **kwargs):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 def get_history_tracking_view(request, **kwargs):
     try:
@@ -49,7 +49,7 @@ def get_history_tracking_view(request, **kwargs):
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    if request.method == 'GET':
+    if request.method == 'POST':
         page = request.data.get('page', 1)
         start_time = request.data.get('start_time')
         end_time = request.data.get('end_time')
