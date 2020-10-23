@@ -16,4 +16,4 @@ class CarTrackingInfo(models.Model):
 
     class Meta:
         db_table = "car_tracking"
-        ordering = ['-id']
+        ordering = ['id']
