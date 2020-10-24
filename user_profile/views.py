@@ -66,7 +66,6 @@ def update_profile_view(request, **kwargs):
             profile.car_name = serializer.data['car_name']
             profile.first_name = serializer.data['first_name']
             profile.last_name = serializer.data['last_name']
-            profile.email = serializer.data['email']
             profile.phone = serializer.data['phone']
             profile.imei = serializer.data['imei']
             profile.plate_number = serializer.data['plate_number']
