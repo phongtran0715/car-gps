@@ -67,9 +67,9 @@ class ChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError('Current password does not match')
         return value
 
-    def validate_new_password(self, value):
-        password_validation.validate_password(value)
-        return value
+    # def validate_new_password(self, value):
+    #     password_validation.validate_password(value)
+    #     return value
 
 
 class RefreshTokenSerializer(serializers.Serializer):
