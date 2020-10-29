@@ -25,6 +25,7 @@ from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.utils.translation import gettext as _
+from smtplib import SMTPException
 
 
 class UserRegistrationAPIView(generics.CreateAPIView):
@@ -55,7 +56,10 @@ class UserRegistrationAPIView(generics.CreateAPIView):
             email = EmailMessage(
                         mail_subject, message, to=[to_email]
             )
-            #email.send()
+            try:
+                email.send()
+            except SMTPException as e:
+                print('There was an error sending an email: ', e)
 
             data = {
                 "message": _("The user was created successfully")

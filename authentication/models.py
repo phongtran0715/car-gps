@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from django.utils.translation import gettext as _
+from smtplib import SMTPException
 
 
 @receiver(reset_password_token_created)
@@ -45,4 +46,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         [reset_password_token.user.email]
     )
     msg.attach_alternative(email_html_message, "text/html")
-    msg.send()
+    try:
+        msg.send()
+    except SMTPException as e:
+        print('There was an error sending an email: ', e)
