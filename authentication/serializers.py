@@ -5,10 +5,12 @@ from django.contrib.auth.models import User
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.validators import UniqueValidator
+from django.utils.translation import gettext as _
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all())])
+    email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all(),
+        message="email message phongtran0715")])
     password = serializers.CharField()
     confirm_password = serializers.CharField()
 
@@ -19,7 +21,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     def validate_password(self, password):
         data = self.get_initial()
         if password != data['confirm_password']:
-            raise serializers.ValidationError("Those passwords don't match.")
+            raise serializers.ValidationError(_("Those passwords don't match."))
         return password
 
     def validate(self, attrs):
@@ -34,8 +36,8 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField(required=True)
 
     default_error_messages = {
-        'inactive_account': 'User account is disabled.',
-        'invalid_credentials': 'Unable to login with provided credentials.'
+        'inactive_account': "User account is disabled.",
+        'invalid_credentials': "Unable to login with provided credentials."
     }
 
     def __init__(self, *args, **kwargs):
@@ -46,10 +48,10 @@ class UserLoginSerializer(serializers.Serializer):
         self.user = authenticate(username=attrs.get("username"), password=attrs.get('password'))
         if self.user:
             if not self.user.is_active:
-                raise serializers.ValidationError(self.error_messages['inactive_account'])
+                raise serializers.ValidationError(_(self.error_messages['inactive_account']))
             return attrs
         else:
-            raise serializers.ValidationError(self.error_messages['invalid_credentials'])
+            raise serializers.ValidationError(_(self.error_messages['invalid_credentials']))
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -64,7 +66,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 
     def validate_current_password(self, value):
         if not self.context['request'].user.check_password(value):
-            raise serializers.ValidationError('Current password does not match')
+            raise serializers.ValidationError(_('Current password does not match'))
         return value
 
     # def validate_new_password(self, value):
@@ -76,7 +78,7 @@ class RefreshTokenSerializer(serializers.Serializer):
     refresh = serializers.CharField()
 
     default_error_messages = {
-        'bad_token': 'Token is invalid or expired'
+        'bad_token': _('Token is invalid or expired')
     }
 
     def validate(self, attrs):

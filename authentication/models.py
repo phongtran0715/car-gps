@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
+from django.utils.translation import gettext as _
 
 
 @receiver(reset_password_token_created)
@@ -35,11 +36,11 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 
     msg = EmailMultiAlternatives(
         # title:
-        "Password Reset for {title}".format(title="GPS Tracking Application"),
+        "Password Reset for {title}".format(title=_("GPS Tracking Application")),
         # message:
         email_plaintext_message,
         # from:
-        "GPS Tracking Supporter",
+        _("GPS Tracking Supporter"),
         # to:
         [reset_password_token.user.email]
     )

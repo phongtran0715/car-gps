@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-20 10:34+0000\n"
+"POT-Creation-Date: 2020-10-29 03:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,52 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: authentication/forms.py:9
+msgid "Required. Add a valid email address."
+msgstr "Địa chỉ email không hợp lệ"
+
+#: authentication/forms.py:29
+msgid "Invalid login"
+msgstr "Đăng nhập thất bại"
+
+#: authentication/models.py:39
+#, fuzzy
+#| msgid "VIVA Realtime GPS Tracking Application"
+msgid "GPS Tracking Application"
+msgstr "VIVA ứng dụng quản lý vị trí xe online"
+
+#: authentication/models.py:43
+msgid "GPS Tracking Supporter"
+msgstr "Đội ngũ hỗ trợ Vinatrack"
+
+#: authentication/serializers.py:24
+msgid "Those passwords don't match."
+msgstr "Mật khẩu không trùng khớp"
+
+#: authentication/serializers.py:39
+msgid "User account is disabled."
+msgstr "Tài khoản đang bị khóa"
+
+#: authentication/serializers.py:40
+msgid "Unable to login with provided credentials."
+msgstr "Đăng nhập thất bại"
+
+#: authentication/serializers.py:69
+msgid "Current password does not match"
+msgstr "Mật khẩu hiện tại không chính xác"
+
+#: authentication/serializers.py:81
+msgid "Token is invalid or expired"
+msgstr "Token không hợp lệ hoặc đã hết hạn"
+
+#: authentication/templates/authentication/acc_active_email.html:3
+msgid "Hi"
+msgstr "Xin chào"
+
+#: authentication/templates/authentication/acc_active_email.html:4
+msgid "Please click on the link to confirm your registration,"
+msgstr "Vui lòng bấm vào link bên dưới để xác nhận việc đăng kí"
 
 #: authentication/views.py:61
 msgid "The user was created successfully"
@@ -42,14 +88,6 @@ msgid ""
 "Maybe this page moved? Got deleted? Is hiding out in quarantine? Never "
 "existed in the first place?"
 msgstr "Trang web bạn yêu cầu không tồn tại !"
-
-#: home/templates/acc_active_email.html:3
-msgid "Hi"
-msgstr "Xin chào"
-
-#: home/templates/acc_active_email.html:4
-msgid "Please click on the link to confirm your registration,"
-msgstr "Vui lòng bấm vào link bên dưới để xác nhận việc đăng kí"
 
 #: home/templates/home.html:9
 msgid "VIVA Realtime GPS Tracking Application"
