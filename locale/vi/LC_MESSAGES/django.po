@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-29 03:05+0000\n"
+"POT-Creation-Date: 2020-10-29 09:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,8 +27,6 @@ msgid "Invalid login"
 msgstr "Đăng nhập thất bại"
 
 #: authentication/models.py:39
-#, fuzzy
-#| msgid "VIVA Realtime GPS Tracking Application"
 msgid "GPS Tracking Application"
 msgstr "VIVA ứng dụng quản lý vị trí xe online"
 
@@ -36,17 +34,13 @@ msgstr "VIVA ứng dụng quản lý vị trí xe online"
 msgid "GPS Tracking Supporter"
 msgstr "Đội ngũ hỗ trợ Vinatrack"
 
+#: authentication/serializers.py:13
+msgid "Email address must be unique."
+msgstr "Địa chỉ email đã được sử dụng để đăng kí trước đó"
+
 #: authentication/serializers.py:24
 msgid "Those passwords don't match."
 msgstr "Mật khẩu không trùng khớp"
-
-#: authentication/serializers.py:39
-msgid "User account is disabled."
-msgstr "Tài khoản đang bị khóa"
-
-#: authentication/serializers.py:40
-msgid "Unable to login with provided credentials."
-msgstr "Đăng nhập thất bại"
 
 #: authentication/serializers.py:69
 msgid "Current password does not match"
@@ -71,7 +65,7 @@ msgstr "Tạo người dùng thành công"
 #: authentication/views.py:66 authentication/views.py:97
 #: authentication/views.py:138 authentication/views.py:157
 msgid "Validation errors in your request"
-msgstr "Validation errors in your request"
+msgstr "Dữ liệu không hợp lệ"
 
 #: authentication/views.py:173
 msgid "Thank you for your email confirmation. Now you can login your account."
@@ -182,21 +176,18 @@ msgstr "Ảnh đã tải lên tại:"
 msgid "Return to home"
 msgstr "Quay về trang chủ"
 
-#~ msgid "User name"
-#~ msgstr "Tên đăng nhập"
+# password validation message
+msgid "This password is too short. It must contain at least %(min_length)d character."
+msgstr "Mật khẩu quá ngắn. Mật khẩu phải gồm ít nhất %(min_length)d kí tự"
 
-#, fuzzy
-#~| msgid "Reset password"
-#~ msgid "Password"
-#~ msgstr "Đặt lại mật khẩu"
+msgid "This password is too short. It must contain at least %(min_length)d characters."
+msgstr "Mật khẩu quá ngắn. Mật khẩu phải gồm ít nhất %(min_length)d kí tự"
 
-#~ msgid "Username"
-#~ msgstr "Tên đăng nhập"
+msgid "The password is too similar to the %(verbose_name)s."
+msgstr "Mật khẩu không được trùng với thông tin người dùng %(verbose_name)s."
 
-#, fuzzy
-#~| msgid "Change password"
-#~ msgid "Confirm password"
-#~ msgstr "Đổi mật khẩu"
+msgid "This password is too common."
+msgstr "Mật khẩu quá thông dụng. Vui lòng đổi mật khẩu khác"
 
-#~ msgid "Email address"
-#~ msgstr "Địa chỉ email"
+msgid "This password is entirely numeric."
+msgstr "Mật khẩu phải chứa ít nhất một kí tự chữ"

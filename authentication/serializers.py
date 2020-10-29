@@ -10,7 +10,7 @@ from django.utils.translation import gettext as _
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all(),
-        message="email message phongtran0715")])
+        message=_("Email address must be unique."))])
     password = serializers.CharField()
     confirm_password = serializers.CharField()
 
@@ -21,7 +21,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     def validate_password(self, password):
         data = self.get_initial()
         if password != data['confirm_password']:
-            raise serializers.ValidationError(_("Those passwords don't match."))
+            raise serializers.ValidationError(_("Those passwords don't match."), code="password_mismatch")
         return password
 
     def validate(self, attrs):
@@ -48,10 +48,10 @@ class UserLoginSerializer(serializers.Serializer):
         self.user = authenticate(username=attrs.get("username"), password=attrs.get('password'))
         if self.user:
             if not self.user.is_active:
-                raise serializers.ValidationError(_(self.error_messages['inactive_account']))
+                raise serializers.ValidationError(_(self.error_messages['inactive_account']), code="inactive_account")
             return attrs
         else:
-            raise serializers.ValidationError(_(self.error_messages['invalid_credentials']))
+            raise serializers.ValidationError(_(self.error_messages['invalid_credentials']), code="invalid_credentials")
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -66,12 +66,12 @@ class ChangePasswordSerializer(serializers.Serializer):
 
     def validate_current_password(self, value):
         if not self.context['request'].user.check_password(value):
-            raise serializers.ValidationError(_('Current password does not match'))
+            raise serializers.ValidationError(_('Current password does not match'), code="password_invalid")
         return value
 
-    # def validate_new_password(self, value):
-    #     password_validation.validate_password(value)
-    #     return value
+    def validate_new_password(self, value):
+        password_validation.validate_password(value)
+        return value
 
 
 class RefreshTokenSerializer(serializers.Serializer):
