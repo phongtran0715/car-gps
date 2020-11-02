@@ -26,7 +26,11 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.utils.translation import gettext as _
 from smtplib import SMTPException
+import logging
 
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 class UserRegistrationAPIView(generics.CreateAPIView):
     """
@@ -51,7 +55,6 @@ class UserRegistrationAPIView(generics.CreateAPIView):
                 'uid':urlsafe_base64_encode(force_bytes(user.id)),
                 'token':account_activation_token.make_token(user),
             })
-            print('message : {}'.format(message))
             to_email = request.data['email']
             email = EmailMessage(
                         mail_subject, message, to=[to_email]
@@ -59,7 +62,7 @@ class UserRegistrationAPIView(generics.CreateAPIView):
             try:
                 email.send()
             except SMTPException as e:
-                print('There was an error sending an email: ', e)
+                logger.error('There was an error sending an email:', e)
 
             data = {
                 "message": _("The user was created successfully")

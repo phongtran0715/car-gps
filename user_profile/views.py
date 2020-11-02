@@ -10,8 +10,12 @@ from user_profile.serializers import UserProfileSerializer
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render
 import os
-import uuid 
+import uuid
+import logging
 
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 def generate_filename(filename):
     ext = filename.split('.')[-1]
@@ -90,7 +94,6 @@ def change_avatar_view(request, **kwargs):
         avatar = request .FILES['avatar']
         fs = FileSystemStorage(location='media/avatar')
         avatar_file = fs.save(generate_filename(avatar.name), avatar)
-        print("==========> " + avatar_file)
 
         # delete old avatar
         try:
@@ -99,7 +102,7 @@ def change_avatar_view(request, **kwargs):
             if os.path.isfile(old_avatar):
                 os.remove(old_avatar) 
         except OSError as error: 
-            print(error) 
+            logger.error(error)
         
         profile.avatar = avatar_file
         profile.save()
