@@ -74,15 +74,20 @@ def get_history_tracking_view(request, **kwargs):
             data['page'] = page
             data['page_size'] = 30
 
-            page_data = paginator.page(page)
-            for item in page_data:
-                serializer = CarTrackingSerializer(item)
-                result.append(serializer.data)
-            data['data'] = result
+            if page > paginator.num_pages or page <= 0:
+                data['data'] = []
+            else:
+                page_data = paginator.page(page)
+                for item in page_data:
+                    serializer = CarTrackingSerializer(item)
+                    result.append(serializer.data)
+                data['data'] = result
         except PageNotAnInteger:
             data['data'] = paginator.page(1)
         except EmptyPage:
             data['data'] = paginator.page(paginator.num_pages)
+        except InvalidPage:
+            print('Invalid page index')
 
         return Response(data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
