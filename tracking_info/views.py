@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.state import User
 
-from tracking_info.models import CarTrackingInfo
+from .models import CarTrackingInfo
 from tracking_info.serializers import CarTrackingSerializer
 from geopy.distance import geodesic
 
@@ -105,32 +105,47 @@ def insert_tracking_info_view(request, **kwargs):
     data = {}
     if request.method == 'POST':
         if serializer.is_valid():
-            latest_info = account.car_info.latest('timestamp')
-            new_info = account.car_info.create(latitude=serializer.data['latitude'], longitude=serializer.data['longitude'],
-                                    gas=serializer.data['gas'], gps_status=serializer.data['gps_status'],
-                                    odometer=serializer.data['odometer'],
-                                    timestamp=serializer.data['timestamp'])
-            
-            new_time = datetime.datetime.strptime(new_info.timestamp, '%Y-%m-%dT%H:%M:%SZ')
-            delta_time = new_time - latest_info.timestamp.replace(tzinfo=None)
-            delta_time = delta_time.total_seconds()
+            if account.car_info.all().count() > 0:
+                latest_info = account.car_info.latest('timestamp')
+                new_info = account.car_info.create(latitude=serializer.data['latitude'], longitude=serializer.data['longitude'],
+                                        gas=serializer.data['gas'], gps_status=serializer.data['gps_status'],
+                                        odometer=serializer.data['odometer'],
+                                        timestamp=serializer.data['timestamp'])
+                
+                new_time = datetime.datetime.strptime(new_info.timestamp, '%Y-%m-%dT%H:%M:%SZ')
+                delta_time = new_time - latest_info.timestamp.replace(tzinfo=None)
+                delta_time = delta_time.total_seconds()
 
-            # Calculate speed information
-            distance = geodesic((latest_info.latitude, latest_info.longitude), (new_info.latitude,new_info.longitude)).km
-            
-            if delta_time != 0.0:
-                speed_km = (distance * 1000) / (delta_time / 3600)
+                # Calculate speed information
+                distance = geodesic((latest_info.latitude, latest_info.longitude), (new_info.latitude,new_info.longitude)).km
+                
+                if delta_time != 0.0:
+                    speed_km = (distance * 1000) / (delta_time / 3600)
+                else:
+                    speed_km = 0.0
+
+                new_info.speed = speed_km
+                account.save()
+
+                data = {
+                    'speed' : float("{:.1f}".format(speed_km)),
+                    'distance' : distance,
+                    'from' : latest_info.timestamp,
+                    'to' : new_info.timestamp
+                }
+                return Response(data, status=status.HTTP_200_OK)
             else:
-                speed_km = 0.0
-
-            new_info.speed = speed_km
-            account.save()
-
-            data = {
-                'speed' : float("{:.1f}".format(speed_km)),
-                'distance' : distance,
-                'from' : latest_info.timestamp,
-                'to' : new_info.timestamp
-            }
-            return Response(data, status=status.HTTP_200_OK)
+                new_info = account.car_info.create(latitude=serializer.data['latitude'], longitude=serializer.data['longitude'],
+                                        gas=serializer.data['gas'], gps_status=serializer.data['gps_status'],
+                                        odometer=serializer.data['odometer'],
+                                        timestamp=serializer.data['timestamp'])
+                new_info.speed = 0.0
+                account.save()
+                data = {
+                    'speed' : "0.0",
+                    'distance' : 0,
+                    'from' : serializer.data['timestamp'],
+                    'to' : serializer.data['timestamp']
+                }
+                return Response(data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

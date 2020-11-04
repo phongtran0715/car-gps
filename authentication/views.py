@@ -68,10 +68,17 @@ class UserRegistrationAPIView(generics.CreateAPIView):
                 "message": _("The user was created successfully")
             }
             return Response(data, status=status.HTTP_201_CREATED)
-            
+        errors = []
+        for err in serializer.errors:
+            errors.append({
+                'message' : serializer.errors[err][0]
+                })
+            print(err)
+            print(serializer.errors[err][0])
+            print()
         data = {
             "message": _("Validation errors in your request"),
-            "errors": serializer.errors
+            "errors": errors
         }
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
