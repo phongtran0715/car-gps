@@ -17,7 +17,8 @@ urlpatterns = [
 
     # Web route
     path('admin/', admin.site.urls),
-    re_path('', include('home.urls')),
+    path('', include('home.urls')),
+    path('', include('promotions.urls')),
 
     # Password reset links (ref: https://github.com/django/django/blob/master/django/contrib/auth/views.py)
     # path('password_change/done/',

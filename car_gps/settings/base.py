@@ -52,10 +52,12 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'django_seed',
+    'crispy_forms',
     'authentication',
     'tracking_info',
     'user_profile',
     'home',
+    'promotions',
 ]
 
 MIDDLEWARE = [
@@ -226,3 +228,4 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOCALE_PATHS = ( os.path.join(BASE_DIR, 'locale'), )
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
