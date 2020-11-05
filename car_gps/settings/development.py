@@ -2,6 +2,8 @@ from .base import *
 
 DEBUG = False
 
+ALLOWED_HOSTS = ['clover.gotechjsc.com', '172.31.40.49']
+
 INSTALLED_APPS += [
     'debug_toolbar',
 ]
