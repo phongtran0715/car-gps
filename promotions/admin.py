@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Promostions
+from .models import Promotions
 
 
 # Register your models here.
-admin.site.register(Promostions)
+admin.site.register(Promotions)

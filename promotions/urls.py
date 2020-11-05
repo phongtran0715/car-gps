@@ -1,10 +1,12 @@
-from django.urls import path
+from django.urls import path, re_path
 from .views import (
 	get_promotion_view, 
 	create_promotion_view,
 	update_promotion_view,
-	delete_promotion_view
+	delete_promotion_view,
+	api_get_promotion_view
 )
+
 
 urlpatterns = [
 	path('promotions', get_promotion_view, name='get-promotions'),
