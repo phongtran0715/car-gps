@@ -191,3 +191,6 @@ msgstr "Mật khẩu quá thông dụng. Vui lòng đổi mật khẩu khác"
 
 msgid "This password is entirely numeric."
 msgstr "Mật khẩu phải chứa ít nhất một kí tự chữ"
+
+msgid "Unable to login with provided credentials."
+msgstr "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập."

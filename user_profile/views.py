@@ -77,6 +77,17 @@ def update_profile_view(request, **kwargs):
             profile.save()
             data['message'] = "Successful"
             return Response(data, status=status.HTTP_200_OK)
+        errors = []
+        for it in serializer.errors:
+            errors.append({
+                'message' : serializer.errors[it][0],
+                'code' : serializer.errors[it][0].code,
+                'field': it
+        })
+        data = {
+            "message": _("Validation errors in your request"),
+            "errors": errors
+        }
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 

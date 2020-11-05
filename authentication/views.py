@@ -68,9 +68,17 @@ class UserRegistrationAPIView(generics.CreateAPIView):
                 "message": _("The user was created successfully")
             }
             return Response(data, status=status.HTTP_201_CREATED)
+        
+        errors = []
+        for it in serializer.errors:
+            errors.append({
+                'message' : serializer.errors[it][0],
+                'code' : serializer.errors[it][0].code,
+                'field': it
+                })
         data = {
             "message": _("Validation errors in your request"),
-            "errors": serializer.errors
+            "errors": errors
         }
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
@@ -99,9 +107,16 @@ class UserLoginAPIView(generics.CreateAPIView):
                     "access": str(refresh.access_token),
                 }
                 return Response(data, status=status.HTTP_201_CREATED)
+        errors = []
+        for it in serializer.errors:
+            errors.append({
+                'message' : serializer.errors[it][0],
+                'code' : serializer.errors[it][0].code,
+                'field': it
+            })
         data = {
             "message": _("Validation errors in your request"),
-            "errors": serializer.errors
+            "errors": errors
         }
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
@@ -140,9 +155,16 @@ class ChangePasswordView(generics.UpdateAPIView):
             }
 
             return Response(data, status=status.HTTP_200_OK)
+        errors = []
+        for it in serializer.errors:
+            errors.append({
+                'message' : serializer.errors[it][0],
+                'code' : serializer.errors[it][0].code,
+                'field': it
+            })
         data = {
             "message": _("Validation errors in your request"),
-            "errors": serializer.errors
+            "errors": errors
         }
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
@@ -159,9 +181,16 @@ class LogoutView(GenericAPIView):
                 "message": "Success"
             }
             return Response(data, status=status.HTTP_200_OK)
+        errors = []
+        for it in serializer.errors:
+            errors.append({
+                'message' : serializer.errors[it][0],
+                'code' : serializer.errors[it][0].code,
+                'field': it
+            })
         data = {
             "message": _("Validation errors in your request"),
-            "errors": serializer.errors
+            "errors": errors
         }
         return Response(data, status=status.HTTP_400_BAD_REQUEST)
 

@@ -9,14 +9,18 @@ from django.utils.translation import gettext as _
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all(),
-        message=_("Email address must be unique."))])
+    email = serializers.EmailField()
     password = serializers.CharField()
     confirm_password = serializers.CharField()
 
     class Meta:
         model = User
         fields = ("id", "username", "email", "password", "confirm_password", "date_joined")
+
+    def validate_email(self, email):
+        if User.objects.filter(email=email).count() > 0:
+            raise serializers.ValidationError(_("Email address must be unique."), code="unique")
+        pass
 
     def validate_password(self, password):
         data = self.get_initial()
