@@ -20,7 +20,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     def validate_email(self, email):
         if User.objects.filter(email=email).count() > 0:
             raise serializers.ValidationError(_("Email address must be unique."), code="unique")
-        pass
+        return email
 
     def validate_password(self, password):
         data = self.get_initial()

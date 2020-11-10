@@ -103,7 +103,7 @@ def change_avatar_view(request, **kwargs):
     if request.method == 'PUT':
         profile = account.profile
         avatar = request .FILES['avatar']
-        fs = FileSystemStorage(location='media/avatar')
+        fs = FileSystemStorage()
         avatar_file = fs.save(generate_filename(avatar.name), avatar)
 
         # delete old avatar
@@ -123,7 +123,7 @@ def change_avatar_view(request, **kwargs):
     else:
         protocol = 'http'
     data = {'avatar': {
-        "original_image_url": protocol + '://' + request.get_host() + '/media/avatar/' + avatar_file,
-        "thumb_image_url": protocol + '://' + request.get_host() + '/media/avatar/' + avatar_file
+        "original_image_url": protocol + '://' + request.get_host() + '/media/' + avatar_file,
+        "thumb_image_url": protocol + '://' + request.get_host() + '/media/' + avatar_file
     }}
     return Response(data, status=status.HTTP_200_OK)
