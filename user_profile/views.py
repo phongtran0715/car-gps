@@ -12,6 +12,7 @@ from django.shortcuts import render
 import os
 import uuid
 import logging
+from django.utils.translation import gettext as _
 
 
 # Get an instance of a logger

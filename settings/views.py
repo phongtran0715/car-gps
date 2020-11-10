@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.state import User
 from .models import VinatrackSettings
 from .serializers import VinatrackSettingsSerializer
+from django.utils.translation import gettext as _
 
 
 # Create your views here.
@@ -97,6 +98,8 @@ def reset_default_view(request, **kwarg):
 		settings.theme = 'light'
 		
 		settings.save()
-		data['message'] = "Successful"
+		data = {
+			'message' : 'Successful'
+		}
 		return Response(data, status=status.HTTP_200_OK)
 	return Response(status=status.HTTP_400_BAD_REQUEST)

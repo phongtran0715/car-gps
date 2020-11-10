@@ -51,7 +51,8 @@ class VinatrackSettings(models.Model):
 	notification = models.BooleanField(default=True, choices=NOTIFICATION)
 	language = models.CharField(default="vi", choices=LANGUAGE, max_length=3)
 	map_display = models.CharField(default="map", choices=MAP_DISPLAY, max_length=128)
-	distance_unit = models.CharField(default="YYYY-MM-DD HH:mm:ss", choices=DATETIME_FORMAT, max_length=256)
+	datetime_format = models.CharField(default="YYYY-MM-DD HH:mm:ss", choices=DATETIME_FORMAT, max_length=256)
+	distance_unit = models.CharField(default="km", choices=DISTANCE_UNIT, max_length=16)
 	refresh_interval = models.IntegerField(default=20, choices=REFRESH_INTERVAL)
 	theme = models.CharField(default='light', choices=THEME, max_length=64)
 
@@ -59,8 +60,8 @@ class VinatrackSettings(models.Model):
 		db_table = "settings"
 		ordering = ('id',)
 
-	# @receiver(post_save, sender=User)
-	# def create_or_update_settings(sender, instance, created, **kwargs):
-	# 	if created:
-	# 		VinatrackSettings.objects.create(id=instance)
-	# instance.settings.save()
+	@receiver(post_save, sender=User)
+	def create_or_update_settings(sender, instance, created, **kwargs):
+		if created:
+			VinatrackSettings.objects.create(id=instance)
+		instance.settings.save()
