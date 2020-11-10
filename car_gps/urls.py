@@ -14,6 +14,7 @@ urlpatterns = [
     re_path('api/(?P<version>(v1|v2))/', include('authentication.urls')),
     re_path('api/(?P<version>(v1|v2))/', include('tracking_info.urls')),
     re_path('api/(?P<version>(v1|v2))/', include('user_profile.urls')),
+    re_path('api/(?P<version>(v1|v2))/', include('settings.urls')),
     url(r'^api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     re_path(r'^api/(?P<version>(v1|v2))/promotions/', api_get_promotion_view),
 
