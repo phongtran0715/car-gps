@@ -120,7 +120,7 @@ def insert_tracking_info_view(request, **kwargs):
                 distance = geodesic((latest_info.latitude, latest_info.longitude), (new_info.latitude,new_info.longitude)).km
                 
                 if delta_time != 0.0:
-                    speed_km = (distance * 1000) / (delta_time / 3600)
+                    speed_km = (distance) / (delta_time / 3600)
                 else:
                     speed_km = 0.0
 
