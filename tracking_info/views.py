@@ -12,6 +12,7 @@ from rest_framework_simplejwt.state import User
 from .models import CarTrackingInfo
 from tracking_info.serializers import CarTrackingSerializer
 from geopy.distance import geodesic
+import json
 
 
 @api_view(['GET'])
@@ -70,9 +71,20 @@ def get_history_tracking_view(request, **kwargs):
 
         paginator = Paginator(tracking_record, 30)
         try:
-            data['total'] = paginator.count
+            data['total_record'] = paginator.count
             data['page'] = page
+            data['total_page'] = paginator.num_pages
             data['page_size'] = 30
+            data['first_record'] = {
+                'latitude' : tracking_record.first().latitude,
+                'longitude' : tracking_record.first().longitude,
+                'timestamp' : tracking_record.first().timestamp,
+            }
+            data['last_record'] = {
+                'latitude' : tracking_record.last().latitude,
+                'longitude' : tracking_record.last().longitude,
+                'timestamp' : tracking_record.last().timestamp,
+            }
 
             if page > paginator.num_pages or page <= 0:
                 data['data'] = []
