@@ -89,7 +89,7 @@ def update_profile_view(request, **kwargs):
             "message": _("Validation errors in your request"),
             "errors": errors
         }
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
