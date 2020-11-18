@@ -60,8 +60,8 @@ class VinatrackSettings(models.Model):
 		db_table = "settings"
 		ordering = ('id',)
 
-	@receiver(post_save, sender=User)
-	def create_or_update_settings(sender, instance, created, **kwargs):
-		if created:
-			VinatrackSettings.objects.create(id=instance)
-		instance.settings.save()
+	# @receiver(post_save, sender=User)
+	# def create_or_update_settings(sender, instance, created, **kwargs):
+	# 	if created:
+	# 		VinatrackSettings.objects.create(id=instance)
+	# 	instance.settings.save()
