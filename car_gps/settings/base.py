@@ -54,8 +54,7 @@ INSTALLED_APPS = [
     'tracking_info',
     'user_profile',
     'home',
-    'promotions',
-    'settings'
+    'promotions'
 ]
 
 MIDDLEWARE = [
