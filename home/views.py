@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from authentication.forms import AccountAuthenticationForm, RegistrationForm
 from django.utils.translation import gettext as _
+from rest_framework.decorators import api_view, permission_classes
+import requests, json
 
 
 def home_screen_view(request):
@@ -69,3 +71,20 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+
+def reset_password_view(request, token):
+    context = {}
+    if request.method == 'POST':
+        # TODO : check matching password
+        data = {}
+        data['password'] = request.POST['password']
+        data['token'] = token
+        print(request.build_absolute_uri('confirm/'))
+        resp = requests.post(request.build_absolute_uri('confirm/'), data=data)
+        if resp.status_code == 200:
+            return redirect('password_reset_complete')
+        else:
+            return render(request, "registration/api_password_change.html", context)
+    else:
+        return render(request, "registration/api_password_change.html", context)
