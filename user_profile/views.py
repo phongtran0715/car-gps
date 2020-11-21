@@ -93,7 +93,7 @@ def update_profile_view(request, **kwargs):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['PUT'])
+@api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 def change_avatar_view(request, **kwargs):
     try:
@@ -101,7 +101,7 @@ def change_avatar_view(request, **kwargs):
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    if request.method == 'PUT':
+    if request.method == 'POST':
         profile = account.profile
         avatar = request .FILES['avatar']
         fs = FileSystemStorage()
