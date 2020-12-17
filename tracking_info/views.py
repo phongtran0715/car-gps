@@ -56,8 +56,8 @@ def get_history_tracking_view(request, **kwargs):
         page = request.data.get('page', 1)
         start_time = request.data.get('start_time')
         end_time = request.data.get('end_time')
-        start_time = datetime.datetime.strptime(start_time, "%Y-%m-%d").date()
-        end_time = datetime.datetime.strptime(end_time, "%Y-%m-%d").date()
+        start_time = datetime.datetime.strptime(start_time, '%Y-%m-%dT%H:%M:%SZ')
+        end_time = datetime.datetime.strptime(end_time, '%Y-%m-%dT%H:%M:%SZ')
 
         data = {}
         result = []
