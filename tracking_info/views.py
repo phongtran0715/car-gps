@@ -13,6 +13,7 @@ from .models import CarTrackingInfo
 from tracking_info.serializers import CarTrackingSerializer
 from geopy.distance import geodesic
 import json
+from django.core.paginator import InvalidPage
 
 
 @api_view(['GET'])
@@ -68,6 +69,11 @@ def get_history_tracking_view(request, **kwargs):
                 "message": "Not found tracking data"
             }
             return Response(data, status=status.HTTP_404_NOT_FOUND)
+        if tracking_record.exists() == False :
+            data = {
+                "message": "Not found tracking data"
+            }
+            return Response(data, status=status.HTTP_404_NOT_FOUND)
 
         paginator = Paginator(tracking_record, 100)
         try:
@@ -99,7 +105,10 @@ def get_history_tracking_view(request, **kwargs):
         except EmptyPage:
             data['data'] = paginator.page(paginator.num_pages)
         except InvalidPage:
-            print('Invalid page index')
+            data = {
+                "message": "Invalid page"
+            }
+            return Response(data, status=status.HTTP_404_NOT_FOUND)
 
         return Response(data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
