@@ -81,6 +81,9 @@ def get_history_tracking_view(request, **kwargs):
             data['page'] = page
             data['total_page'] = paginator.num_pages
             data['page_size'] = 100
+            total_distance, avg_speed = get_total_distance(tracking_record)
+            data['total_distance'] = total_distance
+            data['avg_speed'] = avg_speed
             data['first_record'] = {
                 'latitude' : tracking_record.first().latitude,
                 'longitude' : tracking_record.first().longitude,
@@ -170,3 +173,19 @@ def insert_tracking_info_view(request, **kwargs):
                 }
                 return Response(data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def get_total_distance(tracking_record):
+    distance = 0
+    avg_speed = 0
+    for i in range(0, len(tracking_record) - 1):
+        distance += geodesic((tracking_record[i].latitude, tracking_record[i].longitude), 
+            (tracking_record[i+1].latitude, tracking_record[i+1].longitude)).km
+
+    end_time = tracking_record.last().timestamp
+    start_time = tracking_record.first().timestamp
+    delta_time = (end_time - start_time).seconds
+    if delta_time != 0:
+        avg_speed = (distance) / (delta_time / 3600)
+
+    return round(distance), round(avg_speed) 
