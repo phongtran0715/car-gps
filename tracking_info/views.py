@@ -153,7 +153,7 @@ def insert_tracking_info_view(request, **kwargs):
 
                 data = {
                     'speed' : float("{:.1f}".format(speed_km)),
-                    'distance' : distance,
+                    'distance' : 0,
                     'from' : latest_info.timestamp,
                     'to' : new_info.timestamp
                 }
