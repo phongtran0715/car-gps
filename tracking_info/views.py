@@ -31,14 +31,15 @@ def get_live_tracking_view(request, **kwargs):
                 "message": "Not found tracking data"
             }
             return Response(data, status=status.HTTP_404_NOT_FOUND)
-
+        if info.speed is None:
+            info.speed = 0
         data = {
             "latitude": info.latitude,
             "longitude": info.longitude,
-            "gas": info.gas,
+            "gas": '---',
             "gps_status": info.gps_status,
             "speed": info.speed,
-            "odometer": info.odometer,
+            "odometer": '---',
             "timestamp": info.timestamp
         }
         return Response(data, status=status.HTTP_200_OK)
