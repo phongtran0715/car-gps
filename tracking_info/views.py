@@ -36,10 +36,10 @@ def get_live_tracking_view(request, **kwargs):
         data = {
             "latitude": info.latitude,
             "longitude": info.longitude,
-            "gas": '---',
+            "gas": -1,
             "gps_status": info.gps_status,
             "speed": info.speed,
-            "odometer": '---',
+            "odometer": -1,
             "timestamp": info.timestamp
         }
         return Response(data, status=status.HTTP_200_OK)
