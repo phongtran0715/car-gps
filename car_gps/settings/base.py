@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'tracking_info',
     'user_profile',
     'home',
-    'promotions'
+    'promotions',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -200,6 +201,10 @@ LOGGING = {
         }
     }
 }
+
+CRONJOBS = [
+    ('* * * * *', 'tracking_info.cron.db_rotation_job', '>> /tmp/scheduled_job.log')
+]
 
 EMAIL_CONFIG = env.email_url('EMAIL_URL')
 vars().update(EMAIL_CONFIG)
