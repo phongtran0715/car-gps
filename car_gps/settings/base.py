@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'home',
     'promotions',
     'django_crontab',
+    'fcm_django',
 ]
 
 MIDDLEWARE = [
@@ -205,6 +206,20 @@ LOGGING = {
 CRONJOBS = [
     ('* * * * *', 'tracking_info.cron.db_rotation_job', '>> /tmp/scheduled_job.log')
 ]
+
+FCM_DJANGO_SETTINGS = {
+    # default: _('FCM Django')
+    "APP_VERBOSE_NAME": "[Vinatrack GPS]",
+    # Your firebase API KEY
+    "FCM_SERVER_KEY": "AAAAy-yI3wU:APA91bFuHkLOVqJsPE1W3tIVNcvxWQPn6xKXXAxIMWVDSwW8Wg21pYVvhthzjz77MITHWJrhOQvX0Ur1tJ7lwI-abZW_2ZhmNGK-fq-6jnqbXoAi0wqoyayCy6JSxX30Rha-M5Qogai1",
+    # true if you want to have only one active device per registered user at a time
+    # default: False
+    "ONE_DEVICE_PER_USER": False,
+    # devices to which notifications cannot be sent,
+    # are deleted upon receiving error response from FCM
+    # default: False
+    "DELETE_INACTIVE_DEVICES": False,
+}
 
 EMAIL_CONFIG = env.email_url('EMAIL_URL')
 vars().update(EMAIL_CONFIG)
