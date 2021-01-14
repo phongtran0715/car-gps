@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'promotions',
     'django_crontab',
     'fcm_django',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -89,6 +90,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'car_gps.wsgi.application'
+ASGI_APPLICATION = "car_gps.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -247,3 +249,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOCALE_PATHS = ( os.path.join(BASE_DIR, 'locale'), )
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+

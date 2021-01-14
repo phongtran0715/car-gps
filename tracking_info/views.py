@@ -14,6 +14,7 @@ from tracking_info.serializers import CarTrackingSerializer
 from geopy.distance import geodesic
 import json
 from django.core.paginator import InvalidPage
+from django.shortcuts import render
 
 
 @api_view(['GET'])
@@ -190,3 +191,7 @@ def get_total_distance(tracking_record):
         avg_speed = (distance) / (delta_time / 3600)
 
     return round(distance), round(avg_speed) 
+
+
+def index(request):
+    return render(request, 'tracking_info/index.html')
