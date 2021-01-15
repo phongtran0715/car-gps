@@ -54,7 +54,10 @@ INSTALLED_APPS = [
     'tracking_info',
     'user_profile',
     'home',
-    'promotions'
+    'promotions',
+    'django_crontab',
+    'fcm_django',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -87,6 +90,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'car_gps.wsgi.application'
+ASGI_APPLICATION = "car_gps.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -201,6 +205,24 @@ LOGGING = {
     }
 }
 
+CRONJOBS = [
+    ('* * * * *', 'tracking_info.cron.db_rotation_job', '>> /tmp/scheduled_job.log')
+]
+
+FCM_DJANGO_SETTINGS = {
+    # default: _('FCM Django')
+    "APP_VERBOSE_NAME": "[Vinatrack GPS]",
+    # Your firebase API KEY
+    "FCM_SERVER_KEY": "AAAAy-yI3wU:APA91bFuHkLOVqJsPE1W3tIVNcvxWQPn6xKXXAxIMWVDSwW8Wg21pYVvhthzjz77MITHWJrhOQvX0Ur1tJ7lwI-abZW_2ZhmNGK-fq-6jnqbXoAi0wqoyayCy6JSxX30Rha-M5Qogai1",
+    # true if you want to have only one active device per registered user at a time
+    # default: False
+    "ONE_DEVICE_PER_USER": False,
+    # devices to which notifications cannot be sent,
+    # are deleted upon receiving error response from FCM
+    # default: False
+    "DELETE_INACTIVE_DEVICES": False,
+}
+
 EMAIL_CONFIG = env.email_url('EMAIL_URL')
 vars().update(EMAIL_CONFIG)
 
@@ -227,3 +249,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOCALE_PATHS = ( os.path.join(BASE_DIR, 'locale'), )
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+

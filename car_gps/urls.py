@@ -7,6 +7,7 @@ from authentication.views import activate_view
 from home.views import reset_password_view
 from promotions.views import api_get_promotion_view
 from django.contrib.auth import views as auth_views
+from tracking_info.views import index, room
 
 urlpatterns = [
     
@@ -24,6 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('', include('promotions.urls')),
+    path('car/tracking/', index, name='tracking_index'),
+    path('car/tracking/<str:room_name>/', room, name='room'),
 
     path('activate/<uidb64>/<token>/',activate_view, name='activate'),
 ]

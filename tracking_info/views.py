@@ -14,6 +14,9 @@ from tracking_info.serializers import CarTrackingSerializer
 from geopy.distance import geodesic
 import json
 from django.core.paginator import InvalidPage
+from django.shortcuts import render
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 
 @api_view(['GET'])
@@ -158,6 +161,21 @@ def insert_tracking_info_view(request, **kwargs):
                     'from' : latest_info.timestamp,
                     'to' : new_info.timestamp
                 }
+                # send message to admin app
+                channel_layer = get_channel_layer()
+                print("channel layer: {}".format(channel_layer))
+                async_to_sync(channel_layer.group_send)('tracking_phongtran0715', {
+                    'type': 'chat_message',
+                    "message": {
+                        "latitude" : serializer.data['latitude'],
+                        "longitude" : serializer.data['longitude'],
+                        "gas" : serializer.data['gas'],
+                        "gps_status" : serializer.data['gps_status'],
+                        "odometer" : serializer.data['odometer'],
+                        "timestamp" : serializer.data['timestamp']
+                    }
+                })
+
                 return Response(data, status=status.HTTP_200_OK)
             else:
                 new_info = account.car_info.create(latitude=serializer.data['latitude'], longitude=serializer.data['longitude'],
@@ -172,6 +190,19 @@ def insert_tracking_info_view(request, **kwargs):
                     'from' : serializer.data['timestamp'],
                     'to' : serializer.data['timestamp']
                 }
+                # send message to admin app
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)('tracking_phongtran0715', {
+                    'type': 'chat_message',
+                    "message": {
+                        "latitude" : serializer.data['latitude'],
+                        "longitude" : serializer.data['longitude'],
+                        "gas" : serializer.data['gas'],
+                        "gps_status" : serializer.data['gps_status'],
+                        "odometer" : serializer.data['odometer'],
+                        "timestamp" : serializer.data['timestamp']
+                    }
+                })
                 return Response(data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -190,3 +221,13 @@ def get_total_distance(tracking_record):
         avg_speed = (distance) / (delta_time / 3600)
 
     return round(distance), round(avg_speed) 
+
+
+def index(request):
+    return render(request, 'tracking_info/index.html')
+
+@permission_classes((IsAuthenticated,))
+def room(request, room_name):
+    return render(request, 'tracking_info/room.html', {
+        'room_name': room_name
+    })
