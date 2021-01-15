@@ -11,12 +11,12 @@ from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render
 import os
 import uuid
-import logging
+# import logging
 from django.utils.translation import gettext as _
 
 
 # Get an instance of a logger
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 
 def generate_filename(filename):
     ext = filename.split('.')[-1]

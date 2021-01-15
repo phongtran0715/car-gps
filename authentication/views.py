@@ -26,10 +26,10 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.utils.translation import gettext as _
 from smtplib import SMTPException
-import logging
+# import logging
 
 # Get an instance of a logger
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 
 class UserRegistrationAPIView(generics.CreateAPIView):
     """
