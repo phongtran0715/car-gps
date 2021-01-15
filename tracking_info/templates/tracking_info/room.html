@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Room</title>
+</head>
+<body>
+    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
+    <!-- <label>Latitude</label>
+    <input id="latitude" type="text" size="30"><br>
+    <label>Longitude</label>
+    <input id="longitude" type="text" size="30"><br>
+    <input id="chat-message-submit" type="button" value="Send"> -->
+    {{ room_name|json_script:"room-name" }}
+    <script>
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/car/tracking/'
+            + roomName
+            + '/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            // document.querySelector('#chat-log').value += ('(' + data.message.latitude + ',' + data.message.longitude + ')\n');
+            document.querySelector('#chat-log').value += (JSON.stringify(data.data) + '\n');
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#latitude').focus();
+        document.querySelector('#latitude').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const latitudeInputDom = document.querySelector('#latitude');
+            const longitudeInputDom = document.querySelector('#longitude');
+            chatSocket.send(JSON.stringify({
+                'message': {
+                    'latitude' : latitudeInputDom.value,
+                    'longitude' : longitudeInputDom.value
+                }
+            }));
+            latitudeInputDom.value = '';
+            longitudeInputDom.value = '';
+        };
+    </script>
+</body>
+</html>
