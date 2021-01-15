@@ -6,11 +6,11 @@
 </head>
 <body>
     <textarea id="chat-log" cols="100" rows="20"></textarea><br>
-    <!-- <label>Latitude</label>
+    <label>Latitude</label>
     <input id="latitude" type="text" size="30"><br>
     <label>Longitude</label>
     <input id="longitude" type="text" size="30"><br>
-    <input id="chat-message-submit" type="button" value="Send"> -->
+    <input id="chat-message-submit" type="button" value="Send">
     {{ room_name|json_script:"room-name" }}
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
@@ -26,7 +26,7 @@
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             // document.querySelector('#chat-log').value += ('(' + data.message.latitude + ',' + data.message.longitude + ')\n');
-            document.querySelector('#chat-log').value += (JSON.stringify(data.data) + '\n');
+            document.querySelector('#chat-log').value += (JSON.stringify(data.message) + '\n');
         };
 
         chatSocket.onclose = function(e) {

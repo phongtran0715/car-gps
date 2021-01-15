@@ -34,7 +34,7 @@ class TrackingConsumer(AsyncWebsocketConsumer):
 			self.room_group_name,
 			{
 				'type': 'chat_message',
-				'data': message
+				'message': message
 			}
 		)
 
@@ -45,5 +45,5 @@ class TrackingConsumer(AsyncWebsocketConsumer):
 
 		# Send message to WebSocket
 		await self.send(text_data=json.dumps({
-			'data': message
+			'message': message
 		}))
