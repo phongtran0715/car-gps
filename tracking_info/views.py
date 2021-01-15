@@ -164,7 +164,7 @@ def insert_tracking_info_view(request, **kwargs):
                 # send message to admin app
                 channel_layer = get_channel_layer()
                 print("channel layer: {}".format(channel_layer))
-                async_to_sync(channel_layer.group_send)('tracking_phongtran0715', {
+                async_to_sync(channel_layer.group_send)('tracking_' + account.username, {
                     'type': 'chat_message',
                     "message": {
                         "latitude" : serializer.data['latitude'],
