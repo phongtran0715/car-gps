@@ -153,7 +153,7 @@ def insert_tracking_info_view(request, **kwargs):
                     speed_km = 0.0
 
                 new_info.speed = speed_km
-                account.save()
+                new_info.save()
 
                 data = {
                     'speed' : float("{:.1f}".format(speed_km)),
@@ -183,7 +183,7 @@ def insert_tracking_info_view(request, **kwargs):
                                         odometer=serializer.data['odometer'],
                                         timestamp=serializer.data['timestamp'])
                 new_info.speed = 0.0
-                account.save()
+                new_info.save()
                 data = {
                     'speed' : "0.0",
                     'distance' : 0,
