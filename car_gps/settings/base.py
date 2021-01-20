@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'django_crontab',
     'fcm_django',
     'channels',
+    'notifications',
 ]
 
 MIDDLEWARE = [

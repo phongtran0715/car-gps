@@ -27,6 +27,7 @@
   	{% if request.user.is_authenticated %}
 	  	<a class="p-2 text-dark" href="{% url 'home' %}">{% trans "Home" %}</a>
 	    <a class="p-2 text-dark" href="{% url 'get-promotions' %}">{% trans "Promotions" %}</a>
+	    <a class="p-2 text-dark" href="{% url 'get-notifications' %}">{% trans "Notification" %}</a>
 	    <a class="p-2 text-dark" href="{% url 'logout' %}">{% trans "Logout" %}</a>
 	{% else %}
 		<a class="p-2 text-dark" href="{% url 'home' %}">{% trans "Home" %}</a>

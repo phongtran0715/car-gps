@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('', include('promotions.urls')),
+    path('', include('notifications.urls')),
     path('car/tracking/', index, name='tracking_index'),
     path('car/tracking/<str:room_name>/', room, name='room'),
 

@@ -60,8 +60,9 @@ def get_history_tracking_view(request, **kwargs):
     if request.method == 'POST':
         page = request.data.get('page', 1)
         start_time = request.data.get('start_time')
-        end_time = request.data.get('end_time')
         start_time = datetime.datetime.strptime(start_time, '%Y-%m-%dT%H:%M:%SZ')
+
+        end_time = request.data.get('end_time')
         end_time = datetime.datetime.strptime(end_time, '%Y-%m-%dT%H:%M:%SZ')
 
         data = {}
@@ -85,7 +86,7 @@ def get_history_tracking_view(request, **kwargs):
             data['page'] = page
             data['total_page'] = paginator.num_pages
             data['page_size'] = 100
-            total_distance, avg_speed = get_total_distance(tracking_record)
+            total_distance, avg_speed = get_trip_info(tracking_record)
             data['total_distance'] = total_distance
             data['avg_speed'] = avg_speed
             data['first_record'] = {
@@ -146,17 +147,19 @@ def insert_tracking_info_view(request, **kwargs):
 
                 # Calculate speed information
                 distance = geodesic((latest_info.latitude, latest_info.longitude), (new_info.latitude,new_info.longitude)).km
-                
+                # check distance change
+                distance_m = distance * 1000
+
                 if delta_time != 0.0:
                     speed_km = (distance) / (delta_time / 3600)
                 else:
                     speed_km = 0.0
 
-                new_info.speed = speed_km
+                new_info.speed = round(speed_km)
                 new_info.save()
 
                 data = {
-                    'speed' : float("{:.1f}".format(speed_km)),
+                    'speed' : new_info.speed,
                     'distance' : 0,
                     'from' : latest_info.timestamp,
                     'to' : new_info.timestamp
@@ -207,7 +210,7 @@ def insert_tracking_info_view(request, **kwargs):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def get_total_distance(tracking_record):
+def get_trip_info(tracking_record):
     distance = 0
     avg_speed = 0
     for i in range(0, len(tracking_record) - 1):
