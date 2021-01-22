@@ -36,13 +36,15 @@ def get_live_tracking_view(request, **kwargs):
             return Response(data, status=status.HTTP_404_NOT_FOUND)
         if info.speed is None:
             info.speed = 0
+
+        distance_day = get_distance_latest_day(account.id)
         data = {
             "latitude": info.latitude,
             "longitude": info.longitude,
             "gas": -1,
             "gps_status": info.gps_status,
             "speed": info.speed,
-            "odometer": -1,
+            "odometer": distance_day,
             "timestamp": info.timestamp
         }
         return Response(data, status=status.HTTP_200_OK)
@@ -157,10 +159,12 @@ def insert_tracking_info_view(request, **kwargs):
 
                 new_info.speed = round(speed_km)
                 new_info.save()
+                
+                distance_day = get_distance_latest_day(account.id)
 
                 data = {
                     'speed' : new_info.speed,
-                    'distance' : 0,
+                    'distance' : distance_day,
                     'from' : latest_info.timestamp,
                     'to' : new_info.timestamp
                 }
@@ -224,6 +228,16 @@ def get_trip_info(tracking_record):
         avg_speed = (distance) / (delta_time / 3600)
 
     return round(distance), round(avg_speed) 
+
+def get_distance_latest_day(user_id):
+    today = datetime.date.today()
+    print("Today is : {}".format(today))
+    info = CarTrackingInfo.objects.filter(timestamp__year=today.year, timestamp__month=today.month, timestamp__day=today.day, user_id=user_id)
+    distance = 0
+    for i in range(0, len(info) - 1):
+        distance += geodesic((info[i].latitude, info[i].longitude), 
+            (info[i+1].latitude, info[i+1].longitude)).km
+    return round(distance)
 
 
 def index(request):
