@@ -37,6 +37,9 @@ def get_live_tracking_view(request, **kwargs):
         if info.speed is None:
             info.speed = 0
 
+        # calculate delta timestamp
+        
+
         distance_day = get_distance_latest_day(account.id)
         data = {
             "latitude": info.latitude,
@@ -139,6 +142,19 @@ def insert_tracking_info_view(request, **kwargs):
         if serializer.is_valid():
             if account.car_info.all().count() > 0:
                 latest_info = account.car_info.latest('timestamp')
+                # Calculate speed information
+                distance = geodesic((latest_info.latitude, latest_info.longitude), (serializer.data['latitude'],serializer.data['longitude'])).km
+                # check distance change
+                distance_m = distance * 1000
+                if distance_m < 20:
+                    data = {
+                        'speed' : latest_info.speed,
+                        'distance' : distance_m,
+                        'from' : latest_info.timestamp,
+                        'to' : serializer.data['timestamp']
+                    }
+                    return Response(data, status=status.HTTP_200_OK)
+
                 new_info = account.car_info.create(latitude=serializer.data['latitude'], longitude=serializer.data['longitude'],
                                         gas=serializer.data['gas'], gps_status=serializer.data['gps_status'],
                                         odometer=serializer.data['odometer'],
@@ -147,13 +163,6 @@ def insert_tracking_info_view(request, **kwargs):
                 new_time = datetime.datetime.strptime(new_info.timestamp, '%Y-%m-%dT%H:%M:%SZ')
                 delta_time = new_time - latest_info.timestamp.replace(tzinfo=None)
                 delta_time = delta_time.total_seconds()
-
-                # Calculate speed information
-                distance = geodesic((latest_info.latitude, latest_info.longitude), (new_info.latitude,new_info.longitude)).km
-                # check distance change
-                distance_m = distance * 1000
-                if distance_m < 20:
-                    return
 
                 if delta_time != 0.0:
                     speed_km = (distance) / (delta_time / 3600)
