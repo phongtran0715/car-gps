@@ -152,6 +152,8 @@ def insert_tracking_info_view(request, **kwargs):
                 distance = geodesic((latest_info.latitude, latest_info.longitude), (new_info.latitude,new_info.longitude)).km
                 # check distance change
                 distance_m = distance * 1000
+                if distance < 15:
+                    return
 
                 if delta_time != 0.0:
                     speed_km = (distance) / (delta_time / 3600)
@@ -170,19 +172,19 @@ def insert_tracking_info_view(request, **kwargs):
                     'to' : new_info.timestamp
                 }
                 # send message to admin app
-                channel_layer = get_channel_layer()
-                print("channel layer: {}".format(channel_layer))
-                async_to_sync(channel_layer.group_send)('tracking_' + account.username, {
-                    'type': 'chat_message',
-                    "message": {
-                        "latitude" : serializer.data['latitude'],
-                        "longitude" : serializer.data['longitude'],
-                        "gas" : serializer.data['gas'],
-                        "gps_status" : serializer.data['gps_status'],
-                        "odometer" : serializer.data['odometer'],
-                        "timestamp" : serializer.data['timestamp']
-                    }
-                })
+                # channel_layer = get_channel_layer()
+                # print("channel layer: {}".format(channel_layer))
+                # async_to_sync(channel_layer.group_send)('tracking_' + account.username, {
+                #     'type': 'chat_message',
+                #     "message": {
+                #         "latitude" : serializer.data['latitude'],
+                #         "longitude" : serializer.data['longitude'],
+                #         "gas" : serializer.data['gas'],
+                #         "gps_status" : serializer.data['gps_status'],
+                #         "odometer" : serializer.data['odometer'],
+                #         "timestamp" : serializer.data['timestamp']
+                #     }
+                # })
 
                 return Response(data, status=status.HTTP_200_OK)
             else:
