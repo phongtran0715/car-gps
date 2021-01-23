@@ -145,15 +145,15 @@ def insert_tracking_info_view(request, **kwargs):
                 # Calculate speed information
                 distance = geodesic((latest_info.latitude, latest_info.longitude), (serializer.data['latitude'],serializer.data['longitude'])).km
                 # check distance change
-                distance_m = distance * 1000
-                if distance_m < 20:
-                    data = {
-                        'speed' : latest_info.speed,
-                        'distance' : distance_m,
-                        'from' : latest_info.timestamp,
-                        'to' : serializer.data['timestamp']
-                    }
-                    return Response(data, status=status.HTTP_200_OK)
+                # distance_m = distance * 1000
+                # if distance_m < 20:
+                #     data = {
+                #         'speed' : latest_info.speed,
+                #         'distance' : distance_m,
+                #         'from' : latest_info.timestamp,
+                #         'to' : serializer.data['timestamp']
+                #     }
+                #     return Response(data, status=status.HTTP_200_OK)
 
                 new_info = account.car_info.create(latitude=serializer.data['latitude'], longitude=serializer.data['longitude'],
                                         gas=serializer.data['gas'], gps_status=serializer.data['gps_status'],
