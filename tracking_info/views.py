@@ -152,7 +152,7 @@ def insert_tracking_info_view(request, **kwargs):
                 distance = geodesic((latest_info.latitude, latest_info.longitude), (new_info.latitude,new_info.longitude)).km
                 # check distance change
                 distance_m = distance * 1000
-                if distance < 15:
+                if distance_m < 20:
                     return
 
                 if delta_time != 0.0:
