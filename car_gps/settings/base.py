@@ -207,7 +207,7 @@ SIMPLE_JWT = {
 # }
 
 CRONJOBS = [
-    ('* * * * *', 'tracking_info.cron.db_rotation_job', '>> /tmp/scheduled_job.log')
+    ('* * * * *', 'tracking_info.cron.db_rotation_job', '>> /tmp/scheduled_job.log'),
 ]
 
 FCM_DJANGO_SETTINGS = {
