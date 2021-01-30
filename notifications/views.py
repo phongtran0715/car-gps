@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import Notifications
 from .forms import NotificationsForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 # @api_view(['GET'])
@@ -10,11 +11,22 @@ from .forms import NotificationsForm
 
 def get_notification_view(request, *args, **kwargs):
 
-	notifications = Notifications.objects.all()
-	context = {
-		'notifications' : notifications
-	}
-	return render(request, "notifications/notifications.html", context)
+    notifications = Notifications.objects.all()
+    #context = {
+    #	'notifications' : notifications
+    #}
+    paginator = Paginator(notifications, 4) # Show 4 notifications per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    def next_page_number(self):
+        return self.paginator.validate_number(self.number + 1)
+
+    def previous_page_number(self):
+        return self.paginator.validate_number(self.number - 1)
+
+    return render(request, "notifications/notifications.html", {"page_obj":page_obj})
+	#return render(request, "notifications/notifications.html", context)
 
 def notification_new(request):
     if request.method == "POST":
