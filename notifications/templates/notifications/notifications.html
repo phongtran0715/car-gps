@@ -2,5 +2,51 @@
 {% load i18n %}
 
 {% block content %}
-<h1>This is notification page</h1>
+<h1 style="text-align: center;">All Notifications</h1>
+
+<div class="container">
+
+<section class="content-header" style="padding-bottom: 30px;">
+  <table class="table table-striped">
+  	<thead>
+  		<tr>
+  			<th scope="col">
+  				<div class="pull-right search">
+  					<input name="search" id="seach">
+  					<button type="submit">Search</button>
+  				</div>
+  			</th>
+  			<th scope="col"><a href="{% url 'notification_new' %}" class="btn btn-primary pull-right">Create New</a></th>
+  		</tr>
+  	</thead>
+  </table>
+</section>
+
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">title</th>
+      <th scope="col">body</th>
+      <th scope="col">image</th>
+      <th scope="col">created at</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{% for object in notifications %}
+    <tr>
+      <th scope="row">{{ object.id }}</th>
+      <td>{{ object.title }}</td>
+      <td>{{ object.body }}</td>
+      <td><a href="{{ object.url }}">{{ object.image }}</a></td>
+      <td>{{ object.created_at }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+  </tbody>
+</table>
+
+</div>
+
 {% endblock content %}

@@ -1,19 +1,36 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import Notifications
-
+from .forms import NotificationsForm
 
 # Create your views here.
-@api_view(['GET'])
+# @api_view(['GET'])
 @permission_classes((IsAuthenticated,))
-def get_notification_view(request, *args, **kwargs):
-	context = {
-		'notifications' : Notifications.objects.all()
-	}
 
+def get_notification_view(request, *args, **kwargs):
+
+	notifications = Notifications.objects.all()
+	context = {
+		'notifications' : notifications
+	}
 	return render(request, "notifications/notifications.html", context)
 
+
+def notification_new(request):
+    if request.method == "POST":
+        form = NotificationsForm(request.POST, request.FILES)
+        if form.is_valid():
+            notification = form.save(commit=False)
+            notification.author = request.user
+            img_obj = form.instance
+            notification.url = img_obj.image.url
+            notification.save()
+            return redirect('../../notifications')
+    else:
+        form = NotificationsForm()
+        print("error")
+    return render(request, 'notifications/notification_new.html', {'form': form})
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated,))
