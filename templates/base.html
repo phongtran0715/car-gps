@@ -13,7 +13,9 @@
 
 {% include 'snippets/header.html' %}
 
+{% if user.is_authenticated %}
 <a href="{% url 'notification_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+{% endif %}
 
 <!-- Body -->
 <style type="text/css">

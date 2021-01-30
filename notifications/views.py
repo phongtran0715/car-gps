@@ -16,7 +16,6 @@ def get_notification_view(request, *args, **kwargs):
 	}
 	return render(request, "notifications/notifications.html", context)
 
-
 def notification_new(request):
     if request.method == "POST":
         form = NotificationsForm(request.POST, request.FILES)

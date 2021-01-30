@@ -2,6 +2,8 @@
 {% load i18n %}
 
 {% block content %}
+
+{% if user.is_staff %}
 <h1 style="text-align: center;">All Notifications</h1>
 
 <div class="container">
@@ -16,7 +18,9 @@
   					<button type="submit">Search</button>
   				</div>
   			</th>
+			{% if user.is_authenticated %}
   			<th scope="col"><a href="{% url 'notification_new' %}" class="btn btn-primary pull-right">Create New</a></th>
+  			{% endif %}
   		</tr>
   	</thead>
   </table>
@@ -46,7 +50,8 @@
     <tr>
   </tbody>
 </table>
-
 </div>
+
+{% endif %}
 
 {% endblock content %}

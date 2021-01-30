@@ -6,7 +6,7 @@ from django.utils import timezone
 class Notifications(models.Model):
 	title = models.CharField(max_length=128)
 	body = models.CharField(max_length=250)
-	image = models.ImageField(upload_to='images')
+	image = models.ImageField()
 	url = models.CharField(max_length=1024, blank=True)
 	user_id = models.ManyToManyField(User, blank=True)
 	created_at = models.DateTimeField(default=timezone.now)
