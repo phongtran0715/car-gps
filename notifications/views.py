@@ -20,7 +20,7 @@ def get_notification_view(request, *args, **kwargs):
         notifications = notifications.filter(
             title__icontains=query
         ).distinct()
-        paginator = Paginator(notifications, 4) # Show 25 contacts per pagepaginator = Paginator(contact_list, 25) # Show 25 contacts per page
+        paginator = Paginator(notifications, 10) # Show 25 contacts per pagepaginator = Paginator(contact_list, 25) # Show 25 contacts per page
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
   
@@ -31,7 +31,7 @@ def get_notification_view(request, *args, **kwargs):
             return self.paginator.validate_number(self.number - 1)
         return render(request, "notifications/notifications.html", {"page_obj":page_obj})
     else:    
-	    paginator = Paginator(notifications, 4) # Show 4 notifications per page
+	    paginator = Paginator(notifications, 10) # Show 4 notifications per page
 	    page_number = request.GET.get('page')
 	    page_obj = paginator.get_page(page_number)
 
@@ -47,17 +47,26 @@ def get_notification_view(request, *args, **kwargs):
 def notification_new(request):
     if request.method == "POST":
         form = NotificationsForm(request.POST, request.FILES)
+        form_image = NotificationsForm(request.POST)
         if form.is_valid():
             notification = form.save(commit=False)
             notification.author = request.user
             img_obj = form.instance
-            notification.url = img_obj.image.url
+            if img_obj.image == "null":
+                notification.image = ""
+            else:
+                notification.url = img_obj.image.url
             notification.save()
             return redirect('../../notifications')
     else:
         form = NotificationsForm()
         print("error")
     return render(request, 'notifications/notification_new.html', {'form': form})
+
+
+def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
+        form.instance.permissions.add(request.user)
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated,))
