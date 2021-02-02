@@ -36,7 +36,7 @@ msgstr "Đội ngũ hỗ trợ Vinatrack"
 
 #: authentication/serializers.py:13
 msgid "Email address must be unique."
-msgstr "Địa chỉ email đã được sử dụng để đăng kí trước đó"
+msgstr "Địa chỉ email đã được sử dụng để đăng ký trước đó"
 
 #: authentication/serializers.py:24
 msgid "Those passwords don't match."
@@ -71,7 +71,7 @@ msgstr "Dữ liệu không hợp lệ"
 msgid "Thank you for your email confirmation. Now you can login your account."
 msgstr ""
 "Cảm ơn bạn đã xác minh email. Bây giờ bạn có thể đăng nhaập bằng user đã "
-"đăng kí"
+"đăng ký"
 
 #: authentication/views.py:175
 msgid "Activation link is invalid!"

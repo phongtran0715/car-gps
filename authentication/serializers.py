@@ -9,9 +9,9 @@ from django.utils.translation import gettext as _
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField()
-    password = serializers.CharField()
-    confirm_password = serializers.CharField()
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(required=True)
+    confirm_password = serializers.CharField(required=True)
 
     class Meta:
         model = User
@@ -24,6 +24,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def validate_password(self, password):
         data = self.get_initial()
+        password_validation.validate_password(password)
         if password != data['confirm_password']:
             raise serializers.ValidationError(_("Those passwords don't match."), code="password_mismatch")
         return password
@@ -66,6 +67,7 @@ class ChangePasswordSerializer(serializers.Serializer):
     """
     current_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
+    confirm_password = serializers.CharField(required=True)
     refresh = serializers.CharField()
 
     def validate_current_password(self, value):
@@ -73,9 +75,12 @@ class ChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError(_('Current password does not match'), code="password_invalid")
         return value
 
-    def validate_new_password(self, value):
-        password_validation.validate_password(value)
-        return value
+    def validate_new_password(self, password):
+        password_validation.validate_password(password)
+        data = self.get_initial()
+        if password != data['confirm_password']:
+            raise serializers.ValidationError(_("Those passwords don't match."), code="password_mismatch")
+        return password
 
 
 class RefreshTokenSerializer(serializers.Serializer):
