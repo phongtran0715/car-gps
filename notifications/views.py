@@ -47,7 +47,6 @@ def get_notification_view(request, *args, **kwargs):
 def notification_new(request):
     if request.method == "POST":
         form = NotificationsForm(request.POST, request.FILES)
-        form_image = NotificationsForm(request.POST)
         if form.is_valid():
             notification = form.save(commit=False)
             notification.author = request.user
@@ -57,6 +56,7 @@ def notification_new(request):
             else:
                 notification.url = img_obj.image.url
             notification.save()
+            form.save_m2m()
             return redirect('../../notifications')
     else:
         form = NotificationsForm()
