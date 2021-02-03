@@ -38,7 +38,7 @@ def get_live_tracking_view(request, **kwargs):
             info.speed = 0
 
         # calculate delta timestamp
-
+        
 
         distance_day = get_distance_latest_day(account.id)
         data = {
@@ -145,20 +145,21 @@ def insert_tracking_info_view(request, **kwargs):
                 # Calculate speed information
                 distance = geodesic((latest_info.latitude, latest_info.longitude), (serializer.data['latitude'],serializer.data['longitude'])).km
                 # check distance change
-                distance_m = distance * 1000
-                if distance_m < 10:
-                    data = {
-                        'speed' : latest_info.speed,
-                        'distance' : distance_m,
-                        'from' : latest_info.timestamp,
-                        'to' : serializer.data['timestamp']
-                    }
-                    return Response(data, status=status.HTTP_200_OK)
+                # distance_m = distance * 1000
+                # if distance_m < 20:
+                #     data = {
+                #         'speed' : latest_info.speed,
+                #         'distance' : distance_m,
+                #         'from' : latest_info.timestamp,
+                #         'to' : serializer.data['timestamp']
+                #     }
+                #     return Response(data, status=status.HTTP_200_OK)
 
                 new_info = account.car_info.create(latitude=serializer.data['latitude'], longitude=serializer.data['longitude'],
                                         gas=serializer.data['gas'], gps_status=serializer.data['gps_status'],
                                         odometer=serializer.data['odometer'],
                                         timestamp=serializer.data['timestamp'])
+                
                 new_time = datetime.datetime.strptime(new_info.timestamp, '%Y-%m-%dT%H:%M:%SZ')
                 delta_time = new_time - latest_info.timestamp.replace(tzinfo=None)
                 delta_time = delta_time.total_seconds()
@@ -170,7 +171,7 @@ def insert_tracking_info_view(request, **kwargs):
 
                 new_info.speed = round(speed_km)
                 new_info.save()
-
+                
                 distance_day = get_distance_latest_day(account.id)
 
                 data = {
@@ -180,19 +181,19 @@ def insert_tracking_info_view(request, **kwargs):
                     'to' : new_info.timestamp
                 }
                 # send message to admin app
-                channel_layer = get_channel_layer()
-                print("channel layer: {}".format(channel_layer))
-                async_to_sync(channel_layer.group_send)('tracking_' + account.username, {
-                    'type': 'chat_message',
-                    "message": {
-                        "latitude" : serializer.data['latitude'],
-                        "longitude" : serializer.data['longitude'],
-                        "gas" : serializer.data['gas'],
-                        "gps_status" : serializer.data['gps_status'],
-                        "odometer" : serializer.data['odometer'],
-                        "timestamp" : serializer.data['timestamp']
-                    }
-                })
+                # channel_layer = get_channel_layer()
+                # print("channel layer: {}".format(channel_layer))
+                # async_to_sync(channel_layer.group_send)('tracking_' + account.username, {
+                #     'type': 'chat_message',
+                #     "message": {
+                #         "latitude" : serializer.data['latitude'],
+                #         "longitude" : serializer.data['longitude'],
+                #         "gas" : serializer.data['gas'],
+                #         "gps_status" : serializer.data['gps_status'],
+                #         "odometer" : serializer.data['odometer'],
+                #         "timestamp" : serializer.data['timestamp']
+                #     }
+                # })
 
                 return Response(data, status=status.HTTP_200_OK)
             else:
