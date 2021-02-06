@@ -9,6 +9,7 @@ from django.core.paginator import (Paginator, EmptyPage,
 	PageNotAnInteger, InvalidPage)
 from .serializers import NotificationsSerializer
 import json
+from fcm_django.models import FCMDevice
 
 # Create your views here.
 # @api_view(['GET'])
@@ -47,7 +48,6 @@ def get_notification_view(request, *args, **kwargs):
 			return self.paginator.validate_number(self.number - 1)
 
 		return render(request, "notifications/notifications.html", {"page_obj":page_obj})
-		#return render(request, "notifications/notifications.html", context)
 
 def notification_new(request):
 	if request.method == "POST":
@@ -62,6 +62,14 @@ def notification_new(request):
 				notification.url = img_obj.image.url
 			notification.save()
 			form.save_m2m()
+			# TODO: send message to specific device
+			devices = FCMDevice.objects.all()
+			devices.send_message(data={
+					"body" : notification.body,
+					"title" : notification.title,
+					"image" : "https://dantri.com.vn/",
+					"url" : "https://dantri.com.vn/"
+			})
 			return redirect('../../notifications')
 	else:
 		form = NotificationsForm()
