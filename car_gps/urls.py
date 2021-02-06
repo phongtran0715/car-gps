@@ -6,8 +6,14 @@ from django.conf.urls import include, url
 from authentication.views import activate_view
 from home.views import reset_password_view
 from promotions.views import api_get_promotion_view
+from notifications.views import api_get_notification_view
 from django.contrib.auth import views as auth_views
 from tracking_info.views import index, room
+
+from fcm_django.api.rest_framework import FCMDeviceAuthorizedViewSet
+from rest_framework.routers import DefaultRouter
+router = DefaultRouter()
+router.register(r'devices', FCMDeviceAuthorizedViewSet)
 
 urlpatterns = [
     
@@ -20,6 +26,8 @@ urlpatterns = [
     url(r'^api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     
     re_path(r'^api/(?P<version>(v1|v2))/promotions/', api_get_promotion_view),
+    re_path(r'^api/(?P<version>(v1|v2))/notifications/', api_get_notification_view),
+    re_path(r'^api/(?P<version>(v1|v2))/', include(router.urls)),
 
     # Web route
     path('admin/', admin.site.urls),
