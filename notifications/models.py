@@ -8,7 +8,7 @@ class Notifications(models.Model):
 	body = models.CharField(max_length=250)
 	image = models.ImageField(blank=True, default="null")
 	url = models.CharField(max_length=1024, blank=True)
-	user_id = models.ManyToManyField(User, blank=True)
+	user_id = models.ManyToManyField(User, blank=True, related_name="notifications")
 	created_at = models.DateTimeField(default=timezone.now)
 
 	class Meta:

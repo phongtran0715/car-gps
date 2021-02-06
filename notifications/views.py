@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from rest_framework.response import Response
 from .models import Notifications
 from .forms import NotificationsForm
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import (Paginator, EmptyPage,
+	PageNotAnInteger, InvalidPage)
+from .serializers import NotificationsSerializer
+import json
 
 # Create your views here.
 # @api_view(['GET'])
@@ -11,79 +16,129 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def get_notification_view(request, *args, **kwargs):
 
-    notifications = Notifications.objects.all()
-    #context = {
-    #	'notifications' : notifications
-    #}
-    query = request.GET.get("q")
-    if query:
-        notifications = notifications.filter(
-            title__icontains=query
-        ).distinct()
-        paginator = Paginator(notifications, 10) # Show 25 contacts per pagepaginator = Paginator(contact_list, 25) # Show 25 contacts per page
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
+	notifications = Notifications.objects.all()
+	#context = {
+	#	'notifications' : notifications
+	#}
+	query = request.GET.get("q")
+	if query:
+		notifications = notifications.filter(
+			title__icontains=query
+		).distinct()
+		paginator = Paginator(notifications, 10) # Show 25 contacts per pagepaginator = Paginator(contact_list, 25) # Show 25 contacts per page
+		page_number = request.GET.get('page')
+		page_obj = paginator.get_page(page_number)
   
-        def next_page_number(self):
-            return self.paginator.validate_number(self.number + 1)
+		def next_page_number(self):
+			return self.paginator.validate_number(self.number + 1)
 
-        def previous_page_number(self):
-            return self.paginator.validate_number(self.number - 1)
-        return render(request, "notifications/notifications.html", {"page_obj":page_obj})
-    else:    
-	    paginator = Paginator(notifications, 10) # Show 4 notifications per page
-	    page_number = request.GET.get('page')
-	    page_obj = paginator.get_page(page_number)
+		def previous_page_number(self):
+			return self.paginator.validate_number(self.number - 1)
+		return render(request, "notifications/notifications.html", {"page_obj":page_obj})
+	else:    
+		paginator = Paginator(notifications, 10) # Show 4 notifications per page
+		page_number = request.GET.get('page')
+		page_obj = paginator.get_page(page_number)
 
-	    def next_page_number(self):
-	        return self.paginator.validate_number(self.number + 1)
+		def next_page_number(self):
+			return self.paginator.validate_number(self.number + 1)
 
-	    def previous_page_number(self):
-	        return self.paginator.validate_number(self.number - 1)
+		def previous_page_number(self):
+			return self.paginator.validate_number(self.number - 1)
 
-	    return render(request, "notifications/notifications.html", {"page_obj":page_obj})
+		return render(request, "notifications/notifications.html", {"page_obj":page_obj})
 		#return render(request, "notifications/notifications.html", context)
 
 def notification_new(request):
-    if request.method == "POST":
-        form = NotificationsForm(request.POST, request.FILES)
-        if form.is_valid():
-            notification = form.save(commit=False)
-            notification.author = request.user
-            img_obj = form.instance
-            if img_obj.image == "null":
-                notification.image = ""
-            else:
-                notification.url = img_obj.image.url
-            notification.save()
-            form.save_m2m()
-            return redirect('../../notifications')
-    else:
-        form = NotificationsForm()
-        print("error")
-    return render(request, 'notifications/notification_new.html', {'form': form})
+	if request.method == "POST":
+		form = NotificationsForm(request.POST, request.FILES)
+		if form.is_valid():
+			notification = form.save(commit=False)
+			notification.author = request.user
+			img_obj = form.instance
+			if img_obj.image == "null":
+				notification.image = ""
+			else:
+				notification.url = img_obj.image.url
+			notification.save()
+			form.save_m2m()
+			return redirect('../../notifications')
+	else:
+		form = NotificationsForm()
+		print("error")
+	return render(request, 'notifications/notification_new.html', {'form': form})
 
 
 def save_related(self, request, form, formsets, change):
-        super().save_related(request, form, formsets, change)
-        form.instance.permissions.add(request.user)
+		super().save_related(request, form, formsets, change)
+		form.instance.permissions.add(request.user)
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated,))
 def api_get_notification_view(request, *args, **kwargs):
-	# TODO : get notification for user
-	data = {
-			"body" : "The Amazing Spider-Man 2 Getting an IMAX 3D Release",
-			"title" : "Spider-Man 2",
-			"image" : "https://www.comingsoon.net/assets/uploads/2013/12/file_112239_0_spiderman2trailer.jpg",
-			"hyperlink" : "https://www.comingsoon.net/movies/news/112239-the-amazing-spider-man-2-getting-an-imax-3d-release" 
-		}
-	return Response(data, status=status.HTTP_200_OK)
+	try:
+		account = request.user
+	except User.DoesNotExist:
+		return Response(status=status.HTTP_404_NOT_FOUND)
+
+	if request.method == 'GET':
+		page = request.data.get('page', 1)
+		data = {}
+		result = []
+		try:
+			noti_items = account.notifications.all()
+		except:
+			data = {
+				"message": "Not found tracking data"
+			}
+			return Response(data, status=status.HTTP_404_NOT_FOUND)
+
+		if noti_items.exists() == False :
+			data = {
+				"message": "Not found tracking data"
+			}
+			return Response(data, status=status.HTTP_404_NOT_FOUND)
+		else:
+			paginator = Paginator(noti_items, 10)
+			try:
+				data['total_record'] = paginator.count
+				data['page'] = page
+				data['total_page'] = paginator.num_pages
+				data['page_size'] = 10
+				if page > paginator.num_pages or page <= 0:
+					data['data'] = []
+				else:
+					page_data = paginator.page(page)
+					for item in page_data:
+						serializer = NotificationsSerializer(item)
+						item_data = serializer.data 
+						if request.is_secure():
+							protocol = 'https'
+						else:
+							protocol = 'http'
+						if item_data['image'] is not None:
+							item_data['image'] = protocol + '://' + request.get_host() + item_data['image']
+						# TODO: fix data for url
+						item_data['url'] = item_data['image']
+						result.append(item_data)
+					data['data'] = result
+			except PageNotAnInteger:
+				data['data'] = paginator.page(1)
+			except EmptyPage:
+				data['data'] = paginator.page(paginator.num_pages)
+			except InvalidPage:
+				data = {
+					"message": "Invalid page"
+				}
+				return Response(data, status=status.HTTP_404_NOT_FOUND)
+		return Response(data, status=status.HTTP_200_OK)
+	else:
+		return Response(status=status.HTTP_400_BAD_REQUEST)
 
 def htmlspecialchars(text):
-    return (
-        text.replace("&", "&amp;").
-        replace('"', "&quot;").
-        replace("<", "&lt;").
-        replace(">", "&gt;")
-    )
+	return (
+		text.replace("&", "&amp;").
+		replace('"', "&quot;").
+		replace("<", "&lt;").
+		replace(">", "&gt;")
+	)
