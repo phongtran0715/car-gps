@@ -7,7 +7,10 @@ from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from django.utils.translation import gettext as _
 from smtplib import SMTPException
+import logging
 
+
+logger = logging.getLogger(__name__)
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
@@ -49,4 +52,4 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     try:
         msg.send()
     except SMTPException as e:
-        print('There was an error sending an email: ', e)
+        logger.error('There was an error sending an email: {}'.format(e))

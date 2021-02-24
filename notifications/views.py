@@ -10,6 +10,10 @@ from django.core.paginator import (Paginator, EmptyPage,
 from .serializers import NotificationsSerializer
 import json
 from fcm_django.models import FCMDevice
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 # @api_view(['GET'])
@@ -73,7 +77,7 @@ def notification_new(request):
 			return redirect('../../notifications')
 	else:
 		form = NotificationsForm()
-		print("error")
+		logger.error("Request method not allow")
 	return render(request, 'notifications/notification_new.html', {'form': form})
 
 

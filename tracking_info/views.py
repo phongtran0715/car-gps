@@ -17,7 +17,10 @@ from django.core.paginator import InvalidPage
 from django.shortcuts import render
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+import logging
 
+
+logger = logging.getLogger(__name__)
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated,))
@@ -247,7 +250,6 @@ def get_trip_info(tracking_record):
 
 def get_distance_latest_day(user_id):
     today = datetime.date.today()
-    print("Today is : {}".format(today))
     info = CarTrackingInfo.objects.filter(timestamp__year=today.year, timestamp__month=today.month, timestamp__day=today.day, user_id=user_id)
     distance = 0
     for i in range(0, len(info) - 1):

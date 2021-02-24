@@ -15,7 +15,6 @@ import logging
 from django.utils.translation import gettext as _
 
 
-# Get an instance of a logger
 logger = logging.getLogger(__name__)
 
 def generate_filename(filename):
