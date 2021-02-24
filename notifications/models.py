@@ -11,6 +11,9 @@ class Notifications(models.Model):
 	user_id = models.ManyToManyField(User, blank=True, related_name="notifications")
 	created_at = models.DateTimeField(default=timezone.now)
 
+	def __str__(self):
+		return self.title
+
 	class Meta:
 		db_table = "notifications"
 		ordering = ['created_at']
