@@ -166,45 +166,34 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': datetime.timedelta(days=1),
 }
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': True,
-#     'root': {
-#         'level': 'WARNING',
-#         'handlers': ['general'],
-#     },
-#     'formatters': {
-#         'default': {
-#             'format': '%(levelname)s %(asctime)s %(message)s'
-#         }
-#     },
-#     'handlers': {
-#         'general': {
-#             'level': 'INFO',
-#             'class': 'logging.handlers.WatchedFileHandler',
-#             'formatter': 'default',
-#             'filename': 'log/general.log'
-#         },
-#         'user': {
-#             'level': 'INFO',
-#             'class': 'logging.handlers.WatchedFileHandler',
-#             'formatter': 'default',
-#             'filename': 'log/user.log'
-#         }
-#     },
-#     'loggers': {
-#         'general': {
-#             'level': 'INFO',
-#             'handlers': ['general'],
-#             'propagate': False,
-#         },
-#         'user': {
-#             'level': 'INFO',
-#             'handlers': ['user'],
-#             'propagate': False,
-#         }
-#     }
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'root': {
+        'level': 'INFO',
+        'handlers': ['file'],
+    },
+    'formatters': {
+        'default': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        }
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'formatter': 'default',
+            'filename': 'log/general.log'
+        }
+    },
+    'loggers': {
+        'django': {
+            'level': 'INFO',
+            'handlers': ['file'],
+            'propagate': True,
+        }
+    }
+}
 
 CRONJOBS = [
     ('* * * * *', 'tracking_info.cron.db_rotation_job', '>> /tmp/scheduled_job.log'),
