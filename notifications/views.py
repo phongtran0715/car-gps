@@ -130,8 +130,7 @@ def api_get_notification_view(request, *args, **kwargs):
 							protocol = 'http'
 						if item_data['image'] is not None:
 							item_data['image'] = protocol + '://' + request.get_host() + item_data['image']
-						# TODO: fix data for url
-						item_data['url'] = item_data['image']
+						item_data['url'] = item_data['url']
 						result.append(item_data)
 					data['data'] = result
 			except PageNotAnInteger:
