@@ -177,11 +177,23 @@ msgid "Return to home"
 msgstr "Quay về trang chủ"
 
 # password validation message
-msgid "This password is too short. It must contain at least %(min_length)d character."
-msgstr "Mật khẩu quá ngắn. Mật khẩu phải gồm ít nhất %(min_length)d kí tự"
+msgid ""
+"This password is too short. It must contain at least %(min_length)d "
+"character."
+msgid_plural ""
+"This password is too short. It must contain at least %(min_length)d "
+"characters."
+msgstr[0] "Mật khẩu quá ngắn. Mật khẩu phải gồm ít nhất %(min_length)d kí tự"
 
-msgid "This password is too short. It must contain at least %(min_length)d characters."
-msgstr "Mật khẩu quá ngắn. Mật khẩu phải gồm ít nhất %(min_length)d kí tự"
+msgid ""
+"Enter a valid username. This value may contain only English letters, "
+"numbers, and @/./+/-/_ characters."
+msgstr "Tên đăng nhập chỉ bao gồm kí tự, chữ số và kí tự đặc biệt @/./+/-/_"
+
+msgid ""
+"Enter a valid username. This value may contain only letters, numbers, and "
+"@/./+/-/_ characters."
+msgstr "Tên đăng nhập chỉ bao gồm kí tự, chữ số và kí tự đặc biệt @/./+/-/_"
 
 msgid "The password is too similar to the %(verbose_name)s."
 msgstr "Mật khẩu không được trùng với thông tin người dùng %(verbose_name)s."
