@@ -42,7 +42,6 @@ def get_live_tracking_view(request, **kwargs):
 
         # calculate delta timestamp
         
-
         distance_day = get_distance_latest_day(account.id)
         data = {
             "latitude": info.latitude,
@@ -94,7 +93,7 @@ def get_history_tracking_view(request, **kwargs):
             data['page'] = page
             data['total_page'] = paginator.num_pages
             data['page_size'] = 100
-            total_distance, avg_speed , stop_time = get_trip_info(tracking_record)
+            total_distance, avg_speed , stop_time, stop_locations = get_trip_info(tracking_record)
             data['total_distance'] = total_distance
             data['avg_speed'] = avg_speed
             data['stop_count'] = stop_time
@@ -107,6 +106,10 @@ def get_history_tracking_view(request, **kwargs):
                 'latitude' : tracking_record.last().latitude,
                 'longitude' : tracking_record.last().longitude,
                 'timestamp' : tracking_record.last().timestamp,
+            }
+
+            data['stop_locations'] = {
+                "data" : stop_locations
             }
 
             if page > paginator.num_pages or page <= 0:
@@ -233,12 +236,20 @@ def get_trip_info(tracking_record):
     distance = 0
     avg_speed = 0
     stop_time = 0
+    stop_locations = []
     for i in range(0, len(tracking_record) - 1):
         distance += geodesic((tracking_record[i].latitude, tracking_record[i].longitude), 
             (tracking_record[i+1].latitude, tracking_record[i+1].longitude)).km
         # if location dose not change >= 5 min -> car stop
-        if tracking_record[i+1].timestamp - tracking_record[i].timestamp > datetime.timedelta(minutes=5):
+        delta_time = tracking_record[i+1].timestamp - tracking_record[i].timestamp
+        if delta_time > datetime.timedelta(minutes=5):
             stop_time += 1
+            location = {
+                "latitude" : tracking_record[i].latitude,
+                "longitude" : tracking_record[i].longitude,
+                "duration" : int(delta_time.total_seconds() / 60)
+            }
+            stop_locations.append(location)
 
     end_time = tracking_record.last().timestamp
     start_time = tracking_record.first().timestamp
@@ -246,7 +257,7 @@ def get_trip_info(tracking_record):
     if delta_time != 0:
         avg_speed = (distance) / (delta_time / 3600)
 
-    return round(distance), round(avg_speed) , round(stop_time)
+    return round(distance), round(avg_speed) , round(stop_time), stop_locations
 
 def get_distance_latest_day(user_id):
     today = datetime.date.today()
