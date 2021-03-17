@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['clover.gotechjsc.com', '172.31.40.49']
+ALLOWED_HOSTS = ALLOWED_HOSTS = ['spidermen.xyz', 'dev.vina.spidermen.xyz', 'vina.spidermen.xyz', '167.179.80.179']
 
 INSTALLED_APPS += [
     'debug_toolbar',
