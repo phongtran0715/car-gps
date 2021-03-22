@@ -8,17 +8,7 @@ import requests, json
 
 
 def home_screen_view(request):
-    context = {}
-    accounts = User.objects.all()
-    if request.is_secure():
-        protocol = 'https'
-    else:
-        protocol = 'http'
-    context['accounts'] = accounts
-    context['home_image'] = protocol + '://' + request.get_host() + "/media/home2.jpg"
-
-    return render(request, "home/home.html", context)
-
+    return render(request, "home/home.html")
 
 def registration_view(request):
     context = {}

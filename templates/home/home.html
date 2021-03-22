@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load static %}
 {% block content %}
 	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 		<h1 class="display-4">VINATRACK GPS</h1>
@@ -8,7 +9,7 @@
 	<hr>
 	<div class="container">
 		<div class="d-flex flex-column">
-			<img src="{{ home_image }}" alt="VINATRACK-home">
+			<img src="{% static 'images/home_backgound.jpg' %}" alt="Vinatrack background image">
 		</div>
 	</div>
 {% endblock content %}
