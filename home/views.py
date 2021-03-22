@@ -17,7 +17,7 @@ def home_screen_view(request):
     context['accounts'] = accounts
     context['home_image'] = protocol + '://' + request.get_host() + "/media/home2.jpg"
 
-    return render(request, "home.html", context)
+    return render(request, "home/home.html", context)
 
 
 def registration_view(request):
@@ -40,7 +40,7 @@ def registration_view(request):
     else:
         form = RegistrationForm()
         context['registration_form'] = form
-    return render(request, 'register.html', context)
+    return render(request, 'home/register.html', context)
 
 
 def login_view(request):
@@ -65,7 +65,7 @@ def login_view(request):
 
     context['login_form'] = form
 
-    return render(request, "login.html", context)
+    return render(request, "home/login.html", context)
 
 
 def logout_view(request):
