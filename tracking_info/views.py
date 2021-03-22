@@ -171,6 +171,8 @@ def get_history_stop_view(request, **kwargs):
 				result.append({
 					"longitude" : CarTrackingInfo.objects.get(id=item.id -1).longitude,
 					"latitude" : CarTrackingInfo.objects.get(id=item.id -1).latitude,
+					"date_from" : CarTrackingInfo.objects.get(id=item.id -1).timestamp,
+					"date_to" : CarTrackingInfo.objects.get(id=item.id).timestamp,
 					"duration" : int(duration / 60)
 					})
 			data['data'] = result
