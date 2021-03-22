@@ -12,12 +12,15 @@ from uuid import uuid4
 class UserProfile(models.Model):
     id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='profile')
     car_name = models.CharField(max_length=100)
-    plate_number = models.CharField(max_length=50, null=True)
+    plate_number = models.CharField(max_length=50, default='NA')
     avatar = models.ImageField(max_length=1024, blank=True)
 
     class Meta:
         db_table = "user_profile"
         ordering = ('id',)
+        indexes = [
+            models.Index(fields=['id']),
+        ]
 
     def __str__(self):
         return self.car_name
