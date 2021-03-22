@@ -6,4 +6,4 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = UserProfile
-		fields = ('car_name', 'first_name', 'last_name', 'phone', 'imei', 'plate_number', 'avatar')
+		fields = ('car_name', 'plate_number', 'avatar')

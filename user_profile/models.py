@@ -12,12 +12,7 @@ from uuid import uuid4
 class UserProfile(models.Model):
     id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='profile')
     car_name = models.CharField(max_length=100)
-    first_name = models.CharField(max_length=100, null=True)
-    last_name = models.CharField(max_length=100, null=True)
-    phone = models.CharField(max_length=20, null=True)
-    imei = models.CharField(max_length=50, null=True)
     plate_number = models.CharField(max_length=50, null=True)
-    is_active = models.BooleanField(default=False)
     avatar = models.ImageField(max_length=1024, blank=True)
 
     class Meta:

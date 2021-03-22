@@ -54,6 +54,12 @@ class UserRegistrationAPIView(generics.CreateAPIView):
                 'uid':urlsafe_base64_encode(force_bytes(user.id)),
                 'token':account_activation_token.make_token(user),
             })
+            # save plate_number
+            user.profile.plate_number = request.data['plate_number']
+            user.profile.car_name = request.data['plate_number']
+            user.profile.save()
+
+            # send actiavation email
             to_email = request.data['email']
             email = EmailMessage(
                         mail_subject, message, to=[to_email]
@@ -101,7 +107,7 @@ class UserLoginAPIView(generics.CreateAPIView):
                 data = {
                     "id": user.id,
                     "username": user.username,
-                    "is_active": user.profile.is_active,
+                    "is_active": user.is_active,
                     "refresh": str(refresh),
                     "access": str(refresh.access_token),
                 }
