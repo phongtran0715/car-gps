@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'fcm_django',
     'channels',
     'notifications',
+    'bootstrap_admin',
 ]
 
 MIDDLEWARE = [

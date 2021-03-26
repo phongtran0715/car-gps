@@ -5,6 +5,7 @@ from authentication.forms import AccountAuthenticationForm, RegistrationForm
 from django.utils.translation import gettext as _
 from rest_framework.decorators import api_view, permission_classes
 import requests, json
+from user_profile.models import UserProfile
 
 
 def home_screen_view(request):
@@ -21,8 +22,6 @@ def registration_view(request):
             user = authenticate(username=username, password=raw_password)
             login(request, user)
 
-            # create user profile
-            UserProfile.objects.create(id=user.id)
             return redirect('home')
         else:
             context['registration_form'] = form
@@ -54,6 +53,7 @@ def login_view(request):
         form = AccountAuthenticationForm()
 
     context['login_form'] = form
+    print(context)
 
     return render(request, "home/login.html", context)
 
