@@ -189,7 +189,7 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.FileHandler',
             'formatter': 'default',
-            'filename': 'log/general.log'
+            'filename': os.path.join(BASE_DIR, 'log/general.log')
         }
     },
     'loggers': {
@@ -202,14 +202,14 @@ LOGGING = {
 }
 
 CRONJOBS = [
-    ('* * * * *', 'tracking_info.cron.db_rotation_job', '>> /tmp/scheduled_job.log'),
+    ('0 0 * * *', 'tracking_info.cron.db_rotation_job', '>> {}'.format(os.path.join(BASE_DIR, 'log/scheduled_job.log'))),
 ]
 
 FCM_DJANGO_SETTINGS = {
     # default: _('FCM Django')
     "APP_VERBOSE_NAME": "[Vinatrack GPS]",
     # Your firebase API KEY
-    "FCM_SERVER_KEY": "AAAAy-yI3wU:APA91bFuHkLOVqJsPE1W3tIVNcvxWQPn6xKXXAxIMWVDSwW8Wg21pYVvhthzjz77MITHWJrhOQvX0Ur1tJ7lwI-abZW_2ZhmNGK-fq-6jnqbXoAi0wqoyayCy6JSxX30Rha-M5Qogai1",
+    "FCM_SERVER_KEY": env('FCM_SERVER_KEY'),
     # true if you want to have only one active device per registered user at a time
     # default: False
     "ONE_DEVICE_PER_USER": False,
