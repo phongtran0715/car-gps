@@ -9,7 +9,7 @@ from user_profile.models import UserProfile
 
 
 def home_screen_view(request):
-    return render(request, "home/home.html")
+    return render(request, "home/index.html")
 
 def registration_view(request):
     context = {}
