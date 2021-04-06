@@ -9,72 +9,75 @@ from user_profile.models import UserProfile
 
 
 def home_screen_view(request):
-    return render(request, "car_gps/index.html")
+	return render(request, "car_gps/index.html")
+
+def news_view(request):
+	return render(request, "car_gps/blog.html")
 
 def registration_view(request):
-    context = {}
-    if request.POST:
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
+	context = {}
+	if request.POST:
+		form = RegistrationForm(request.POST)
+		if form.is_valid():
+			form.save()
+			username = form.cleaned_data.get('username')
+			raw_password = form.cleaned_data.get('password1')
+			user = authenticate(username=username, password=raw_password)
+			login(request, user)
 
-            return redirect('home')
-        else:
-            context['registration_form'] = form
+			return redirect('home')
+		else:
+			context['registration_form'] = form
 
-    else:
-        form = RegistrationForm()
-        context['registration_form'] = form
-    return render(request, 'car_gps/register.html', context)
+	else:
+		form = RegistrationForm()
+		context['registration_form'] = form
+	return render(request, 'car_gps/register.html', context)
 
 
 def login_view(request):
-    context = {}
+	context = {}
 
-    user = request.user
-    if user.is_authenticated:
-        return redirect("home")
+	user = request.user
+	if user.is_authenticated:
+		return redirect("home")
 
-    if request.POST:
-        form = AccountAuthenticationForm(request.POST)
-        if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            user = authenticate(username= username, password=password)
+	if request.POST:
+		form = AccountAuthenticationForm(request.POST)
+		if form.is_valid():
+			username = request.POST['username']
+			password = request.POST['password']
+			user = authenticate(username= username, password=password)
 
-            if user:
-                login(request, user)
-                return redirect("home")
-    else:
-        form = AccountAuthenticationForm()
+			if user:
+				login(request, user)
+				return redirect("home")
+	else:
+		form = AccountAuthenticationForm()
 
-    context['login_form'] = form
-    print(context)
+	context['login_form'] = form
+	print(context)
 
-    return render(request, "car_gps/login.html", context)
+	return render(request, "car_gps/login.html", context)
 
 
 def logout_view(request):
-    logout(request)
-    return redirect('/')
+	logout(request)
+	return redirect('/')
 
 
 def reset_password_view(request, token):
-    context = {}
-    if request.method == 'POST':
-        # TODO : check matching password
-        data = {}
-        data['password'] = request.POST['password']
-        data['token'] = token
-        print(request.build_absolute_uri('confirm/'))
-        resp = requests.post(request.build_absolute_uri('confirm/'), data=data)
-        if resp.status_code == 200:
-            return redirect('password_reset_complete')
-        else:
-            return render(request, "registration/api_password_change.html", context)
-    else:
-        return render(request, "registration/api_password_change.html", context)
+	context = {}
+	if request.method == 'POST':
+		# TODO : check matching password
+		data = {}
+		data['password'] = request.POST['password']
+		data['token'] = token
+		print(request.build_absolute_uri('confirm/'))
+		resp = requests.post(request.build_absolute_uri('confirm/'), data=data)
+		if resp.status_code == 200:
+			return redirect('password_reset_complete')
+		else:
+			return render(request, "registration/api_password_change.html", context)
+	else:
+		return render(request, "registration/api_password_change.html", context)

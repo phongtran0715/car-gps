@@ -32,6 +32,7 @@ urlpatterns = [
     # Web route
     path('admin/', admin.site.urls),
     path('', views.home_screen_view, name="index"),
+    path('tin-tuc/', views.news_view, name="news"),
     path('', include('promotions.urls')),
     path('', include('notifications.urls')),
     path('car/tracking/', index, name='tracking_index'),
