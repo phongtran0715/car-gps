@@ -38,7 +38,7 @@ LOGOUT_REDIRECT_URL = 'home'
 # Application definition
 
 INSTALLED_APPS = [
-	'jet',
+	'simpleui',
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',

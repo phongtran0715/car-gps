@@ -30,7 +30,6 @@ urlpatterns = [
 	re_path(r'^api/(?P<version>(v1|v2))/', include(router.urls)),
 
 	# Web route
-	url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
 	path('admin/', admin.site.urls),
 	path('', views.home_screen_view, name="index"),
 	path('tin-tuc/', views.news_view, name="news"),
