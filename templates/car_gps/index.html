@@ -1,70 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "car_gps/base_site.html" %}
 {% load static %}
-<head>
-	<meta charset="utf-8">
-	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-	<title>Vinatrack GPS Tracking System</title>
-	<meta content="" name="description">
-	<meta content="" name="keywords">
-
-	<!-- Favicons -->
-	<link href="{% static 'assets/img/favicon.png' %}" rel="icon">
-	<link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
-
-	<!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-	<!-- Vendor CSS Files -->
-	<link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-	<link href="{% static 'assets/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
-	<link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
-	<link href="{% static 'assets/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
-	<link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
-	<link href="{% static 'assets/vendor/venobox/venobox.css' %}" rel="stylesheet">
-	<link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
-
-	<!-- Template Main CSS File -->
-	<link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
-
-	<!-- =======================================================
-	* Template Name: Presento - v1.1.1
-	* Template URL: https://bootstrapmade.com/presento-bootstrap-corporate-template/
-	* Author: BootstrapMade.com
-	* License: https://bootstrapmade.com/license/
-	======================================================== -->
-</head>
-
-<body>
-
-	<!-- ======= Header ======= -->
-	<header id="header" class="fixed-top">
-	<div class="container-fluid">
-		<div class="row justify-content-center">
-		<div class="col-xl-10 d-flex align-items-center">
-			<h1 class="logo mr-auto"><a href="#">Vinatrack<span>.</span></a></h1>
-			<!-- Uncomment below if you prefer to use an image logo -->
-			<!-- <a href="index.html" class="logo mr-auto"><img src="{% static 'assets/img/logo.png' %}" alt=""></a>-->
-
-			<nav class="nav-menu d-none d-lg-block">
-			<ul>
-				<li class="active"><a href="#header">Trang chủ</a></li>
-				<li><a href="#about">Giới thiệu</a></li>
-				<li><a href="#services">Dịch vụ</a></li>
-				<li><a href="#portfolio">Sản phẩm</a></li>
-				<li><a href="{% url 'news' %}">Tin tức</a></li>
-				<li><a href="#contact">Liên hệ</a></li>
-			</ul>
-			</nav><!-- .nav-menu -->
-
-			<a href="#about" class="get-started-btn scrollto">Get Started</a>
-		</div>
-		</div>
-
-	</div>
-	</header><!-- End Header -->
-
+{% block content %}
 	<!-- ======= Hero Section ======= -->
 	<section id="hero" class="d-flex align-items-center">
 
@@ -86,26 +23,6 @@ cung cấp các dịch vụ và giải pháp ứng dụng GPS trong quản lý h
 	</section><!-- End Hero -->
 
 	<main id="main">
-
-	<!-- ======= Clients Section ======= -->
-	<section id="clients" class="clients">
-		<div class="container-fluid" data-aos="zoom-in">
-		<div class="row justify-content-center">
-			<div class="col-xl-10">
-			<div class="owl-carousel clients-carousel">
-				<img src="{% static 'assets/img/clients/client-1.png' %}" alt="">
-				<img src="{% static 'assets/img/clients/client-2.png' %}" alt="">
-				<img src="{% static 'assets/img/clients/client-3.png' %}" alt="">
-				<img src="{% static 'assets/img/clients/client-4.png' %}" alt="">
-				<img src="{% static 'assets/img/clients/client-5.png' %}" alt="">
-				<img src="{% static 'assets/img/clients/client-6.png' %}" alt="">
-				<img src="{% static 'assets/img/clients/client-7.png' %}" alt="">
-				<img src="{% static 'assets/img/clients/client-8.png' %}" alt="">
-			</div>
-			</div>
-		</div>
-		</div>
-	</section><!-- End Clients Section -->
 
 	<!-- ======= About Section ======= -->
 	<section id="about" class="about section-bg">
@@ -588,21 +505,21 @@ TOÀN CẦU AUDIO luôn phấn đấu nỗ lực không ngừng để đem lại
 				<div class="info-box">
 					<i class="bx bx-map"></i>
 					<h3>Địa chỉ </h3>
-					<p>Chiến Thắng , Văn Quán, Hà Đông, Hà Nội </p>
+					<p>Hà Đông, Hà Nội </p>
 				</div>
 				</div>
 				<div class="col-md-6">
 				<div class="info-box mt-4">
 					<i class="bx bx-envelope"></i>
 					<h3>Email</h3>
-					<p>noithatototoancau@gmail.com<br>contact@vintrackgps.com</p>
+					<p>contact@vintrackgps.com</p>
 				</div>
 				</div>
 				<div class="col-md-6">
 				<div class="info-box mt-4">
 					<i class="bx bx-phone-call"></i>
 					<h3>Số điện thoại</h3>
-					<p>+84 974 666 666<br>+84 974 888 888</p>
+					<p>+84 974 888 888</p>
 				</div>
 				</div>
 			</div>
@@ -644,97 +561,4 @@ TOÀN CẦU AUDIO luôn phấn đấu nỗ lực không ngừng để đem lại
 	</section><!-- End Contact Section -->
 
 	</main><!-- End #main -->
-
-	<!-- ======= Footer ======= -->
-	<footer id="footer">
-
-	<div class="footer-top">
-		<div class="container">
-		<div class="row">
-
-			<div class="col-lg-3 col-md-6 footer-contact">
-			<h3>Vinatrack<span>.</span></h3>
-			<p>
-				Đường Chiến Thắng, Phường Văn Quán <br>
-				Quận Hà Đông, Hà Nội<br>
-				Việt Nam <br><br>
-				<strong>Số điện thoại:</strong> +84 666 666<br>
-				<strong>Email:</strong> contact@vinatrackgps.com<br>
-			</p>
-			</div>
-
-			<div class="col-lg-2 col-md-6 footer-links">
-			<h4>Đường dẫn</h4>
-			<ul>
-				<li><i class="bx bx-chevron-right"></i> <a href="#">Trang chủ</a></li>
-				<li><i class="bx bx-chevron-right"></i> <a href="#">Giới thiệu</a></li>
-				<li><i class="bx bx-chevron-right"></i> <a href="#">Dịch vụ</a></li>
-				<li><i class="bx bx-chevron-right"></i> <a href="#">Chính sách bảo mật</a></li>
-				<li><i class="bx bx-chevron-right"></i> <a href="#">Chính sách bảo hành</a></li>
-			</ul>
-			</div>
-
-			<div class="col-lg-3 col-md-6 footer-links">
-			<h4>Dịch vụ</h4>
-			<ul>
-				<li><i class="bx bx-chevron-right"></i> <a href="#">Phần mềm quản lý hành trình </a></li>
-				<li><i class="bx bx-chevron-right"></i> <a href="#">Phụ kiện xe hơi</a></li>
-				<li><i class="bx bx-chevron-right"></i> <a href="#">Bảo hành sản phẩm xe hơi</a></li>
-				<li><i class="bx bx-chevron-right"></i> <a href="#">Tư vấn sản phẩm xe hơi</a></li>
-			</ul>
-			</div>
-
-			<div class="col-lg-4 col-md-6 footer-newsletter">
-			<h4>Đăng ký nhận thông báo</h4>
-			<p>Đăng ký nhận thông tin sản phẩm, dịch vụ mới nhất từ Vinatrack</p>
-			<form action="" method="post">
-				<input type="email" name="email"><input type="submit" value="Đăng ký">
-			</form>
-			</div>
-
-		</div>
-		</div>
-	</div>
-
-	<div class="container d-md-flex py-4">
-
-		<div class="mr-md-auto text-center text-md-left">
-		<div class="copyright">
-			&copy; 2021 Copyright <strong><span>Vinatrack</span></strong>. All Rights Reserved
-		</div>
-		<div class="credits">
-			<!-- All the links in the footer should remain intact. -->
-			<!-- You can delete the links only if you purchased the pro version. -->
-			<!-- Licensing information: https://bootstrapmade.com/license/ -->
-			<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/presento-bootstrap-corporate-template/ -->
-			Thiết kế bởi <a href="#">Vinatrack Team</a>
-		</div>
-		</div>
-		<div class="social-links text-center text-md-right pt-3 pt-md-0">
-		<a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-		<a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-		<a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-		</div>
-	</div>
-	</footer><!-- End Footer -->
-
-	<a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
-
-	<!-- Vendor JS Files -->
-	<script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
-	<script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-	<script src="{% static 'assets/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
-	<script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
-	<script src="{% static 'assets/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
-	<script src="{% static 'assets/vendor/waypoints/jquery.waypoints.min.js' %}"></script>
-	<script src="{% static 'assets/vendor/counterup/counterup.min.js' %}"></script>
-	<script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
-	<script src="{% static 'assets/vendor/venobox/venobox.min.js' %}"></script>
-	<script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
-
-	<!-- Template Main JS File -->
-	<script src="{% static 'assets/js/main.js' %}"></script>
-
-</body>
-
-</html>
+{% endblock content %}

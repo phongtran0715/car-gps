@@ -33,6 +33,8 @@ urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('', views.home_screen_view, name="index"),
 	path('tin-tuc/', views.news_view, name="news"),
+	re_path(r'^.*\.html', views.vinatrack_html_view, name='vinatrack_news'),
+	
 	path('', include('promotions.urls')),
 	path('', include('notifications.urls')),
 	path('car/tracking/', index, name='tracking_index'),

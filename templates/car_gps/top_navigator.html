@@ -1,0 +1,26 @@
+<!-- ======= Header ======= -->
+		<header id="header" class="fixed-top">
+			<div class="container-fluid">
+				<div class="row justify-content-center">
+					<div class="col-xl-10 d-flex align-items-center">
+						<h1 class="logo mr-auto"><a href="{% url 'index' %}">Vinatrack<span>.</span></a></h1>
+						<!-- Uncomment below if you prefer to use an image logo -->
+						<!-- <a href="index.html" class="logo mr-auto"><img src="{% static 'assets/img/logo.png" alt=""></a>-->
+
+						<nav class="nav-menu d-none d-lg-block">
+							<ul>
+								<li class="active"><a href="{% url 'index' %}">Trang chủ</a></li>
+								<li><a href="{% url 'index' %}#about">Giới thiệu</a></li>
+								<li><a href="{% url 'index' %}#services">Dịch vụ</a></li>
+								<li><a href="{% url 'index' %}#portfolio">Sản phẩm</a></li>
+								<li><a href="{% url 'news' %}">Tin tức</a></li>
+								<li><a href="{% url 'index' %}#contact">Liên hệ</a></li>
+							</ul>
+						</nav><!-- .nav-menu -->
+
+						<a href="{% url 'index' %}#about" class="get-started-btn scrollto">Get Started</a>
+					</div>
+				</div>
+
+			</div>
+		</header><!-- End Header -->

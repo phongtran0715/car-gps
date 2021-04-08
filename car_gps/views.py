@@ -6,6 +6,8 @@ from django.utils.translation import gettext as _
 from rest_framework.decorators import api_view, permission_classes
 import requests, json
 from user_profile.models import UserProfile
+from django.template import loader
+from django.http import HttpResponse
 
 
 def home_screen_view(request):
@@ -81,3 +83,13 @@ def reset_password_view(request, token):
 			return render(request, "registration/api_password_change.html", context)
 	else:
 		return render(request, "registration/api_password_change.html", context)
+
+def vinatrack_html_view(request):
+	context = {}
+	# The template to be loaded as per gentelella.
+	# All resource paths for gentelella end in .html.
+
+	# Pick out the html file name from the url. And load that template.
+	load_template = request.path.split('/')[-1]
+	template = loader.get_template('car_gps/' + load_template)
+	return HttpResponse(template.render(context, request))
