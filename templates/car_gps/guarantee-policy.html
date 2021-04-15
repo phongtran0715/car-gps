@@ -1,0 +1,54 @@
+{% extends "car_gps/base_site.html" %}
+{% load static %}
+
+{% block content %}
+<main id="main">
+	<!-- ======= Breadcrumbs ======= -->
+	<section class="breadcrumbs">
+		<div class="container">
+			<ol>
+				<li><a href="{% url 'index' %}">Trang chủ</a></li>
+				<li>Guarantee policy</li>
+			</ol>
+			<h2>Chính sách bảo hành</h2>
+		</div>
+	</section><!-- End Breadcrumbs -->
+
+	<section id="blog" class="blog">
+		<div class="container" data-aos="fade-up">
+			<div class="row">
+				<article class="entry entry-single">
+					<div class="col-lg-12 entries">
+						<h2>Trường hợp được bảo hành:</h2>
+						<br>
+						<p>&#8211; Sản phẩm trong thời hạn còn bảo hành.</p>
+						<p>&#8211; Sản phẩm được bảo hành theo quy định của nhà cung cấp.</p>
+						<p>&#8211; Quý khách xuất trình phiếu bảo hành khi bảo hành.</p>
+						<br><br>
+						<h2>Trường hợp không được bảo hành:</h2>
+						<br>
+						<p>&#8211; Sản phẩm đã quá thời hạn ghi trên Phiếu bảo hành hoặc mất Phiếu bảo hành.</p>
+						<p>&#8211; Phiếu bảo hành không ghi rõ mã số sản phẩm và ngày mua hàng.</p>
+						<p>&#8211; Mã số sản phẩm và Phiếu bảo hành không trùng khớp nhau hoặc không xác định được vì bất kỳ lý do nào.</p>
+						<p>&#8211; Sản phẩm bị trầy xước do quá trình sử dụng lâu ngày.</p>
+						<p>&#8211; Sản phẩm bị bể móp, biến dạng do bị va đập.</p>
+						<p>&#8211; Khách hàng tự ý can thiệp vào máy của sản phẩm hoặc đem đến một nơi nào khác sửa chữa.</p>
+						<br><br>
+						<h2>Điều kiện đổi trả hàng hoặc hoàn tiền</h2>
+						<br>
+						<p>&#8211; Sản phẩm phát hiện bị lỗi của nhà sản xuất khi nhận hàng.</p>
+						<p>&#8211; Sản phẩm không giống với sản phẩm mà Quý khách đã đặt hàng trên website của chúng tôi.</p>
+						<br><br>
+						<p><strong>Lưu ý:</strong></p>
+						<p>&#8211; Khách hàng cần đổi trả hàng trong vòng 7 ngày làm việc tính từ thời điểm quý khách nhận hàng.</p>
+						<p>&#8211; Sản phẩm đổi trả cần nguyên vẹn nhãn mác, hộp, bao bì gốc của sản phẩm như khi Quý khách nhận hàng lúc đầu</p>
+						<br>
+						<p><strong>Author: Admin</strong></p>
+					</div>
+				</article>
+			</div>
+		</div>
+	</section>
+</main>
+
+{% endblock content %}
