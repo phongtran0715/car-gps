@@ -88,17 +88,12 @@ def save_related(self, request, form, formsets, change):
 @api_view(['GET'])
 @permission_classes((IsAuthenticated,))
 def api_get_notification_view(request, *args, **kwargs):
-	try:
-		account = request.user
-	except User.DoesNotExist:
-		return Response(status=status.HTTP_404_NOT_FOUND)
-
 	if request.method == 'GET':
 		page = request.data.get('page', 1)
 		data = {}
 		result = []
 		try:
-			noti_items = account.notifications.all()
+			noti_items = Notifications.objects.all()
 		except:
 			data = {
 				"message": "Not found tracking data"
