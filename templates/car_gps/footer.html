@@ -16,21 +16,20 @@
 					<div class="col-lg-2 col-md-6 footer-links">
 					<h4>Đường dẫn</h4>
 					<ul>
-						<li><i class="bx bx-chevron-right"></i> <a href="#">Trang chủ</a></li>
-						<li><i class="bx bx-chevron-right"></i> <a href="#">Giới thiệu</a></li>
-						<li><i class="bx bx-chevron-right"></i> <a href="#">Dịch vụ</a></li>
-						<li><i class="bx bx-chevron-right"></i> <a href="#">Chính sách bảo mật</a></li>
-						<li><i class="bx bx-chevron-right"></i> <a href="#">Chính sách bảo hành</a></li>
+						<li><i class="bx bx-chevron-right"></i> <a href="{% url 'index' %}">Trang chủ</a></li>
+						<li><i class="bx bx-chevron-right"></i> <a href="{% url 'index' %}#about">Giới thiệu</a></li>
+						<li><i class="bx bx-chevron-right"></i> <a href="privacy-policy.html">Chính sách bảo mật</a></li>
+						<li><i class="bx bx-chevron-right"></i> <a href="guarantee-policy.html">Chính sách bảo hành</a></li>
 					</ul>
 					</div>
 
 					<div class="col-lg-3 col-md-6 footer-links">
 					<h4>Dịch vụ</h4>
 					<ul>
-						<li><i class="bx bx-chevron-right"></i> <a href="#">Phần mềm quản lý hành trình </a></li>
-						<li><i class="bx bx-chevron-right"></i> <a href="#">Phụ kiện xe hơi</a></li>
-						<li><i class="bx bx-chevron-right"></i> <a href="#">Bảo hành sản phẩm xe hơi</a></li>
-						<li><i class="bx bx-chevron-right"></i> <a href="#">Tư vấn sản phẩm xe hơi</a></li>
+						<li><i class="bx bx-chevron-right"></i> <a href="{% url 'index' %}#services">Phần mềm quản lý hành trình </a></li>
+						<li><i class="bx bx-chevron-right"></i> <a href="{% url 'index' %}#services">Phụ kiện xe hơi</a></li>
+						<li><i class="bx bx-chevron-right"></i> <a href="{% url 'index' %}#services">Bảo hành sản phẩm xe hơi</a></li>
+						<li><i class="bx bx-chevron-right"></i> <a href="{% url 'index' %}#services">Tư vấn sản phẩm xe hơi</a></li>
 					</ul>
 					</div>
 
@@ -61,9 +60,8 @@
 				</div>
 				</div>
 				<div class="social-links text-center text-md-right pt-3 pt-md-0">
-				<a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-				<a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-				<a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+				<a href="https://www.facebook.com/" class="facebook" target="_blank"><i class="bx bxl-facebook"></i></a>
+				<a href="https://www.youtube.com/" class="google-plus" target="_blank"><i class="bx bxl-youtube"></i></a>
 				</div>
 			</div>
 			</footer><!-- End Footer -->

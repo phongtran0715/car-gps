@@ -1,0 +1,203 @@
+{% extends "car_gps/base_site.html" %}
+{% load static %}
+
+{% block content %}
+	<main id="main">
+
+		<!-- ======= Breadcrumbs ======= -->
+		<section class="breadcrumbs">
+			<div class="container">
+
+				<ol>
+					<li><a href="{% url 'index' %}">Trang chủ</a></li>
+					<li><a href="{% url 'news' %}">Tin tức</a></li>
+					<li>Blog Single</li>
+				</ol>
+				<h2>Blog Single</h2>
+
+			</div>
+		</section><!-- End Breadcrumbs -->
+
+		<!-- ======= Blog Single Section ======= -->
+		<section id="blog" class="blog">
+			<div class="container" data-aos="fade-up">
+
+				<div class="row">
+
+					<div class="col-lg-8 entries">
+
+						<article class="entry entry-single">
+
+							<div class="entry-img">
+								<img src="{% static 'assets/img/blog/blog-single-2.jpg' %}" alt="" class="img-fluid">
+							</div>
+
+							<h2 class="entry-title">
+								<a href="blog-single.html">Loạt xe SUV sắp về Việt Nam, hứa hẹn thành 'bom tấn' trong năm 2021</a>
+							</h2>
+
+							<div class="entry-meta">
+								<ul>
+									<li class="d-flex align-items-center"><i class="icofont-user"></i> <a href="blog-single.html">Author: Admin</a></li>
+									<li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> <a href="blog-single.html"><time datetime="2021-01-01">Jan 1, 2021</time></a></li>
+									<!--li class="d-flex align-items-center"><i class="icofont-comment"></i> <a href="blog-single.html">12 Comments</a></li-->
+								</ul>
+							</div>
+							<div class="entry-content">
+								<p>
+									Ngày ra mắt khách Việt của Kia Sonet, Ford Territory hay Kia Sedona có thể không xa, hứa hẹn mang đến nhiều lựa chọn cho người dùng và làm phân khúc xe gầm cao thêm sôi động.
+								</p>
+								<h3>Kia Sonet</h3>
+								<img src="{% static 'assets/img/blog/blog-single-2-0.jpg' %}" alt="" class="img-fluid">
+								<br>
+								<br>
+								<p>
+									Mẫu ô tô gầm cao đô thị Kia Sonet đã xuất hiện tại Việt Nam và nhiều khả năng đang được Thaco thử nghiệm trước khi phân phối chính thức. Xe thuộc phân khúc "đàn em" của Kia Seltos, hướng đến những khách hàng tìm kiếm một mẫu ô tô với thiết kế thể thao, linh hoạt nhưng vẫn nhỏ gọn và mức giá dễ tiếp cận. 
+								</p>
+								<p>
+									Mẫu ô tô gầm cao đô thị Kia Sonet đã xuất hiện tại Việt Nam và nhiều khả năng đang được Thaco thử nghiệm trước khi phân phối chính thức. Xe thuộc phân khúc "đàn em" của Kia Seltos, hướng đến những khách hàng tìm kiếm một mẫu ô tô với thiết kế thể thao, linh hoạt nhưng vẫn nhỏ gọn và mức giá dễ tiếp cận. 
+								</p>
+								<img src="{% static 'assets/img/blog/blog-single-2-1.png' %}" alt="" class="img-fluid">
+								<br>
+								<br>
+								<p>
+									Động cơ trên Kia Sonet tương tự với Kia Morning thế hệ mới và có tùy chọn máy xăng 4 xy-lanh Smartstream 1.2L hút khí tự nhiên hoặc máy xăng 3 xy-lanh T-GDi 1.0L tăng áp. Mức giá của Kia Sonet được dự đoán sẽ tương đương các mẫu sedan cỡ B đang có trên thị trường.
+								</p>
+								<!--blockquote>
+									<i class="icofont-quote-left quote-left"></i>
+									<p>
+										Et vero doloremque tempore voluptatem ratione vel aut. Deleniti sunt animi aut. Aut eos aliquam doloribus minus autem quos.
+									</p>
+									<i class="las la-quote-right quote-right"></i>
+									<i class="icofont-quote-right quote-right"></i>
+								</blockquote-->
+								<h3>Ford Territory</h3>
+								<img src="{% static 'assets/img/blog/blog-single-2-2.jpg' %}" class="img-fluid" alt="">
+								<br>
+								<br>
+								<p>
+									Cập bến thị trường Thái Lan, các nhân viên bán hàng của Ford cho biết mẫu Territory sẽ về Việt Nam trong năm nay với giá bán dự kiến trên 700 triệu đồng. Xe cạnh tranh ở phân khúc crossover cỡ C, nơi đang có những cái tên đáng chú ý như Hyundai Tucson, Honda CR-V hay Mazda CX-5… 
+								</p>
+								<p>
+									Là sản phẩm phát triển bởi liên doanh JMC Ford Trung Quốc, Territory mang nhiều nét của thị trường châu Á với các đường cong giúp chiếc xe ưa nhìn nhưng vẫn giữ được vẻ khỏe khoắn. Mặt ca-lăng hoạt tiết bậc thang, cản sau kết hợp giữa nhựa đen sần và mảng màu bạc tạo điểm nhấn.
+								</p>
+								<img src="{% static 'assets/img/blog/blog-single-2-3.jpg' %}" class="img-fluid" alt="">
+								<br>
+								<br>
+								<p>
+									Sự mềm mại đi vào không gian bên trong với màn hình giải trí 10 inch, bên dưới là cụm phím điều chỉnh điều hòa được tạo hình điệu đà. Territory có vô-lăng nhỏ gọn mang phong cách thể thao, cửa gió hàng thứ hai phù hợp với các nước châu Á. Động cơ Ford sẽ trang bị là loại EcoBoost 1,5 lít cho công suất 141 mã lực, kết hợp cùng số tự động vô cấp. 
+								</p>
+								<h3>Kia Sedona/Carnival</h3>
+								<img src="{% static 'assets/img/blog/blog-single-2.jpg' %}" class="img-fluid" alt="">
+								<br><br>
+								<p>
+									Không chỉ một chiếc Kia Carnival 2021 mà hình ảnh lô gồm ít nhất 5 chiếc xe này đã bắt gặp tại cảng ở Việt Nam. Carnival là tên gọi tại thị trường quốc tế của mẫu Kia Sedona đang bán ở Việt Nam và nhiều khả năng trên phiên bản mới nhất, hãng xe Hàn Quốc sẽ sử dụng thống nhất tên này.
+								</p>
+								<p>
+									Ở thế hệ 2021, Kia Carnival sử dụng chung ngôn ngữ thiết kế với mẫu Sorento mới, đem lại dáng vẻ thời trang của một chiếc SUV thay vì kiểu "mộc mạc" theo phong cách minivan như trước đây. Xe vẫn giữ kiểu cửa sau trượt ngang, mang lại sự tiện nghi và thoải mái khi hành khách bước vào hàng ghế sau.
+								</p>
+								<img src="{% static 'assets/img/blog/blog-single-2-4.jpg' %}" class="img-fluid" alt="">
+								<br><br>
+								<p>
+									Tương tự vậy, khoang nội thất của Kia Carnival cũng tương đồng với Sorento, bao gồm màn hình giải trí và bảng đồng hồ trung tâm nối thành một cụm dài. Khu vực cần số hiện đại hơn với kiểu núm xoay cùng các phím điều khiển khác. Nhiều khả năng Carnival sẽ có các tùy chọn máy xăng và máy dầu tương tự mẫu Sorento mới. 
+								</p>
+								<p>
+									Do là phiên bản hoàn toàn mới, mức giá của Kia Carnival 2021 có thể tăng nhẹ so với khoảng giá 1,019 - 1,519 tỷ đồng của Kia Sedona hiện nay.
+								</p>
+								<br>
+								<p>
+									<strong>Author: Admin</strong>
+								</p>
+							</div>
+
+							<div class="entry-footer clearfix">
+								<div class="float-left">
+									<i class="icofont-folder"></i>
+									<ul class="cats">
+										<li><a href="#">Business</a></li>
+									</ul>
+
+									<i class="icofont-tags"></i>
+									<ul class="tags">
+										<li><a href="#">Creative</a></li>
+										<li><a href="#">Tips</a></li>
+										<li><a href="#">Marketing</a></li>
+									</ul>
+								</div>
+
+								<div class="float-right share">
+									<a href="" title="Share on Twitter"><i class="icofont-twitter"></i></a>
+									<a href="" title="Share on Facebook"><i class="icofont-facebook"></i></a>
+									<a href="" title="Share on Instagram"><i class="icofont-instagram"></i></a>
+								</div>
+
+							</div>
+
+						</article><!-- End blog entry -->
+					</div>
+					<div class="col-lg-4">
+						<div class="sidebar">
+							<h3 class="sidebar-title">Tìm kiếm</h3>
+							<div class="sidebar-item search-form">
+								<form action="">
+									<input type="text">
+									<button type="submit"><i class="icofont-search"></i></button>
+								</form>
+							</div><!-- End sidebar search formn-->
+
+							<h3 class="sidebar-title">Danh mục</h3>
+							<div class="sidebar-item categories">
+								<ul>
+									<li><a href="#">Thị trường xe <span>(25)</span></a></li>
+									<li><a href="#">Văn hóa xe <span>(12)</span></a></li>
+									<li><a href="#">Tư vấn <span>(5)</span></a></li>
+								</ul>
+							</div><!-- End sidebar categories-->
+
+							<h3 class="sidebar-title">Bài viết gần đây</h3>
+							<div class="sidebar-item recent-posts">
+								<div class="post-item clearfix">
+									<img src="{% static 'assets/img/blog/recent-blog-01.jpg' %}" alt="">
+									<h4><a href="#">Những mẫu xe thể thao phiên bản đặc biệt tốt nhất trong 20 năm qua</a></h4>
+									<time datetime="2021-01-01">Jan 1, 2021</time>
+								</div>
+
+								<div class="post-item clearfix">
+									<img src="{% static 'assets/img/blog/recent-blog-02.jpg' %}" alt="">
+									<h4><a href="#">10 xe ế ẩm nhất tháng 3: Toyota tiếp tục "chiếm sóng"</a></h4>
+									<time datetime="2021-01-01">Jan 1, 2021</time>
+								</div>
+
+								<div class="post-item clearfix">
+									<img src="{% static 'assets/img/blog/recent-blog-03.jpg' %}" alt="">
+									<h4><a href="#">David Beckham trở thành đại sứ thương hiệu toàn cầu của Maserati</a></h4>
+									<time datetime="2021-01-01">Jan 1, 2021</time>
+								</div>
+
+								<div class="post-item clearfix">
+									<img src="{% static 'assets/img/blog/recent-blog-04.jpg' %}" alt="">
+									<h4><a href="#">Siêu chip trên ô tô điện thông minh tự hành của VinFast</a></h4>
+									<time datetime="2021-01-01">Jan 1, 2021</time>
+								</div>
+
+							</div><!-- End sidebar recent posts-->
+
+							<h3 class="sidebar-title">Tags</h3>
+							<div class="sidebar-item tags">
+								<ul>
+									<li><a href="#">Sedan</a></li>
+									<li><a href="#">SUV</a></li>
+								</ul>
+							</div><!-- End sidebar tags-->
+
+						</div><!-- End sidebar -->
+
+					</div><!-- End blog sidebar -->
+
+				</div>
+
+			</div>
+		</section><!-- End Blog Single Section -->
+
+	</main><!-- End #main -->
+{% endblock content %}

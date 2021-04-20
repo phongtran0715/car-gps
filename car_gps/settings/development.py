@@ -1,7 +1,6 @@
 from .base import *
 
 DEBUG = False
-
 ALLOWED_HOSTS = ['spidermen.xyz', 'dev.vina.spidermen.xyz', 'vina.spidermen.xyz', '167.179.80.179','vinatrackgps.vn', 'vinatrackgps.com']
 
 INSTALLED_APPS += [
