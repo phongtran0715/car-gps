@@ -199,47 +199,27 @@ def insert_tracking_info_view(request, **kwargs):
 	data = {}
 	if request.method == 'POST':
 		if serializer.is_valid():
-			if account.car_info.all().count() > 0:
-				latest_info = account.car_info.latest('timestamp')
-				# Calculate speed information
-				distance = geodesic((latest_info.latitude, latest_info.longitude), (serializer.data['latitude'],serializer.data['longitude'])).km
-				
+			is_stop=False
+			latest_info = account.car_info.latest('timestamp')
+			if latest_info is not None:
 				delta_time = datetime.datetime.strptime(serializer.data['timestamp'], '%Y-%m-%dT%H:%M:%SZ') - latest_info.timestamp.replace(tzinfo=None)
 				delta_time = delta_time.total_seconds()
-				is_stop=False
-				if delta_time > 0.0 and delta_time <= 300:
-					speed_km = int((distance) / (delta_time / 3600))
-				elif delta_time > 300.0:
+				if delta_time > 300.0:
 					is_stop = True
-					speed_km = 0
-				else:
-					speed_km = 0
-
-				new_info = account.car_info.create(latitude=serializer.data['latitude'], longitude=serializer.data['longitude'],
+			new_info = account.car_info.create(latitude=serializer.data['latitude'], longitude=serializer.data['longitude'],
 										gas=serializer.data['gas'], gps_status=serializer.data['gps_status'],
-										odometer=serializer.data['odometer'], speed=speed_km, is_stop=is_stop,
+										odometer=serializer.data['odometer'], speed=erializer.data['speed'], is_stop=is_stop,
 										timestamp=serializer.data['timestamp'])
-				new_info.save()
-				distance_day = get_distance_latest_day(account.id)
-
-				data = {
-					'speed' : speed_km,
-					'distance' : distance_day
-				}
-
-				return Response(data, status=status.HTTP_200_OK)
-			else:
-				new_info = account.car_info.create(latitude=serializer.data['latitude'], longitude=serializer.data['longitude'],
-										gas=serializer.data['gas'], gps_status=serializer.data['gps_status'],
-										odometer=serializer.data['odometer'], speed=0, is_stop=False,
-										timestamp=serializer.data['timestamp'])
-				new_info.save()
-				data = {
-					'speed' : 0,
-					'distance' : 0
-				}
-				return Response(data, status=status.HTTP_200_OK)
-	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+			new_info.save()
+			distance_day = get_distance_latest_day(account.id)
+			data = {
+				'distance' : distance_day
+			}
+			return Response(data, status=status.HTTP_200_OK)
+		else:
+			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)	
+	else:
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def get_trip_info(tracking_record):
