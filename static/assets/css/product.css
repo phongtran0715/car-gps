@@ -273,3 +273,26 @@ nav > div a.nav-item.nav-link:focus
     transition:background 0.20s linear;
 }
 /*# sourceMappingURL=style.css.map */
+
+#product-information {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#product-information td, #product-information th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#product-information tr:nth-child(even){background-color: #f2f2f2;}
+
+#product-information tr:hover {background-color: #ddd;}
+
+#product-information th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
