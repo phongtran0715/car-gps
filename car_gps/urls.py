@@ -15,6 +15,11 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'devices', FCMDeviceAuthorizedViewSet)
 
+
+admin.site.site_header = 'Vinatrack Admin'
+admin.site.site_title = 'Vinatrack Admin'
+admin.site.index_title = u'Vinatrack'
+
 urlpatterns = [
 	
 	#API route

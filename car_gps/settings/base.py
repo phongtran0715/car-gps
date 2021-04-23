@@ -266,3 +266,46 @@ CHANNEL_LAYERS = {
 	},
 }
 
+
+# Setting for admin template UI
+SIMPLEUI_HOME_ICON = 'fas fa-user-shield'
+SIMPLEUI_HOME_INFO = False
+SIMPLEUI_HOME_QUICK = True
+SIMPLEUI_HOME_ACTION = True
+SIMPLEUI_ANALYSIS = True
+
+SIMPLEUI_CONFIG = {
+	'system_keep': True,
+	'dynamic': True,
+	'menus': [{
+		'app': 'reviews',
+		'name': 'Users',
+		'icon': 'fas fa-user-shield',
+		'models': [{
+			'name': 'User',
+			'icon': 'fa fa-user',
+			'url': '/admin/reviews/user/'
+		}]
+	}]
+}# Setting for admin template UI
+SIMPLEUI_HOME_ICON = 'fas fa-user-shield'
+SIMPLEUI_HOME_INFO = False
+SIMPLEUI_HOME_QUICK = True
+SIMPLEUI_HOME_ACTION = True
+SIMPLEUI_ANALYSIS = True
+
+# SIMPLEUI_CONFIG = {
+# 	'system_keep': True,
+# 	'dynamic': True,
+# 	'menus': [{
+# 		'app': 'reviews',
+# 		'name': 'Users',
+# 		'icon': 'fas fa-user-shield',
+# 		'models': [{
+# 			'name': 'User',
+# 			'icon': 'fa fa-user',
+# 			'url': '/admin/reviews/user/'
+# 		}]
+# 	}]
+# }
+

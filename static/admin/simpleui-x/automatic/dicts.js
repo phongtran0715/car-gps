@@ -144,6 +144,15 @@ var dicts = {
     //预览
     'el-icon-view': ['预览', '浏览', '查看', 'view', 'browser'],
     //测试、日期
-    'el-icon-timer': ['日期', '时间', '年份', '月份', '测试', 'test', 'date', 'time']
+    'el-icon-timer': ['日期', '时间', '年份', '月份', '测试', 'test', 'date', 'time'],
 
+    'fas fa-bell': [ 'Notifications', 'Notificationss'],
+
+    'fas fa-ad': [ 'Promotions', 'Promotionss'],
+
+    'fas fa-id-badge': [ 'User_Profile', 'profiles'],
+
+    'fas fa-ankh': [ 'tokens', 'Token'],
+
+    'fas fa-car': [ 'Vinatrack'],
 }

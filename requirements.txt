@@ -26,6 +26,7 @@ django-environ==0.4.5
 django-import-export==2.5.0
 django-rest-passwordreset==1.1.0
 django-seed==0.2.2
+django-simpleui==2021.4.3
 django-widget-tweaks==1.4.8
 djangorestframework==3.11.1
 djangorestframework-jwt==1.11.0
