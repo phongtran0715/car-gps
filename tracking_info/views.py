@@ -200,19 +200,22 @@ def insert_tracking_info_view(request, **kwargs):
 	if request.method == 'POST':
 		if serializer.is_valid():
 			is_stop=False
-			latest_info = account.car_info.latest('timestamp')
-			if latest_info is not None:
+			if len(account.car_info.all()) > 0:
+				latest_info = account.car_info.latest('timestamp')
 				delta_time = datetime.datetime.strptime(serializer.data['timestamp'], '%Y-%m-%dT%H:%M:%SZ') - latest_info.timestamp.replace(tzinfo=None)
 				delta_time = delta_time.total_seconds()
 				if delta_time > 300.0:
 					is_stop = True
+
 			new_info = account.car_info.create(latitude=serializer.data['latitude'], longitude=serializer.data['longitude'],
 										gas=serializer.data['gas'], gps_status=serializer.data['gps_status'],
-										odometer=serializer.data['odometer'], speed=erializer.data['speed'], is_stop=is_stop,
+										odometer=serializer.data['odometer'], speed=serializer.data['speed'], is_stop=is_stop,
 										timestamp=serializer.data['timestamp'])
 			new_info.save()
+
 			distance_day = get_distance_latest_day(account.id)
 			data = {
+				'speed' : -1,
 				'distance' : distance_day
 			}
 			return Response(data, status=status.HTTP_200_OK)
