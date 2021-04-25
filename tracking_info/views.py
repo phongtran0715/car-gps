@@ -213,10 +213,10 @@ def insert_tracking_info_view(request, **kwargs):
 										timestamp=serializer.data['timestamp'])
 			new_info.save()
 
-			distance_day = get_distance_latest_day(account.id)
+			# distance_day = get_distance_latest_day(account.id)
 			data = {
 				'speed' : -1,
-				'distance' : distance_day
+				'distance' : -1
 			}
 			return Response(data, status=status.HTTP_200_OK)
 		else:
