@@ -200,7 +200,11 @@ def insert_tracking_info_view(request, **kwargs):
 	if request.method == 'POST':
 		if serializer.is_valid():
 			is_stop=False
-			latest_info = account.car_info.latest('timestamp')
+			try:
+				latest_info = account.car_info.latest('timestamp')
+			except CarTrackingInfo.DoesNotExist:
+				latest_info = None
+			
 			if latest_info is not None:
 				delta_time = datetime.datetime.strptime(serializer.data['timestamp'], '%Y-%m-%dT%H:%M:%SZ') - latest_info.timestamp.replace(tzinfo=None)
 				delta_time = delta_time.total_seconds()
@@ -208,7 +212,7 @@ def insert_tracking_info_view(request, **kwargs):
 					is_stop = True
 			new_info = account.car_info.create(latitude=serializer.data['latitude'], longitude=serializer.data['longitude'],
 										gas=serializer.data['gas'], gps_status=serializer.data['gps_status'],
-										odometer=serializer.data['odometer'], speed=erializer.data['speed'], is_stop=is_stop,
+										odometer=serializer.data['odometer'], speed=serializer.data['speed'], is_stop=is_stop,
 										timestamp=serializer.data['timestamp'])
 			new_info.save()
 			distance_day = get_distance_latest_day(account.id)
@@ -240,11 +244,14 @@ def get_trip_info(tracking_record):
 
 def get_distance_latest_day(user_id):
 	today = datetime.date.today()
-	info = CarTrackingInfo.objects.filter(timestamp__year=today.year, timestamp__month=today.month, timestamp__day=today.day, user_id=user_id)
 	distance = 0
-	for i in range(0, len(info) - 1):
-		distance += geodesic((info[i].latitude, info[i].longitude), 
-			(info[i+1].latitude, info[i+1].longitude)).km
+	try:
+		info = CarTrackingInfo.objects.filter(timestamp__year=today.year, timestamp__month=today.month, timestamp__day=today.day, user_id=user_id)
+		for i in range(0, len(info) - 1):
+			distance += geodesic((info[i].latitude, info[i].longitude), 
+				(info[i+1].latitude, info[i+1].longitude)).km
+	except CarTrackingInfo.DoesNotExist:
+		distance =0
 	return round(distance)
 
 def index(request):
