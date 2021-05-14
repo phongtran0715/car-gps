@@ -1,14 +1,11 @@
-from rest_framework import generics, status
-# Create your views here.
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.state import User
-
-from user_profile.models import UserProfile
-from user_profile.serializers import UserProfileSerializer
+from .models import UserProfile
+from .serializers import UserProfileSerializer
 from django.core.files.storage import FileSystemStorage
-from django.shortcuts import render
 import os
 import uuid
 import logging
@@ -19,11 +16,7 @@ logger = logging.getLogger(__name__)
 
 def generate_filename(filename):
 	ext = filename.split('.')[-1]
-	# set filename as random string
-	new_name = '{}.{}'.format(uuid.uuid1(), ext)
-	# return the whole path to the file
-	return new_name
-
+	return '{}.{}'.format(uuid.uuid1(), ext)
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated,))
@@ -107,7 +100,6 @@ def change_avatar_view(request, **kwargs):
 		fs = FileSystemStorage()
 		avatar_file = fs.save(generate_filename(avatar.name), avatar)
 
-		# delete old avatar
 		try:
 			old_avatar = os.path.join(fs.location, str(profile.avatar))
 			if os.path.isfile(old_avatar):
