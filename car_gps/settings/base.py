@@ -99,11 +99,6 @@ ASGI_APPLICATION = "car_gps.asgi.application"
 
 DATABASES = {
 	'default': env.db(),
-	# 'default': {
-	# 	'ENGINE': 'django.db.backends.sqlite3',
-	# 	'NAME': BASE_DIR / 'db.sqlite3',
-	# }
-
 }
 
 # Password validation
@@ -242,7 +237,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
@@ -256,7 +250,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOCALE_PATHS = ( os.path.join(BASE_DIR, 'locale'), )
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-
 CHANNEL_LAYERS = {
 	'default': {
 		'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -266,46 +259,10 @@ CHANNEL_LAYERS = {
 	},
 }
 
-
 # Setting for admin template UI
 SIMPLEUI_HOME_ICON = 'fas fa-user-shield'
 SIMPLEUI_HOME_INFO = False
 SIMPLEUI_HOME_QUICK = True
 SIMPLEUI_HOME_ACTION = True
 SIMPLEUI_ANALYSIS = True
-
-SIMPLEUI_CONFIG = {
-	'system_keep': True,
-	'dynamic': True,
-	'menus': [{
-		'app': 'reviews',
-		'name': 'Users',
-		'icon': 'fas fa-user-shield',
-		'models': [{
-			'name': 'User',
-			'icon': 'fa fa-user',
-			'url': '/admin/reviews/user/'
-		}]
-	}]
-}# Setting for admin template UI
-SIMPLEUI_HOME_ICON = 'fas fa-user-shield'
-SIMPLEUI_HOME_INFO = False
-SIMPLEUI_HOME_QUICK = True
-SIMPLEUI_HOME_ACTION = True
-SIMPLEUI_ANALYSIS = True
-
-# SIMPLEUI_CONFIG = {
-# 	'system_keep': True,
-# 	'dynamic': True,
-# 	'menus': [{
-# 		'app': 'reviews',
-# 		'name': 'Users',
-# 		'icon': 'fas fa-user-shield',
-# 		'models': [{
-# 			'name': 'User',
-# 			'icon': 'fa fa-user',
-# 			'url': '/admin/reviews/user/'
-# 		}]
-# 	}]
-# }
 
