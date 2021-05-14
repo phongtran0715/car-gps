@@ -89,10 +89,14 @@ def get_history_tracking_view(request, **kwargs):
 			data['page'] = page
 			data['total_page'] = paginator.num_pages
 			data['page_size'] = 100
-			total_distance, avg_speed , stop_time = get_trip_info(tracking_record)
-			data['total_distance'] = total_distance
-			data['avg_speed'] = avg_speed
-			data['stop_count'] = stop_time
+
+			stop_times = tracking_record.filter(Q(is_stop=True)).count()
+			distance = tracking_record.aggregate(Sum('odometer'))['odometer__sum']
+			avg_speed = (distance / tracking_record.count())
+
+			data['total_distance'] = int(distance) / 1000
+			data['avg_speed'] = int(avg_speed)
+			data['stop_count'] = int(stop_times)
 			data['first_record'] = {
 				'latitude' : tracking_record.first().latitude,
 				'longitude' : tracking_record.first().longitude,
@@ -224,23 +228,6 @@ def insert_tracking_info_view(request, **kwargs):
 	else:
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def get_trip_info(tracking_record):
-	distance = 0
-	total_time = 0
-	avg_speed = 0
-	delta_time = 0
-	stop_times = tracking_record.filter(Q(is_stop=True)).count()
-	for i in range(0, len(tracking_record) - 1):
-		delta_time = (tracking_record[i+1].timestamp - tracking_record[i].timestamp).total_seconds()
-		if delta_time > 0 and delta_time <=300:
-			distance += geodesic((tracking_record[i].latitude, tracking_record[i].longitude), 
-				(tracking_record[i+1].latitude, tracking_record[i+1].longitude)).km
-			total_time += delta_time
-	if delta_time != 0:
-		avg_speed = (distance) / (total_time / 3600)
-
-	return int(distance), int(avg_speed), int(stop_times)
-
 def get_distance_latest_day(user_id, timestamp):
 	distance = 0
 	try:
@@ -249,7 +236,7 @@ def get_distance_latest_day(user_id, timestamp):
 		distance = info.aggregate(Sum('odometer'))['odometer__sum']
 	except CarTrackingInfo.DoesNotExist:
 		distance =0
-	return round(distance)
+	return round(distance/1000)
 
 def index(request):
 	return render(request, 'tracking_info/index.html')
