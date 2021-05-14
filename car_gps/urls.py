@@ -26,12 +26,11 @@ urlpatterns = [
 	re_path('api/(?P<version>(v1|v2))/', include('authentication.urls')),
 	re_path('api/(?P<version>(v1|v2))/', include('tracking_info.urls')),
 	re_path('api/(?P<version>(v1|v2))/', include('user_profile.urls')),
+	re_path('api/(?P<version>(v1|v2))/', include('promotions.urls')),
+	re_path('api/(?P<version>(v1|v2))/', include('notifications.urls')),
 	
 	path('api/password_reset/<token>', views.reset_password_view, name='api_password_reset_verify_token'),
 	url(r'^api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
-	
-	re_path(r'^api/(?P<version>(v1|v2))/promotions/', api_get_promotion_view),
-	re_path(r'^api/(?P<version>(v1|v2))/notifications/', api_get_notification_view),
 	re_path(r'^api/(?P<version>(v1|v2))/', include(router.urls)),
 
 	# Web route
@@ -39,11 +38,6 @@ urlpatterns = [
 	path('', views.home_screen_view, name="index"),
 	path('tin-tuc/', views.news_view, name="news"),
 	re_path(r'^.*\.html', views.vinatrack_html_view, name='vinatrack_news'),
-	
-	path('', include('promotions.urls')),
-	path('', include('notifications.urls')),
-	path('car/tracking/', index, name='tracking_index'),
-	path('car/tracking/<str:room_name>/', room, name='room'),
 
 	path('activate/<uidb64>/<token>/',activate_view, name='activate'),
 ]
