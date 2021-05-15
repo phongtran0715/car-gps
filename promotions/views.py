@@ -23,12 +23,14 @@ def api_get_promotion_view(request, *args, **kwargs):
 				"url" : promotion[0].url,
 				"created_at" : promotion[0].created_at
 			}
+			return Response(data, status=status.HTTP_200_OK)
 		else:
 			data = {
 				'message' : _('Not found promotion')
 			}	
+			return Response(data, status=status.HTTP_404_NOT_FOUND)
 	except Promotions.DoesNotExist:
 		data = {
 			'message' : _('Not found promotion')
 		}
-	return Response(data, status=status.HTTP_404_NOT_FOUND)
+		return Response(data, status=status.HTTP_404_NOT_FOUND)
