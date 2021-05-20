@@ -6,4 +6,4 @@ from tracking_info.models import CarTrackingInfo
 class CarTrackingSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarTrackingInfo
-        fields = ('latitude', 'longitude', 'gas', 'gps_status', 'speed', 'odometer', 'timestamp')
+        fields = ('latitude', 'longitude', 'gas', 'gps_status', 'speed', 'distance', 'odometer', 'timestamp')

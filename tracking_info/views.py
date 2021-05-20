@@ -91,7 +91,7 @@ def get_history_tracking_view(request, **kwargs):
 			data['page_size'] = 100
 
 			stop_times = tracking_record.filter(Q(is_stop=True)).count()
-			distance = tracking_record.aggregate(Sum('odometer'))['odometer__sum']
+			distance = tracking_record.aggregate(Sum('distance'))['distance__sum']
 			avg_speed = (distance / tracking_record.count())
 
 			data['total_distance'] = int(distance) / 1000
@@ -215,6 +215,7 @@ def insert_tracking_info_view(request, **kwargs):
 
 			new_info = account.car_info.create(latitude=serializer.data['latitude'], longitude=serializer.data['longitude'],
 										gas=serializer.data['gas'], gps_status=serializer.data['gps_status'],
+										distance=serializer.data['distance'],
 										odometer=serializer.data['odometer'], speed=serializer.data['speed'], is_stop=is_stop,
 										timestamp=serializer.data['timestamp'])
 			new_info.save()
@@ -233,10 +234,10 @@ def get_distance_latest_day(user_id, timestamp):
 	try:
 		info = CarTrackingInfo.objects.filter(timestamp__year=timestamp.year,
 			timestamp__month=timestamp.month, timestamp__day=timestamp.day, user_id=user_id)
-		distance = info.aggregate(Sum('odometer'))['odometer__sum']
+		distance = info.aggregate(Sum('distance'))['distance__sum']
 	except CarTrackingInfo.DoesNotExist:
 		distance =0
-	return round(distance/1000)
+	return round(distance/1000, 2)
 
 def index(request):
 	return render(request, 'tracking_info/index.html')
