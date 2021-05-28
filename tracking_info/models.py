@@ -11,7 +11,7 @@ class CarTrackingInfo(models.Model):
 	gas = models.DecimalField(blank=False, default=0, max_digits=10, decimal_places=2)
 	gps_status = models.BooleanField(blank=False, default=False)
 	speed = models.DecimalField(blank=False, default=0, max_digits=20, decimal_places=16)
-	distance = models.DecimalField(blank=False, default=0, max_digits=10, decimal_places=6)
+	distance = models.DecimalField(blank=False, default=0, max_digits=20, decimal_places=10)
 	odometer = models.DecimalField(blank=False, default=0, max_digits=10, decimal_places=2)
 	is_stop = models.BooleanField(blank=False, default=False)
 	timestamp = models.DateTimeField(blank=True, null=True)
