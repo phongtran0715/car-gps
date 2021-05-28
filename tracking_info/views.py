@@ -225,9 +225,11 @@ def insert_tracking_info_view(request, **kwargs):
 			}
 			return Response(data, status=status.HTTP_200_OK)
 		else:
+			logger.error(serializer.errors)
 			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)	
 	else:
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		logger.error("Invalid request method: {}".format(request.method))
+		return Response(status=status.HTTP_400_BAD_REQUEST)
 
 def get_distance_latest_day(user_id, timestamp):
 	distance = 0
