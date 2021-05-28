@@ -26,6 +26,7 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.utils.translation import gettext as _
 from smtplib import SMTPException
+from django.core.mail import EmailMultiAlternatives
 import logging
 
 
@@ -45,29 +46,39 @@ class UserRegistrationAPIView(generics.CreateAPIView):
 			user = authenticate(username=request.data['username'], password=request.data['password'])
 			user.save()
 
-			# send confirmation email
-			current_site = get_current_site(request)
-			mail_subject = 'Activate your blog account.'
-			message = render_to_string('authentication/acc_active_email.html', {
-				'user': user,
-				'domain': current_site.domain,
-				'uid':urlsafe_base64_encode(force_bytes(user.id)),
-				'token':account_activation_token.make_token(user),
-			})
 			# save plate_number
 			user.profile.plate_number = request.data['plate_number']
 			user.profile.car_name = request.data['plate_number']
 			user.profile.save()
 
-			# send actiavation email
-			to_email = request.data['email']
-			email = EmailMessage(
-						mail_subject, message, to=[to_email]
+			# send active email 
+			current_site = get_current_site(request)
+			context = {
+				'user': user,
+				'domain': current_site.domain,
+				'uid':urlsafe_base64_encode(force_bytes(user.id)),
+				'token':account_activation_token.make_token(user),
+			}
+
+			# render email text
+			email_html_message = render_to_string('authentication/acc_active_email.html', context)
+			email_plaintext_message = render_to_string('authentication/acc_active_email.txt', context)
+
+			msg = EmailMultiAlternatives(
+				# title:
+				"[Vinatrack] Kích hoạt tài khoản",
+				# message:
+				email_plaintext_message,
+				# from:
+				_("Vinatrack Team"),
+				# to:
+				[request.data['email']]
 			)
+			msg.attach_alternative(email_html_message, "text/html")
 			try:
-				email.send()
+				msg.send()
 			except SMTPException as e:
-				logger.error('There was an error sending an email:', e)
+				logger.error('There was an error sending an email: {}'.format(e))
 
 			data = {
 				"message": _("The user was created successfully")
@@ -249,7 +260,7 @@ def activate_view(request, uidb64, token):
 	if user is not None and account_activation_token.check_token(user, token):
 		user.profile.is_active = True
 		user.save()
-		login(request, user)
+		# login(request, user)
 		return HttpResponse(_('Thank you for your email confirmation. Now you can login your account.'))
 	else:
 		return HttpResponse(_('Activation link is invalid!'))  
