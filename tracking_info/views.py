@@ -198,6 +198,9 @@ def insert_tracking_info_view(request, **kwargs):
 		except User.DoesNotExist:
 			return Response(status=status.HTTP_404_NOT_FOUND)
 
+		request_data = request.data
+		request_data["speed"] = round(request_data["speed"], 2)
+		request_data["distance"] = round(request_data["speed"], 2)
 		serializer = CarTrackingSerializer(data=request.data)
 		data = {}
 		if serializer.is_valid():
