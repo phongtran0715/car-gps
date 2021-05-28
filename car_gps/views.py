@@ -78,7 +78,7 @@ def reset_password_view(request, token):
 		print(request.build_absolute_uri('confirm/'))
 		resp = requests.post(request.build_absolute_uri('confirm/'), data=data)
 		if resp.status_code == 200:
-			return redirect('password_reset_complete')
+			return render(request, "registration/password_reset_complete.html")
 		else:
 			return render(request, "registration/api_password_change.html", context)
 	else:
