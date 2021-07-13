@@ -200,7 +200,7 @@ def insert_tracking_info_view(request, **kwargs):
 
 		request_data = request.data
 		request_data["speed"] = round(request_data["speed"], 2)
-		request_data["distance"] = round(request_data["speed"], 2)
+		request_data["distance"] = round(request_data["distance"], 2)
 		serializer = CarTrackingSerializer(data=request.data)
 		data = {}
 		if serializer.is_valid():
