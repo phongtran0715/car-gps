@@ -11,6 +11,8 @@ class UserProfileResource(resources.ModelResource):
 
 class UserProfileAdmin(ImportExportActionModelAdmin):
     resource_class = UserProfileResource
+    list_display = ['id', 'car_name', 'plate_number', 'avatar']
+    list_filter = ['id', 'plate_number']
 
 
 admin.site.register(UserProfile, UserProfileAdmin)

@@ -23,6 +23,7 @@ class UserAdmin(ImportExportActionModelAdmin):
 	inlines = (ProfileInline, )
 	resource_class = UserAdminResource
 	list_display = ['username', 'email', 'first_name', 'last_name', 'is_active', 'last_login']
+	list_filter = ['username', 'email']
 
 	def get_inline_instances(self, request, obj=None):
 		if not obj:
