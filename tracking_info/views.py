@@ -222,7 +222,8 @@ def insert_tracking_info_view(request, **kwargs):
 										odometer=serializer.data['odometer'], speed=serializer.data['speed'], is_stop=is_stop,
 										timestamp=serializer.data['timestamp'])
 			new_info.save()
-			distance_day = get_distance_latest_day(account.id, datetime.datetime.strptime(serializer.data['timestamp'], '%Y-%m-%dT%H:%M:%SZ'))
+			# distance_day = get_distance_latest_day(account.id, datetime.datetime.strptime(serializer.data['timestamp'], '%Y-%m-%dT%H:%M:%SZ'))
+			distance_day = 0
 			data = {
 				'distance' : distance_day
 			}
