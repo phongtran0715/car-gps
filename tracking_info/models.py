@@ -17,6 +17,7 @@ class CarTrackingInfo(models.Model):
 	timestamp = models.DateTimeField(blank=True, null=True)
 
 	class Meta:
+		verbose_name_plural = 'Tracking Info'
 		db_table = "car_tracking"
 		ordering = ['timestamp']
 		indexes = [

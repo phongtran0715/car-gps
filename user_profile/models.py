@@ -13,6 +13,7 @@ class UserProfile(models.Model):
 	avatar = models.ImageField(max_length=1024, blank=True)
 
 	class Meta:
+		verbose_name_plural = 'Profile'
 		db_table = "user_profile"
 		ordering = ('id',)
 		indexes = [

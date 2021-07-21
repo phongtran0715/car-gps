@@ -14,5 +14,6 @@ class Promotions(models.Model):
 		return self.title
 
 	class Meta:
+		verbose_name_plural = 'Promotions'
 		db_table = "promotions"
 		ordering = ['updated_at']

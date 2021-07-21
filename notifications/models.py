@@ -15,5 +15,6 @@ class Notifications(models.Model):
 		return self.title
 
 	class Meta:
+		verbose_name_plural = 'Notifications'
 		db_table = "notifications"
 		ordering = ['created_at']
